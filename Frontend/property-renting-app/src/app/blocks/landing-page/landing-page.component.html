@@ -9,15 +9,13 @@
       <div class="avatar-dropdown" id="icon">
         <i class="fas fa-user-shield"></i>
         <!-- <span class="mr-2 d-lg-inline text-gray-600 small username">{{ username }}</span> -->
-        <button class="btn" type="button">
-            Don't have an account? Create it!
-        </button>
-        <button
-          class="mr-2 d-lg-inline small logout-button"
-        >
-          Register
-        </button>
+        <div class="btn-div">
+            <button mat-flat-button class="toolbar-btn" id="sign-in-btn">Sign in</button>
+            <button mat-flat-button class="toolbar-btn">Register</button>
+        </div>
       </div>
     </div>
   </mat-toolbar>
+
+  <app-landing-carousel></app-landing-carousel>
 </div>
