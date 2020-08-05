@@ -1,7 +1,7 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="example-toolbar">
     <div class="sidebar-brand-text mx-3" class="example-app-name">
-      Property renting
+      <button mat-flat-button class="home-btn" (click)="router.navigate([''])">Property Renting</button>
     </div>
     <div class="topbar-divider d-none d-sm-block"></div>
     <!--Profile dropdown-->

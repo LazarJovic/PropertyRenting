@@ -4,6 +4,7 @@ import { AppComponent } from './root/app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LandingCarouselComponent } from './landing-carousel/landing-carousel.component';
 import { LoginComponent } from '../features/auth/login/login.component';
+import { RegisterComponent } from '../features/auth/register/register.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,11 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
         pathMatch: 'full'
       }
     ]
