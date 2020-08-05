@@ -1,0 +1,86 @@
+<div id="white-div">
+  <img
+    mat-card-image
+    src="../../../../assets/images/register-image.jpg"
+    alt="Property renting photo"
+    id="register-img"
+  />
+</div>
+
+<mat-card class="register-card">
+  <h4>Register</h4>
+  <mat-card-content>
+    <form>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>First name</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Surname</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Phone</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>Country</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>City</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>Address</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Postcode</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Confirm password</mat-label>
+          <input matInput type="password" />
+        </mat-form-field>
+      </div>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          id="submit-button"
+        >
+          Register
+        </button>
+      </div>
+      <div id="link-div">
+        <button
+          class="btn btn-link"
+          type="button"
+          (click)="router.navigate(['/register'])"
+        >
+          Already have an account? Sign in!
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

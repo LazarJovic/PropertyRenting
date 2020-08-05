@@ -1,0 +1,40 @@
+<div id="white-div">
+  <img
+    mat-card-image
+    src="../../../../assets/images/login-image.jpg"
+    alt="Property renting photo"
+    id="login-img"
+  />
+</div>
+
+<mat-card class="login-card">
+  <h4>Sign in</h4>
+  <mat-card-content>
+    <form>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" />
+      </mat-form-field>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          id="submit-button"
+        >
+          Login
+        </button>
+      </div>
+      <div id="link-div">
+        <button class="btn btn-link" type="button" (click)="router.navigate(['/register'])">
+            Don't have an account? Create it!
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

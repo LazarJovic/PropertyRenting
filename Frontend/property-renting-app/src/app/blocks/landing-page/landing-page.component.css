@@ -80,7 +80,7 @@ h1.example-app-name {
 }
 
 .btn-div {
-    margin-left: 75vw;
+    margin-left: 68vw;
 }
 
 #sign-in-btn {
@@ -99,11 +99,10 @@ h1.example-app-name {
     color: white;
 }
 
-/* .logout-button {
-    border: none;
-    background-color: #3F51B5;
-    color: white;
-    border-left: 1px solid white;
-    padding-left: 20px;
-    margin-left: 10px;
-  } */
+.home-btn {
+  width: 12vw;
+  background-color: #7b1fa2;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
