@@ -6,6 +6,7 @@ import { AppComponent } from './root/app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SharedModule } from '@shared/shared.module';
 import { LandingCarouselComponent } from './landing-carousel/landing-carousel.component';
+import { AuthModule } from '../features/auth/auth.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { LandingCarouselComponent } from './landing-carousel/landing-carousel.co
   imports: [
     CommonModule,
     BlocksRoutingModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ]
 })
 export class BlocksModule { }

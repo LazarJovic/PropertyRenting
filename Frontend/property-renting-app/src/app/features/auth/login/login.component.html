@@ -1,0 +1,30 @@
+<div id="white-div">
+    <img
+    mat-card-image
+    src="../../../../assets/images/login-image.jpg"
+    alt="Photo of a Shiba Inu"
+    id="login-img"
+  />
+</div>
+<!-- <div id="purple-div"></div> -->
+<mat-card class="login-card">
+    <h4>Sign in</h4>
+  <mat-card-content>
+    <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="text">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password">
+          </mat-form-field>
+        <div id="button-div">
+            <button mat-flat-button color="primary" type="submit" class="submit-button" id="submit-button">Login</button>
+        </div>
+        <div id="link-div">
+            <a href="http://localhost:4200/register" class="btn btn-link">Don't have an account? Create it!</a>
+        </div>
+    </form>
+  </mat-card-content>
+</mat-card>

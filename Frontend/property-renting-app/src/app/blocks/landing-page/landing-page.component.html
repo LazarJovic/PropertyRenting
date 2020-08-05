@@ -10,12 +10,14 @@
         <i class="fas fa-user-shield"></i>
         <!-- <span class="mr-2 d-lg-inline text-gray-600 small username">{{ username }}</span> -->
         <div class="btn-div">
-            <button mat-flat-button class="toolbar-btn" id="sign-in-btn">Sign in</button>
-            <button mat-flat-button class="toolbar-btn">Register</button>
+          <button mat-flat-button class="toolbar-btn" id="sign-in-btn" (click)="login()">
+            Sign in
+          </button>
+          <button mat-flat-button class="toolbar-btn" (click)="register()">Register</button>
         </div>
       </div>
     </div>
   </mat-toolbar>
 
-  <app-landing-carousel></app-landing-carousel>
+  <router-outlet></router-outlet>
 </div>

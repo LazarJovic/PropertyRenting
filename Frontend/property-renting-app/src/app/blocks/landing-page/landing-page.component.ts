@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class LandingPageComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
-  // username: string;
   mobileQueryListener: () => void;
 
   constructor(
@@ -24,6 +23,10 @@ export class LandingPageComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 
 }
