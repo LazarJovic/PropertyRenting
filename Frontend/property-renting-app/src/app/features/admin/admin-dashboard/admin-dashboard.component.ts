@@ -3,11 +3,11 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-landlord-dashboard',
-  templateUrl: './landlord-dashboard.component.html',
-  styleUrls: ['./landlord-dashboard.component.css']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
-export class LandlordDashboardComponent implements OnInit, OnDestroy {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;

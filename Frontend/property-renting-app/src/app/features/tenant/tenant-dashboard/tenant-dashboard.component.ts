@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-landlord-dashboard',
-  templateUrl: './landlord-dashboard.component.html',
-  styleUrls: ['./landlord-dashboard.component.css']
+  selector: 'app-tenant-dashboard',
+  templateUrl: './tenant-dashboard.component.html',
+  styleUrls: ['./tenant-dashboard.component.css']
 })
-export class LandlordDashboardComponent implements OnInit, OnDestroy {
+export class TenantDashboardComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
