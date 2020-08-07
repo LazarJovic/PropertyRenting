@@ -5,10 +5,11 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { MaterialModule } from './material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LandingCarouselComponent } from './landing-carousel/landing-carousel.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [LandingCarouselComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
