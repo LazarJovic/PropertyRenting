@@ -1,1 +1,144 @@
-<p>register-property works!</p>>
+<mat-card class="register-property-card">
+  <h4>Register property</h4>
+  <mat-card-content>
+    <form>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>Property type</mat-label>
+          <mat-select>
+            <mat-option></mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Country</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="double-field">
+          <mat-label>City</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="double-field right-field">
+          <mat-label>Address</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="triple-field" id="size-field">
+          <mat-label>Size (&#13217;)</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          class="triple-field right-field"
+          id="rooms-field"
+        >
+          <mat-label>Number of rooms</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          class="triple-field right-field"
+          id="center-distance-field"
+        >
+          <mat-label>Distance from center (m)</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-checkbox class="right-field">Furnished</mat-checkbox>
+        <mat-checkbox class="triple-field right-field"
+          >Internet included</mat-checkbox
+        >
+        <mat-checkbox class="triple-field right-field" id="air-condition-cbx"
+          >Air condition included</mat-checkbox
+        >
+      </div>
+      <div id="images-div">
+        <div class="upload-btn-wrapper">
+          <button mat-flat-button matTooltip="This image" id="add-image-btn">
+            Add image
+          </button>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/jpeg, image/png"
+          />
+        </div>
+        <div
+          *ngIf="imageObject != null"
+          fxLayout="row wrap"
+          fxLayoutAlign="center"
+        >
+          <img [src]="imageObject" id="property-img" />
+        </div>
+        <div *ngIf="imageObject == null" id="p-div">
+          <p id="no-images-p">
+            You have to add image for your property.<br />
+            This image will not be presented to potential tenants.
+          </p>
+        </div>
+      </div>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          type="submit"
+          class="submit-button"
+          id="submit-button"
+        >
+          Register property
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div id="bottom-div">
+  <h5>You can add properties of types listed below and a lot more...</h5>
+  <div class="bottom-img-div">
+    <img
+    mat-card-image
+    src="../../../../assets/images/hotel.jpg"
+    alt="Property renting photo"
+    class="bottom-img"
+  />
+  <p class="type-name-p">Hotel</p>
+  </div>
+  <div class="bottom-img-div not-first">
+    <img
+    mat-card-image
+    src="../../../../assets/images/apartment.jpg"
+    alt="Property renting photo"
+    class="bottom-img"
+  />
+  <p class="type-name-p">Apartment</p>
+  </div>
+  <div class="bottom-img-div not-first">
+    <img
+    mat-card-image
+    src="../../../../assets/images/resort.jpg"
+    alt="Property renting photo"
+    class="bottom-img"
+  />
+  <p class="type-name-p">Resort</p>
+  </div>
+  <div class="bottom-img-div not-first">
+    <img
+    mat-card-image
+    src="../../../../assets/images/cottage.jpg"
+    alt="Property renting photo"
+    class="bottom-img"
+  />
+  <p class="type-name-p">Cottage</p>
+  </div>
+  <div class="bottom-img-div not-first">
+    <img
+    mat-card-image
+    src="../../../../assets/images/cabin.jpg"
+    alt="Property renting photo"
+    class="bottom-img"
+  />
+  <p class="type-name-p">Cabin</p>
+  </div>
+</div>

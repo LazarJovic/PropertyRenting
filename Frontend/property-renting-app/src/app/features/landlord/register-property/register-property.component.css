@@ -1,3 +1,139 @@
-p {
-    color: black;
+#register-img {
+  margin-top: 15vh;
+  margin-left: 5vw;
+  width: 700px;
+  height: 450px;
+}
+
+.register-property-card {
+  max-width: 900px;
+  max-height: 450px;
+  background-color: #7b1fa2;
+  color: white;
+  z-index: 5;
+  margin-top: 20px;
+  margin-left: 310px;
+  border: 1px solid #7b1fa2;
+}
+
+mat-label {
+  color: white;
+}
+
+h4 {
+  margin-bottom: 4vh;
+  text-align: center;
+}
+
+.double-field {
+  width: 240px;
+}
+
+.triple-field {
+  width: 145px;
+}
+
+.right-field {
+  margin-left: 3vw;
+}
+
+.submit-button {
+  border: 1.5px solid white;
+  width: 300px;
+  background-color: white;
+  color: #7b1fa2;
+  margin-left: 120px;
+}
+
+.submit-button:hover {
+  background-color: #7b1fa2;
+  color: white;
+}
+
+.btn-link {
+  border: none;
+  color: white;
+}
+
+#images-div {
+  margin-left: 550px;
+  margin-top: -250px;
+}
+
+#center-distance-field {
+  width: 180px;
+}
+
+#size-field {
+  width: 120px;
+}
+
+#rooms-field {
+  width: 135px;
+}
+
+#air-condition-cbx {
+  margin-right: 50px;
+}
+
+#p-div {
+  width: 37vw;
+  height: 30vh;
+}
+
+#no-images-p {
+  margin-bottom: 8vh;
+  margin-right: 5vw;
+}
+
+#add-image-btn {
+  background-color: white;
+  color: #7b1fa2;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+#property-img {
+  height: 30vh;
+  width: 20vw;
+  border: 1px solid white;
+}
+
+#bottom-div {
+    text-align: center;
+    color: #7b1fa2;
+    margin-top: 25px;
+}
+
+.bottom-img-div {
+    display: inline-block;
+    margin-top: 25px;
+}
+
+.bottom-img {
+    width: 250px;
+    height: 125px;
+}
+
+.not-first {
+    margin-left: 45px;
+}
+
+.type-name-p {
+    font-weight: bold;
+    margin-top: -10px;
 }
