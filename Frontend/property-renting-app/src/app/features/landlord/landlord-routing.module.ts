@@ -5,6 +5,7 @@ import { RegisterPropertyComponent } from './register-property/register-property
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { MyAdsComponent } from './my-ads/my-ads.component';
 import { LandlordBookingRequestsComponent } from './landlord-booking-requests/landlord-booking-requests.component';
+import { PropertyStatsComponent } from './property-stats/property-stats.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,11 @@ const routes: Routes = [
       {
         path: 'landlord-booking-requests',
         component: LandlordBookingRequestsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'property-stats',
+        component: PropertyStatsComponent,
         pathMatch: 'full'
       }
     ]
