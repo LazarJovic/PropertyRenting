@@ -1,0 +1,29 @@
+#box-div {
+    background-color: white;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #7b1fa2;
+}
+
+#container-div {
+    width: 80vw;
+    margin: 0 auto;
+    
+}
+
+#content-div {
+    position: absolute;
+    margin-top: 3vw;
+    width: 80vw;
+}
+
+.entity-div {
+    width: 80vw;
+    margin: 0 auto;
+    text-align: center;
+}
+
+p {
+    color: #7b1fa2;
+}

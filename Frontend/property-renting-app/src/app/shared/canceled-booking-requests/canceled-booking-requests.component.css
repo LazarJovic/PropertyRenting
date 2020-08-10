@@ -1,0 +1,26 @@
+p {
+    color: #7b1fa2;
+}
+
+h5 {
+    margin-top: 4vh;
+}
+
+table {
+    background-color: #7b1fa2;
+    width: 60vw;
+    margin-left: 10vw;
+    margin-top: 2vw;
+}
+
+table th {
+    text-align: left;
+    width: 8vw;
+    padding: 5px;
+}
+
+table td {
+    text-align: left;
+    width: 8vw;
+    padding: 5px;
+}

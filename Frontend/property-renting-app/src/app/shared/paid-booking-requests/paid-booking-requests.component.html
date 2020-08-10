@@ -1,0 +1,64 @@
+<h5>List of your paid booking requests</h5>
+<table mat-table class="mat-elevation-z8">
+  <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"> -->
+
+  <ng-container matColumnDef="location">
+    <th mat-header-cell *matHeaderCellDef>Property location</th>
+    <!-- <td mat-cell *matCellDef="let request"> {{request.address}}, {{request.city}}, {{request.country}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="bookingStart">
+    <th mat-header-cell *matHeaderCellDef>Booking start</th>
+    <!-- <td mat-cell *matCellDef="let request"> {{request.bookingStart}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="bookingEnd">
+    <th mat-header-cell *matHeaderCellDef>Booking end</th>
+    <!-- <td mat-cell *matCellDef="let request"> {{request.bookingEnd}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="pricePerNight">
+    <th mat-header-cell *matHeaderCellDef>Price per night (&euro;)</th>
+    <!-- <td mat-cell *matCellDef="let request"> {{request.pricePerNight}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="clientEmail">
+    <th mat-header-cell *matHeaderCellDef>{{ isLandlord == true ? 'Tenant' : 'Landlord' }}</th>
+    <!-- <td mat-cell *matCellDef="let request"> {{request.clientEmail}} </td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="btnDetails">
+    <th mat-header-cell *matHeaderCellDef>Details</th>
+    <!-- <td mat-cell *matCellDef="let request">
+                                    <button mat-stroked-button class="details-btn" matTooltip="Details"
+                                    (click)="requestDetails(request)">
+                                        Details
+                                    </button>
+                                </td> -->
+    <td mat-cell>
+      <button mat-stroked-button class="details-btn" matTooltip="Details">
+        Details
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="btnFinish">
+    <th mat-header-cell *matHeaderCellDef>Finish</th>
+    <!-- <td mat-cell *matCellDef="let request">
+                                    <button mat-stroked-button class="finish-btn" matTooltip="Finish renting"
+                                    (click)="finish(request)">
+                                    Finish renting
+                                    </button>
+                                </td> -->
+    <td mat-cell>
+      <button mat-stroked-button class="finish-btn" matTooltip="Finish renting">
+        Finish renting
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+
