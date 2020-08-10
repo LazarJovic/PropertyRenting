@@ -6,14 +6,18 @@ import { RegisterPropertyComponent } from './register-property/register-property
 import { LandlordDashboardComponent } from './landlord-dashboard/landlord-dashboard.component';
 import { SharedModule } from '@shared/shared.module';
 import { CreateAdComponent } from './create-ad/create-ad.component';
+import { ChoosePropertyDialogComponent } from './choose-property-dialog/choose-property-dialog.component';
 
 
 @NgModule({
-  declarations: [LandlordDashboardComponent, RegisterPropertyComponent, CreateAdComponent],
+  declarations: [LandlordDashboardComponent, RegisterPropertyComponent, CreateAdComponent, ChoosePropertyDialogComponent],
   imports: [
     CommonModule,
     LandlordRoutingModule,
     SharedModule
+  ],
+  entryComponents: [
+    ChoosePropertyDialogComponent
   ]
 })
 export class LandlordModule { }
