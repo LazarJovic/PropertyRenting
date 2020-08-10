@@ -1,0 +1,101 @@
+<mat-card class="create-ad-card">
+  <h4>Create ad</h4>
+  <mat-card-content>
+    <form>
+      <div>
+        <mat-form-field id="property-field">
+          <mat-label>Property</mat-label>
+          <input matInput type="text" readonly />
+        </mat-form-field>
+        <button
+          mat-flat-button
+          type="button"
+          class="in-form-btn"
+          (click)="chooseProperty()"
+        >
+          Choose
+        </button>
+      </div>
+      <div>
+        <mat-checkbox class="triple-field" id="duration-cbx"
+          >Duration limited</mat-checkbox
+        >
+        <mat-form-field appearance="fill" class="triple-field date-field">
+          <mat-label>Start date</mat-label>
+          <input matInput type="date" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="triple-field date-field">
+          <mat-label>End date</mat-label>
+          <input matInput type="date" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" class="triple-field">
+          <mat-label>Guest preference</mat-label>
+          <mat-select>
+            <mat-option></mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="triple-field right-field">
+          <mat-label>Price per night (&euro;)</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="triple-field right-field">
+          <mat-label>Security deposit (&euro;)</mat-label>
+          <input matInput type="text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill" id="textarea-field">
+          <mat-label>Additional information...</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </div>
+      <div id="images-div">
+        <div class="upload-btn-wrapper">
+          <button mat-flat-button [disabled]="imageObject.length >= 8">
+            Add images
+          </button>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/jpeg, image/png"
+            multiple
+            [disabled]="imageObject.length >= 8"
+          />
+        </div>
+        <div
+          *ngIf="imageObject.length != 0"
+          fxLayout="row wrap"
+          fxLayoutAlign="center"
+        >
+          <div id="slider">
+            <ng-image-slider [images]="imageObject" #slider></ng-image-slider>
+          </div>
+        </div>
+        <div *ngIf="imageObject.length == 0" id="p-div">
+          <p id="no-images-p">You have to add some images for this ad.</p>
+        </div>
+      </div>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          type="submit"
+          class="submit-button"
+          id="submit-button"
+        >
+          Create ad
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<div id="bottom-div">
+  <img
+    mat-card-image
+    src="../../../../assets/images/city-landscape.jpg"
+    alt="Property renting photo"
+    id="bottom-img"
+  />
+</div>

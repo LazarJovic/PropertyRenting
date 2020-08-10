@@ -6,6 +6,7 @@ import { MaterialModule } from './material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LandingCarouselComponent } from './landing-carousel/landing-carousel.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { LandingCarouselComponent } from './landing-carousel/landing-carousel.co
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgImageSliderModule
   ]
 })
 export class SharedModule { }
