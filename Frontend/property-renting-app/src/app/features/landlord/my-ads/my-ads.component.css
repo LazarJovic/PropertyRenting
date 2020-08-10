@@ -1,0 +1,60 @@
+#box-div {
+    background-color: white;
+    top: 0;
+    left: 0;
+    height: 100%;
+    color: #7b1fa2;
+}
+
+table {
+    background-color: #7b1fa2;
+}
+
+#container-div {
+    width: 80vw;
+    margin: 0 auto;
+    
+}
+
+#content-div {
+    position: absolute;
+    margin-top: 3vw;
+    width: 80vw;
+}
+
+.entity-div {
+    width: 80vw;
+    margin: 0 auto;
+    text-align: center;
+}
+
+p {
+    color: #7b1fa2;
+}
+
+h5 {
+    margin-top: 4vh;
+}
+
+table {
+    width: 60vw;
+    margin-left: 10vw;
+    margin-top: 2vw;
+}
+
+table th {
+    text-align: left;
+    width: 8vw;
+    padding: 5px;
+}
+
+table td {
+    text-align: left;
+    width: 8vw;
+    padding: 5px;
+}
+
+img {
+    width: 80px;
+    height: 60px;
+}

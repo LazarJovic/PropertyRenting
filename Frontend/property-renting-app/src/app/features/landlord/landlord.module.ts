@@ -7,10 +7,11 @@ import { LandlordDashboardComponent } from './landlord-dashboard/landlord-dashbo
 import { SharedModule } from '@shared/shared.module';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { ChoosePropertyDialogComponent } from './choose-property-dialog/choose-property-dialog.component';
+import { MyAdsComponent } from './my-ads/my-ads.component';
 
 
 @NgModule({
-  declarations: [LandlordDashboardComponent, RegisterPropertyComponent, CreateAdComponent, ChoosePropertyDialogComponent],
+  declarations: [LandlordDashboardComponent, RegisterPropertyComponent, CreateAdComponent, ChoosePropertyDialogComponent, MyAdsComponent],
   imports: [
     CommonModule,
     LandlordRoutingModule,

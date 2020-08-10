@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandlordDashboardComponent } from './landlord-dashboard/landlord-dashboard.component';
 import { RegisterPropertyComponent } from './register-property/register-property.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
+import { MyAdsComponent } from './my-ads/my-ads.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,11 @@ const routes: Routes = [
       {
         path: 'create-ad',
         component: CreateAdComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'my-ads',
+        component: MyAdsComponent,
         pathMatch: 'full'
       }
     ]
