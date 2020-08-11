@@ -1,0 +1,51 @@
+<div id="box-div">
+    <div id="container-div">
+        <div id="content-div">
+            <mat-tab-group mat-align-tabs="center" #childTabs>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <p>Pending</p>
+                    </ng-template>
+                    <div class="entity-div">
+                        <app-pending-booking-requests></app-pending-booking-requests>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <p>Reserved</p>
+                    </ng-template>
+                    <div class="entity-div">
+                        <app-reserved-booking-requests></app-reserved-booking-requests>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <p>Paid</p>
+                    </ng-template>
+                    <div class="entity-div">
+                        <app-paid-booking-requests></app-paid-booking-requests>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <p>Finished</p>
+                    </ng-template>
+                    <div class="entity-div">
+                        <app-finished-booking-requests></app-finished-booking-requests>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <p>Canceled</p>
+                    </ng-template>
+                    <div class="entity-div">
+                        <app-canceled-booking-requests></app-canceled-booking-requests>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+
+

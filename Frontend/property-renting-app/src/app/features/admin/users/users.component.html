@@ -1,0 +1,180 @@
+<div id="box-div">
+  <div id="container-div">
+    <div id="content-div">
+      <mat-tab-group mat-align-tabs="center" #childTabs>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <p>Tenants</p>
+          </ng-template>
+          <div class="entity-div">
+            <h5>List of all registered tenants</h5>
+            <!-- <table mat-table [dataSource]="dataSourceTenants" class="mat-elevation-z8"> -->
+            <table
+              mat-table
+              [dataSource]="dataSourceTenants"
+              class="mat-elevation-z8"
+            >
+              <ng-container matColumnDef="person">
+                <th mat-header-cell *matHeaderCellDef>Person</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.firstName }} {{user.lastName}}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.email }}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef>Phone</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.phone }}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="btnBlockAccount">
+                <th mat-header-cell *matHeaderCellDef>Block account</th>
+                <!-- <td mat-cell *matCellDef="let user">
+                  <button
+                    mat-stroked-button
+                    matTooltip="Block user's account"
+                    (click)="blockUser(user)"
+                    *ngIf="!user.accountBlocked"
+                  >
+                    Block account
+                  </button>
+                  <button
+                    mat-stroked-button
+                    matTooltip="Unblock user's account"
+                    (click)="unblockUser(user)"
+                    *ngIf="user.accountBlocked"
+                  >
+                    Unblock account
+                  </button>
+                </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="btnBlockCommenting">
+                <th mat-header-cell *matHeaderCellDef>btnBlockCommenting</th>
+                <!-- <td mat-cell *matCellDef="let user">
+                  <button
+                    mat-stroked-button
+                    class="accept-btn"
+                    matTooltip="Details"
+                    (click)="blockDialog(user)"
+                    *ngIf="!user.commentingBlocked"
+                  >
+                    Block commenting
+                  </button>
+                  <button
+                    mat-stroked-button
+                    class="accept-btn"
+                    matTooltip="Details"
+                    (click)="blockDialog(user)"
+                    *ngIf="user.commentingBlocked"
+                  >
+                    Unblock commenting
+                  </button>
+                </td> -->
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+              ></tr>
+            </table>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <p>Landlords</p>
+          </ng-template>
+          <div class="entity-div">
+            <h5>List of all registered landlords</h5>
+            <!-- <table
+              mat-table
+              [dataSource]="dataSourceLandlords"
+              class="mat-elevation-z8"
+            > -->
+            <table
+              mat-table
+              [dataSource]="dataSourceLandlords"
+              class="mat-elevation-z8"
+            >
+            <ng-container matColumnDef="person">
+                <th mat-header-cell *matHeaderCellDef>Person</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.firstName }} {{user.lastName}}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef>Email</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.email }}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef>Phone</th>
+                <!-- <td mat-cell *matCellDef="let user">{{ user.phone }}</td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="btnBlockAccount">
+                <th mat-header-cell *matHeaderCellDef>Block account</th>
+                <!-- <td mat-cell *matCellDef="let user">
+                  <button
+                    mat-stroked-button
+                    matTooltip="Block user's account"
+                    (click)="blockUser(user)"
+                    *ngIf="!user.accountBlocked"
+                  >
+                    Block account
+                  </button>
+                  <button
+                    mat-stroked-button
+                    matTooltip="Unblock user's account"
+                    (click)="unblockUser(user)"
+                    *ngIf="user.accountBlocked"
+                  >
+                    Unblock account
+                  </button>
+                </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="btnBlockCommenting">
+                <th mat-header-cell *matHeaderCellDef>btnBlockCommenting</th>
+                <!-- <td mat-cell *matCellDef="let user">
+                  <button
+                    mat-stroked-button
+                    class="accept-btn"
+                    matTooltip="Details"
+                    (click)="blockDialog(user)"
+                    *ngIf="!user.commentingBlocked"
+                  >
+                    Block commenting
+                  </button>
+                  <button
+                    mat-stroked-button
+                    class="accept-btn"
+                    matTooltip="Details"
+                    (click)="blockDialog(user)"
+                    *ngIf="user.commentingBlocked"
+                  >
+                    Unblock commenting
+                  </button>
+                </td> -->
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+              ></tr>
+            </table>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
