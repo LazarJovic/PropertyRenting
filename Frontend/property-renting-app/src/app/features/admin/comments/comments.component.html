@@ -1,0 +1,66 @@
+<div id="box-div">
+  <div id="container-div">
+    <div id="content-div">
+      <div class="entity-div">
+        <h5>List of all pending comments</h5>
+        <!-- <table mat-table [dataSource]="dataSourceComments" class="mat-elevation-z8"> -->
+        <table
+          mat-table
+          class="mat-elevation-z8"
+        >
+          <ng-container matColumnDef="sender">
+            <th mat-header-cell *matHeaderCellDef>Sender</th>
+            <!-- <td mat-cell *matCellDef="let comment">{{ comment.sender }}</td> -->
+          </ng-container>
+
+          <ng-container matColumnDef="senderEmail">
+            <th mat-header-cell *matHeaderCellDef>Sender email</th>
+            <!-- <td mat-cell *matCellDef="let comment">{{ comment.senderEmail }}</td> -->
+          </ng-container>
+
+          <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef>Timestamp</th>
+            <!-- <td mat-cell *matCellDef="let comment">{{ comment.timestamp }}</td> -->
+          </ng-container>
+
+          <ng-container matColumnDef="content">
+            <th mat-header-cell *matHeaderCellDef>Content</th>
+            <!-- Probaj da stavis TEXTAREA!!! -->
+            <!-- <td mat-cell *matCellDef="let comment">{{ comment.content }}</td> -->
+          </ng-container>
+
+          <ng-container matColumnDef="btnApprove">
+            <th mat-header-cell *matHeaderCellDef>Approve</th>
+            <!-- <td mat-cell *matCellDef="let comment">
+                    <button
+                      mat-stroked-button
+                      class="approve-btn"
+                      matTooltip="Approve this comment"
+                      (click)="approve(comment)"
+                    >
+                      Approve comment
+                    </button>
+                  </td> -->
+          </ng-container>
+
+          <ng-container matColumnDef="btnDeny">
+            <th mat-header-cell *matHeaderCellDef>Deny</th>
+            <!-- <td mat-cell *matCellDef="let comment">
+                    <button
+                      mat-stroked-button
+                      class="deny-btn"
+                      matTooltip="Deny this comment"
+                      (click)="deny(comment)"
+                    >
+                      Deny comment
+                    </button>
+                  </td> -->
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
