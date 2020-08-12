@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UsersComponent } from './users/users.component';
 import { CommentsComponent } from './comments/comments.component';
+import { PropertyTypesComponent } from './property-types/property-types.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,11 @@ const routes: Routes = [
       {
         path: 'comments',
         component: CommentsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'property-types',
+        component: PropertyTypesComponent,
         pathMatch: 'full'
       }
     ]
