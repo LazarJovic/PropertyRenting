@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "compile": "node_modules\\protoc\\protoc\\bin\\protoc --plugin=protoc-gen-ts=node_modules\\.bin\\protoc-gen-ts.cmd --js_out=import_style=commonjs,binary:src/proto/generated --ts_out=service=grpc-web:src/proto/generated -I src/proto src/proto/*.proto",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -22,10 +23,15 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@fortawesome/fontawesome-free": "^5.13.0",
+    "@improbable-eng/grpc-web": "^0.13.0",
     "@ng-bootstrap/ng-bootstrap": "^5.3.1",
+    "@types/google-protobuf": "^3.7.2",
     "bootstrap": "^4.5.0",
+    "google-protobuf": "^3.12.4",
     "ng-image-slider": "^2.6.1",
+    "protoc": "^1.0.4",
     "rxjs": "~6.4.0",
+    "ts-protoc-gen": "^0.12.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

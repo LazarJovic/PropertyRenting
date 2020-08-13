@@ -1,14 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { HelloRequest } from 'src/proto/generated/hello_pb';
+import { grpc } from '@improbable-eng/grpc-web';
+import { MyService } from 'src/proto/generated/hello_pb_service';
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css']
+  styleUrls: ['./landing-page.component.css'],
 })
 export class LandingPageComponent implements OnInit {
-
   mobileQuery: MediaQueryList;
   mobileQueryListener: () => void;
 
@@ -26,11 +28,22 @@ export class LandingPageComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+    const helloRequest = new HelloRequest();
+    helloRequest.setName('Lazar');
+    grpc.unary(MyService.SayHello, {
+      request: helloRequest,
+      host: 'http://localhost:8080',
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+        if (status === grpc.Code.OK && message) {
+          console.log('all ok. got hello: ', message.toObject());
+        }
+      },
+    });
   }
 
   register() {
     this.router.navigate(['/register']);
   }
-
 }
