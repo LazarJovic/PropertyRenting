@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PropertyTypesService } from '@core/service/property-type-service/property-types.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-property-type-dialog',
@@ -8,11 +10,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CreatePropertyTypeDialogComponent implements OnInit {
 
+  propertyTypeForm: FormGroup;
+
   constructor(
     private dialogRef: MatDialogRef<CreatePropertyTypeDialogComponent>
   ) { }
 
   ngOnInit() {
+    this.propertyTypeForm = new FormGroup({
+      name: new FormControl(null),
+      description: new FormControl(null)
+    });
+  }
+
+  create() {
+    this.dialogRef.close({ name: this.propertyTypeForm.value.name, description: this.propertyTypeForm.value.description });
   }
 
   close() {
