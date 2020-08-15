@@ -33,7 +33,7 @@ export class LandingPageComponent implements OnInit {
     helloRequest.setName('Lazar');
     grpc.unary(MyService.SayHello, {
       request: helloRequest,
-      host: 'http://localhost:8080',
+      host: 'http://localhost:8070',
       onEnd: (res) => {
         const { status, statusMessage, headers, message, trailers } = res;
         if (status === grpc.Code.OK && message) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PropertyTypeService } from 'src/proto/property-type/property_type_pb_service';
-import { PropertyTypeMessage } from 'src/proto/property-type/property_type_pb';
+import { PropertyTypeMessage, CreatePropertyTypeResponse } from 'src/proto/property-type/property_type_pb';
 import { grpc } from '@improbable-eng/grpc-web';
 
 @Injectable({
@@ -20,7 +20,9 @@ export class PropertyTypesService {
       onEnd: (res) => {
         const { status, statusMessage, headers, message, trailers } = res;
         if (status === grpc.Code.OK && message) {
-          console.log('all ok. got hello: ', message.toObject());
+          const casted = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          return casted['returnmessage'];
         }
       },
     });
