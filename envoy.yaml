@@ -22,7 +22,7 @@ static_resources:
                       routes:
                         - match: { prefix: "/" }
                           route:
-                            cluster: todo_service
+                            cluster: property_service
                             max_grpc_timeout: 0s
                       cors:
                         allow_origin_string_match:
@@ -36,7 +36,7 @@ static_resources:
                   - name: envoy.cors
                   - name: envoy.router
   clusters:
-    - name: todo_service
+    - name: property_service
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
@@ -44,6 +44,6 @@ static_resources:
       hosts:
         [
           {
-            socket_address: { address: host.docker.internal, port_value: 9090 },
+            socket_address: { address: host.docker.internal, port_value: 9093 },
           },
         ]

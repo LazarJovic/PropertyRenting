@@ -64,7 +64,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>property-renting</groupId>
+			<groupId>propertyrenting.proto</groupId>
 			<artifactId>interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

@@ -64,7 +64,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>property-renting</groupId>
+			<groupId>propertyrenting.proto</groupId>
 			<artifactId>interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -79,6 +79,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>25.0-jre</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+			<version>1.31.1</version>
 		</dependency>
 
 		<dependency>
