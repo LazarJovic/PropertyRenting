@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreatePropertyTypeDialogComponent } from '../create-property-type-dialog/create-property-type-dialog.component';
 import { PropertyTypesService } from '@core/service/property-type-service/property-types.service';
 
+
 @Component({
   selector: 'app-property-types',
   templateUrl: './property-types.component.html',
@@ -29,7 +30,9 @@ export class PropertyTypesComponent implements OnInit {
 
     this.propertyTypeDialog.open(CreatePropertyTypeDialogComponent, dialogConfig).afterClosed()
       .subscribe(response => {
-        this.propertyTypeService.createPropertyType(response.name, response.description);
+        if (response) {
+          this.propertyTypeService.createPropertyType(response.name, response.description);
+        }
       });
   }
 

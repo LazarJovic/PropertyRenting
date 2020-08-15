@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PropertyTypesService } from '@core/service/property-type-service/property-types.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-property-type-dialog',
@@ -18,8 +18,8 @@ export class CreatePropertyTypeDialogComponent implements OnInit {
 
   ngOnInit() {
     this.propertyTypeForm = new FormGroup({
-      name: new FormControl(null),
-      description: new FormControl(null)
+      name: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      description: new FormControl(null, Validators.required)
     });
   }
 

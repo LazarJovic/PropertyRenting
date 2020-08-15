@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@shared/shared.module';
 import { BlocksModule } from '@blocks/blocks.module';
 import { CoreModule } from '@core/core.module';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -15,7 +16,12 @@ import { CoreModule } from '@core/core.module';
     BrowserAnimationsModule,
     SharedModule,
     BlocksModule,
-    CoreModule
+    CoreModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

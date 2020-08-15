@@ -35,23 +35,25 @@ public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTyp
                     .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();
+        } else {
+            PropertyType savedPropertyType = this.propertyTypeRepository
+                    .save(this.propertyTypeMapper.toPropertyType(request));
+
+            response = CreatePropertyTypeResponse.newBuilder()
+                    .setPropertyType(this.propertyTypeMapper.toPropertyTypeMessage(savedPropertyType))
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
         }
-
-        PropertyType savedPropertyType = this.propertyTypeRepository
-                .save(this.propertyTypeMapper.toPropertyType(request));
-
-        response = CreatePropertyTypeResponse.newBuilder()
-                .setPropertyType(this.propertyTypeMapper.toPropertyTypeMessage(savedPropertyType))
-                .setReturnMessage("OK")
-                .build();
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-
     }
 
     private String validatePropertyType(PropertyTypeMessage propertyTypeMessage) {
         if(validationService.isStringNullOrEmpty(propertyTypeMessage.getName())) {
             return "You must provide property type's name";
+        }
+        else if(propertyTypeMessage.getName().length() > 50) {
+            return "Property type's name cannot be longer than 50 characters";
         }
         else if(validationService.isStringNullOrEmpty(propertyTypeMessage.getDescription())) {
             return "You must provide property type's description";
