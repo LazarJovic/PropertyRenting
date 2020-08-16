@@ -13,9 +13,19 @@ type PropertyTypeServiceCreatePropertyType = {
   readonly responseType: typeof property_type_pb.CreatePropertyTypeResponse;
 };
 
+type PropertyTypeServiceGetAllPropertyTypes = {
+  readonly methodName: string;
+  readonly service: typeof PropertyTypeService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof property_type_pb.PropertyTypeMessage;
+};
+
 export class PropertyTypeService {
   static readonly serviceName: string;
   static readonly CreatePropertyType: PropertyTypeServiceCreatePropertyType;
+  static readonly GetAllPropertyTypes: PropertyTypeServiceGetAllPropertyTypes;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,5 +69,6 @@ export class PropertyTypeServiceClient {
     requestMessage: property_type_pb.PropertyTypeMessage,
     callback: (error: ServiceError|null, responseMessage: property_type_pb.CreatePropertyTypeResponse|null) => void
   ): UnaryResponse;
+  getAllPropertyTypes(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<property_type_pb.PropertyTypeMessage>;
 }
 

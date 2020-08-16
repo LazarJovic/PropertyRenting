@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreatePropertyTypeDialogComponent } from '../create-property-type-dialog/create-property-type-dialog.component';
 import { PropertyTypesService } from '@core/service/property-type-service/property-types.service';
+import { PropertyTypeMessage } from 'src/proto/property-type/property_type_pb';
+import { Observable } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { PropertyType } from '@core/model/property-type';
 
 
 @Component({
@@ -11,6 +15,9 @@ import { PropertyTypesService } from '@core/service/property-type-service/proper
 })
 export class PropertyTypesComponent implements OnInit {
 
+  typesArray: Observable<PropertyType>;
+  dataSource = new MatTableDataSource<PropertyType>();
+
   displayedColumns: string[] = ['name', 'description'];
 
   constructor(
@@ -18,7 +25,10 @@ export class PropertyTypesComponent implements OnInit {
     private propertyTypeService: PropertyTypesService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.propertyTypeService.getPropertyTypes().then(value => {
+      this.dataSource = value;
+    });
   }
 
   openPropertyTypeDialog() {
@@ -32,6 +42,9 @@ export class PropertyTypesComponent implements OnInit {
       .subscribe(response => {
         if (response) {
           this.propertyTypeService.createPropertyType(response.name, response.description);
+          this.propertyTypeService.getPropertyTypes().then(value => {
+            this.dataSource = value;
+          });
         }
       });
   }

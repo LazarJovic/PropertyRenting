@@ -43,6 +43,7 @@ table th {
 table td {
     text-align: left;
     width: 8vw;
+    background-color: #424242;
 }
 
 #create-property-type-btn {

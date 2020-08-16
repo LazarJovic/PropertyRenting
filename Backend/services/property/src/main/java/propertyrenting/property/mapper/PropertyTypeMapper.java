@@ -3,7 +3,7 @@ package propertyrenting.property.mapper;
 import propertyrenting.property.model.PropertyType;
 import proto.propertyType.PropertyTypeMessage;
 
-public class ProprertyTypeMapper {
+public class PropertyTypeMapper {
 
     public PropertyType toPropertyType(PropertyTypeMessage propertyTypeMessage) {
         return new PropertyType(propertyTypeMessage.getName(), propertyTypeMessage.getDescription());

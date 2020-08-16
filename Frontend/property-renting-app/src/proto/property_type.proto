@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 service PropertyTypeService {
-    rpc CreatePropertyType (PropertyTypeMessage) returns (CreatePropertyTypeResponse) {
-    }
+    rpc CreatePropertyType (PropertyTypeMessage) returns (CreatePropertyTypeResponse) {}
+
+    rpc GetAllPropertyTypes (EmptyMessage) returns (stream PropertyTypeMessage) {}
 }
 
 message PropertyTypeMessage {
@@ -15,3 +16,5 @@ message CreatePropertyTypeResponse {
     PropertyTypeMessage propertyType = 1;
     string returnMessage = 2;
 }
+
+message EmptyMessage {}

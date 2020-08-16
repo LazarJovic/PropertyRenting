@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import propertyrenting.property.model.PropertyType;
 import propertyrenting.property.repository.PropertyTypeRepository;
 import proto.propertyType.CreatePropertyTypeResponse;
+import proto.propertyType.EmptyMessage;
 import proto.propertyType.PropertyTypeMessage;
 import proto.propertyType.PropertyTypeServiceGrpc;
-import propertyrenting.property.mapper.ProprertyTypeMapper;
+import propertyrenting.property.mapper.PropertyTypeMapper;
+
+import java.util.List;
 
 @GrpcService
 public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTypeServiceImplBase {
 
-    private ProprertyTypeMapper propertyTypeMapper;
+    private PropertyTypeMapper propertyTypeMapper;
 
     @Autowired
     private ValidationService validationService;
@@ -22,7 +25,7 @@ public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTyp
     private PropertyTypeRepository propertyTypeRepository;
 
     public PropertyTypeServiceImpl() {
-        this.propertyTypeMapper = new ProprertyTypeMapper();
+        this.propertyTypeMapper = new PropertyTypeMapper();
     }
 
     public void createPropertyType(PropertyTypeMessage request, StreamObserver<CreatePropertyTypeResponse> responseObserver) {
@@ -46,6 +49,15 @@ public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTyp
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+    }
+
+    public void getAllPropertyTypes(EmptyMessage request, StreamObserver<PropertyTypeMessage> responseObserver) {
+        List<PropertyType> propertyTypes = this.propertyTypeRepository.findAll();
+        propertyTypes.forEach(type -> {
+            responseObserver.onNext(this.propertyTypeMapper.toPropertyTypeMessage(type));
+        });
+
+        responseObserver.onCompleted();
     }
 
     private String validatePropertyType(PropertyTypeMessage propertyTypeMessage) {

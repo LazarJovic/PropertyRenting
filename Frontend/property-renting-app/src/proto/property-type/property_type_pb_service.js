@@ -19,6 +19,15 @@ PropertyTypeService.CreatePropertyType = {
   responseType: property_type_pb.CreatePropertyTypeResponse
 };
 
+PropertyTypeService.GetAllPropertyTypes = {
+  methodName: "GetAllPropertyTypes",
+  service: PropertyTypeService,
+  requestStream: false,
+  responseStream: true,
+  requestType: property_type_pb.EmptyMessage,
+  responseType: property_type_pb.PropertyTypeMessage
+};
+
 exports.PropertyTypeService = PropertyTypeService;
 
 function PropertyTypeServiceClient(serviceHost, options) {
@@ -52,6 +61,45 @@ PropertyTypeServiceClient.prototype.createPropertyType = function createProperty
   return {
     cancel: function () {
       callback = null;
+      client.close();
+    }
+  };
+};
+
+PropertyTypeServiceClient.prototype.getAllPropertyTypes = function getAllPropertyTypes(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(PropertyTypeService.GetAllPropertyTypes, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
       client.close();
     }
   };
