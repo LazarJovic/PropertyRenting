@@ -6,11 +6,19 @@ import org.springframework.stereotype.Service;
 public class ValidationService {
 
     public boolean isStringNullOrEmpty(String data) {
-        if(data == null || data.equals("")) {
-            return true;
-        }
-
-        return false;
+        return data == null || data.equals("");
     }
+
+   public boolean checkStringLength(String data) {
+        return data.length() > 50;
+   }
+
+   public boolean checkIfDoubleExistsAndIsNotNegative(Double data) {
+       return data == null || data <= 0;
+   }
+
+   public boolean checkIfIntExistsAndIsNotNegative(Integer data) {
+        return data == null || data <= 0;
+   }
 
 }

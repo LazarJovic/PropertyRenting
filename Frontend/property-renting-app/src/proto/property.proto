@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+service PropertyService {
+    rpc RegisterProperty (PropertyMessage) returns (RegisterPropertyResponse) {}
+}
+
+message PropertyMessage {
+    int64 id = 1;
+    int64 type_id = 2;
+    string country = 3;
+    string city = 4;
+    string address = 5;
+    double size = 6;
+    bool furnished = 7;
+    int32 number_of_rooms = 8;
+    double distance_from_center = 9;
+    bool internet_included = 10;
+    bool air_condition_included = 11;
+    double average_rating = 12;
+    PropertyImageMessage image = 13;
+}
+
+message PropertyImageMessage {
+    string name = 1;
+    string type = 2;
+    bytes pic_byte = 3;
+}
+
+message RegisterPropertyResponse {
+    PropertyMessage property = 1;
+    string return_message = 2;
+}

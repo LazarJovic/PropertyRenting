@@ -28,8 +28,15 @@ public class PropertyImage {
     @Setter
     private byte[] picByte;
 
+    @Setter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "property", referencedColumnName = "id")
     private Property property;
+
+    public PropertyImage(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
 
 }

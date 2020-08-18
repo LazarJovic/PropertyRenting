@@ -43,10 +43,6 @@ public class Property {
 
     @Setter
     @Column
-    private int numberOfPersons;
-
-    @Setter
-    @Column
     private double distanceFromCenter;
 
     @Setter
@@ -80,19 +76,15 @@ public class Property {
     private Landlord landlord;
 
     public Property(String country, String city, String address, double size, boolean furnished, int numberOfRooms,
-                    int numberOfPersons, double distanceFromCenter, boolean internetIncluded,
-                    boolean airConditionIncluded, double averageRating, boolean deleted) {
+                    double distanceFromCenter, boolean internetIncluded, boolean airConditionIncluded) {
         this.country = country;
         this.city = city;
         this.address = address;
         this.size = size;
         this.furnished = furnished;
         this.numberOfRooms = numberOfRooms;
-        this.numberOfPersons = numberOfPersons;
         this.distanceFromCenter = distanceFromCenter;
         this.internetIncluded = internetIncluded;
         this.airConditionIncluded = airConditionIncluded;
-        this.averageRating = averageRating;
-        this.deleted = deleted;
     }
 }
