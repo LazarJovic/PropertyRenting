@@ -24,7 +24,7 @@ public class PropertyImage {
     @Setter
     private String type;
 
-    @Column
+    @Column(length = 3000)
     @Setter
     private byte[] picByte;
 

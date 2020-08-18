@@ -134,3 +134,7 @@ h4 {
   font-weight: bold;
   margin-top: -10px;
 }
+
+.mat-option.mat-selected {
+  color: white !important;
+}

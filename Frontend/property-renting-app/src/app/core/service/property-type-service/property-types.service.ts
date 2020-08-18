@@ -13,7 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
   providedIn: 'root',
 })
 export class PropertyTypesService {
-  constructor(private toastr: ToastrService) {}
+  constructor(
+    private toastr: ToastrService
+  ) {}
 
   createPropertyType(name: string, description: string) {
 
@@ -43,7 +45,9 @@ export class PropertyTypesService {
   }
 
   getPropertyTypes() {
+
     const array: MatTableDataSource<PropertyType> = new MatTableDataSource();
+
     const promise = new Promise<MatTableDataSource<PropertyType>>((resolve, reject) => {
       grpc.invoke(PropertyTypeService.GetAllPropertyTypes, {
               request: new EmptyMessage(),
