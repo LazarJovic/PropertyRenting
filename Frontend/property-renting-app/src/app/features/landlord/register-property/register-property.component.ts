@@ -4,6 +4,7 @@ import { PropertyTypesService } from '@core/service/property-type-service/proper
 import { PropertyType } from '@core/model/property-type';
 import { Property } from '@core/model/property';
 import { PropertiesService } from '@core/service/property-service/properties.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register-property',
@@ -20,7 +21,8 @@ export class RegisterPropertyComponent implements OnInit {
 
   constructor(
     private propertyService: PropertiesService,
-    private propertyTypeService: PropertyTypesService
+    private propertyTypeService: PropertyTypesService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -51,12 +53,17 @@ export class RegisterPropertyComponent implements OnInit {
       this.propertyForm.value.distanceFromCenter, this.propertyForm.value.furnished, this.propertyForm.value.internetIncluded,
       this.propertyForm.value.airConditionIncluded);
 
+    if (this.imageObject === null) {
+      this.toastr.info('Please, choose an image for your property');
+      return;
+    }
+
     this.propertyService.registerProperty(property, this.propertyImage, this.imageObject);
   }
 
   onFileSelected(event) {
     if (event.target.files.length > 1) {
-      // this.toast.info("You can upload maximum 1 image for vehicle.");
+      this.toastr.info('You can upload maximum 1 image for property.');
       return;
     }
     for (const file of event.target.files) {
