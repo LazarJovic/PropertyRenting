@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "proto.propertyInfo";
+option java_outer_classname = "PropertyInfoProto";
+
+import "property_type.proto";
+
+service PropertyInfoService {
+    rpc CreatePropertyInfo (PropertyInfoMessage) returns (EmptyMessage) {}
+}
+
+message PropertyInfoMessage {
+    int64 id = 1;
+    string type = 2;
+    string country = 3;
+    string city = 4;
+    string address = 5;
+    double size = 6;
+    bool furnished = 7;
+    int32 number_of_rooms = 8;
+    double distance_from_center = 9;
+    bool internet_included = 10;
+    bool air_condition_included = 11;
+    double average_rating = 12;
+}
+

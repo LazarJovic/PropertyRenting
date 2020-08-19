@@ -1,8 +1,8 @@
 package propertyrenting.property.service;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.beans.PropertyMatches;
 import org.springframework.beans.factory.annotation.Autowired;
 import propertyrenting.property.mapper.PropertyMapper;
 import propertyrenting.property.model.Property;
@@ -13,6 +13,8 @@ import proto.property.PropertyImageMessage;
 import proto.property.PropertyMessage;
 import proto.property.PropertyServiceGrpc;
 import proto.property.RegisterPropertyResponse;
+import proto.propertyInfo.PropertyInfoServiceGrpc;
+import proto.propertyType.EmptyMessage;
 
 @GrpcService
 public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImplBase {
@@ -26,6 +28,9 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
     private PropertyImageService propertyImageService;
 
     private PropertyMapper propertyMapper;
+
+    @GrpcClient("ad-server")
+    private PropertyInfoServiceGrpc.PropertyInfoServiceStub propertyInfoServiceStub;
 
     @Autowired
     public PropertyServiceImpl(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
@@ -59,6 +64,18 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
             Property savedProperty = this.propertyRepository.save(property);
 
             PropertyImageMessage imageMessage = this.propertyImageService.createPropertyImage(request.getImage(), savedProperty.getId());
+
+            this.propertyInfoServiceStub.createPropertyInfo(propertyMapper.toPropertyInfoMessage(savedProperty),
+                    new StreamObserver<EmptyMessage>() {
+                        @Override
+                        public void onNext(EmptyMessage emptyMessage) {}
+
+                        @Override
+                        public void onError(Throwable throwable) {}
+
+                        @Override
+                        public void onCompleted() {}
+                    });
 
             response = RegisterPropertyResponse.newBuilder()
                     .setProperty(this.propertyMapper.toPropertyMessage(savedProperty, imageMessage))

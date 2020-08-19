@@ -3,6 +3,7 @@ package propertyrenting.property.mapper;
 import propertyrenting.property.model.Property;
 import proto.property.PropertyImageMessage;
 import proto.property.PropertyMessage;
+import proto.propertyInfo.PropertyInfoMessage;
 
 public class PropertyMapper {
 
@@ -28,6 +29,23 @@ public class PropertyMapper {
                 .setAirConditionIncluded(property.isAirConditionIncluded())
                 .setAverageRating(property.getAverageRating())
                 .setImage(propertyImageMessage)
+                .build();
+    }
+
+    public PropertyInfoMessage toPropertyInfoMessage(Property property) {
+        return PropertyInfoMessage.newBuilder()
+                .setId(property.getId())
+                .setType(property.getPropertyType().getName())
+                .setCountry(property.getCountry())
+                .setCity(property.getCity())
+                .setAddress(property.getAddress())
+                .setSize(property.getSize())
+                .setNumberOfRooms(property.getNumberOfRooms())
+                .setDistanceFromCenter(property.getDistanceFromCenter())
+                .setFurnished(property.isFurnished())
+                .setInternetIncluded(property.isInternetIncluded())
+                .setAirConditionIncluded(property.isAirConditionIncluded())
+                .setAverageRating(property.getAverageRating())
                 .build();
     }
 

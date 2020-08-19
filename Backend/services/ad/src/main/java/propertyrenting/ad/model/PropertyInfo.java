@@ -46,10 +46,6 @@ public class PropertyInfo {
 
     @Setter
     @Column
-    private int numberOfPersons;
-
-    @Setter
-    @Column
     private double distanceFromCenter;
 
     @Setter
@@ -68,4 +64,19 @@ public class PropertyInfo {
     @OneToMany(mappedBy = "propertyInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Ad> adSet;
 
+    public PropertyInfo(Long id, String propertyType, String country, String city, String address, double size,
+                        boolean furnished, int numberOfRooms, double distanceFromCenter, boolean internetIncluded,
+                        boolean airConditionIncluded) {
+        this.id = id;
+        this.propertyType = propertyType;
+        this.country = country;
+        this.city = city;
+        this.address = address;
+        this.size = size;
+        this.furnished = furnished;
+        this.numberOfRooms = numberOfRooms;
+        this.distanceFromCenter = distanceFromCenter;
+        this.internetIncluded = internetIncluded;
+        this.airConditionIncluded = airConditionIncluded;
+    }
 }
