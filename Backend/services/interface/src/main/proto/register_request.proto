@@ -4,8 +4,12 @@ option java_multiple_files = true;
 option java_package = "proto.registerRequest";
 option java_outer_classname = "RegisterRequestProto";
 
+import "property_type.proto";
+
 service RegisterRequestService {
     rpc CreateRegisterRequest (RegisterRequestMessage) returns (CreateRegisterRequestResponse) {}
+
+    rpc VerifyEmail (EmailVerificationMessage) returns (EmailVerificationResponse) {}
 }
 
 message RegisterRequestMessage {
@@ -25,5 +29,15 @@ message RegisterRequestMessage {
 
 message CreateRegisterRequestResponse {
     RegisterRequestMessage register_request = 1;
+    string return_message = 2;
+}
+
+message EmailVerificationMessage {
+    string email = 1;
+    string token = 2;
+}
+
+message EmailVerificationResponse {
+    string email = 1;
     string return_message = 2;
 }

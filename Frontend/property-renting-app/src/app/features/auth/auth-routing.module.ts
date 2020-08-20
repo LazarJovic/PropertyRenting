@@ -4,6 +4,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { LandingCarouselComponent } from '@shared/landing-carousel/landing-carousel.component';
+import { VerifyComponent } from './verify/verify.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,13 @@ const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
         pathMatch: 'full'
+      },
+      {
+        path: 'verify',
+        component: VerifyComponent,
+        pathMatch: 'full'
       }
+
     ]
   }
 ];

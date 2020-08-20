@@ -6,10 +6,11 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from '@shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { VerifyComponent } from './verify/verify.component';
 
 
 @NgModule({
-  declarations: [LandingPageComponent, LoginComponent, RegisterComponent],
+  declarations: [LandingPageComponent, LoginComponent, RegisterComponent, VerifyComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

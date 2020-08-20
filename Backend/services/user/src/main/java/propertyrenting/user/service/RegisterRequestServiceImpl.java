@@ -7,9 +7,8 @@ import propertyrenting.user.mapper.RegisterRequestMapper;
 import propertyrenting.user.model.RegisterRequest;
 import propertyrenting.user.repository.RegisterRequestRepository;
 import propertyrenting.user.repository.UserRepository;
-import proto.registerRequest.CreateRegisterRequestResponse;
-import proto.registerRequest.RegisterRequestMessage;
-import proto.registerRequest.RegisterRequestServiceGrpc;
+import proto.propertyType.EmptyMessage;
+import proto.registerRequest.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -78,6 +77,45 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
             responseObserver.onCompleted();
         }
 
+    }
+
+    public void verifyEmail(EmailVerificationMessage request, StreamObserver<EmailVerificationResponse> responseObserver) {
+        EmailVerificationResponse response;
+        String validationMessage = this.validateEmailVerification(request);
+        if(!validationMessage.equals("ok")) {
+            response = EmailVerificationResponse.newBuilder()
+                    .setEmail(request.getEmail())
+                    .setReturnMessage(validationMessage)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+
+        }
+    }
+
+    private String validateEmailVerification(EmailVerificationMessage verificationMessage) {
+
+        RegisterRequest registerRequest = this.registerRequestRepository.findByEmail(verificationMessage.getEmail());
+
+        if(this.validationService.isEmailValid(verificationMessage.getEmail())) {
+            return "Email or validation token are not correct";
+        }
+        else if(registerRequest == null) {
+            return "Email or validation token are not correct";
+        }
+        else if(this.userRepository.findByEmail(verificationMessage.getEmail()) != null) {
+            return "You have already verified your account. You can log in.";
+        }
+        else if(!registerRequest.getVerificationToken().equals(verificationMessage.getToken())) {
+            return "Email or validation token are not correct";
+        }
+        else if(registerRequest.getVerificationTokenTime().plusMinutes(30).isBefore(LocalDateTime.now())) {
+            return "Your validation token has expired";
+        }
+
+        return "ok";
     }
 
     private String validateRegisterRequest(RegisterRequestMessage registerRequestMessage) {
