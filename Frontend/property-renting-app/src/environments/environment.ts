@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   property: 'http://localhost:8080',
-  communication: 'http://localhost:8070'
+  communication: 'http://localhost:8070',
+  user: 'http://localhost:8060'
 };
 
 /*

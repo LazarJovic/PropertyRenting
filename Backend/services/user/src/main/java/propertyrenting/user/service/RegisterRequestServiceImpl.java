@@ -99,13 +99,13 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
         else if(this.validationService.isStringNullOrEmpty(registerRequestMessage.getPhone())) {
             return "You have to provide your phone";
         }
-        else if(this.validationService.isNumber(registerRequestMessage.getPhone())) {
+        else if(!this.validationService.isNumber(registerRequestMessage.getPhone())) {
             return "Phone can only contain numbers";
         }
         else if(this.validationService.isStringNullOrEmpty(registerRequestMessage.getPostcode())) {
             return "You have to provide your postcode";
         }
-        else if(this.validationService.isNumber(registerRequestMessage.getPostcode())) {
+        else if(!this.validationService.isNumber(registerRequestMessage.getPostcode())) {
             return "Postcode can only contain numbers";
         }
         else if(!this.validationService.isEmailValid(registerRequestMessage.getEmail())) {

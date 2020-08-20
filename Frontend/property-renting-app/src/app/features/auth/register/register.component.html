@@ -10,58 +10,58 @@
 <mat-card class="register-card">
   <h4>Register</h4>
   <mat-card-content>
-    <form>
+    <form [formGroup]="registerForm">
       <div>
         <mat-form-field appearance="fill" class="double-field">
           <mat-label>First name</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="firstName" />
         </mat-form-field>
         <mat-form-field appearance="fill" class="double-field right-field">
           <mat-label>Surname</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="surname" />
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill" class="double-field">
           <mat-label>Email</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="email" />
         </mat-form-field>
         <mat-form-field appearance="fill" class="double-field right-field">
           <mat-label>Phone</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="phone" />
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill" class="double-field">
           <mat-label>Country</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="country" />
         </mat-form-field>
         <mat-form-field appearance="fill" class="double-field right-field">
           <mat-label>City</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="city" />
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill" class="double-field">
           <mat-label>Address</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="address" />
         </mat-form-field>
         <mat-form-field appearance="fill" class="double-field right-field">
           <mat-label>Postcode</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="postcode" />
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill" class="double-field">
           <mat-label>Password</mat-label>
-          <input matInput type="password" />
+          <input matInput type="password" formControlName="password" />
         </mat-form-field>
         <mat-form-field appearance="fill" class="double-field right-field">
           <mat-label>Confirm password</mat-label>
-          <input matInput type="password" />
+          <input matInput type="password" formControlName="confirmPassword" />
         </mat-form-field>
       </div>
-      <mat-checkbox>I am a landlord</mat-checkbox>
+      <mat-checkbox formControlName="landlord">I am a landlord</mat-checkbox>
       <div id="button-div">
         <button
           mat-flat-button
@@ -69,6 +69,7 @@
           type="submit"
           class="submit-button"
           id="submit-button"
+          (click)="submit()"
         >
           Register
         </button>
