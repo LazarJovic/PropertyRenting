@@ -10,7 +10,7 @@ public class RegisterRequestMapper {
                 registerRequestMessage.getEmail(), registerRequestMessage.getPassword(),
                 registerRequestMessage.getPhone(), registerRequestMessage.getCountry(),
                 registerRequestMessage.getCity(), registerRequestMessage.getAddress(),
-                registerRequestMessage.getPostcode());
+                registerRequestMessage.getPostcode(), registerRequestMessage.getIsLandlord());
     }
 
     public RegisterRequestMessage toRegisterRequestMessage(RegisterRequest registerRequest) {
@@ -25,6 +25,7 @@ public class RegisterRequestMapper {
                 .setCountry(registerRequest.getCountry())
                 .setCity(registerRequest.getCity())
                 .setAddress(registerRequest.getAddress())
+                .setIsLandlord(registerRequest.isLandlord())
                 .build();
     }
 

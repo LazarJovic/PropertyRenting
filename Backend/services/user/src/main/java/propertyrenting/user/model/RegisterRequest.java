@@ -56,6 +56,10 @@ public class RegisterRequest {
 
     @Setter
     @Column
+    private boolean isLandlord;
+
+    @Setter
+    @Column
     private UUID verificationToken;
 
     @Setter
@@ -63,7 +67,7 @@ public class RegisterRequest {
     private LocalDateTime verificationTokenTime;
 
     public RegisterRequest(String firstName, String surname, String email, String password, String phone,
-                           String country, String city, String address, String postcode) {
+                           String country, String city, String address, String postcode, boolean isLandlord) {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
@@ -73,5 +77,6 @@ public class RegisterRequest {
         this.city = city;
         this.address = address;
         this.postcode = postcode;
+        this.isLandlord = isLandlord;
     }
 }
