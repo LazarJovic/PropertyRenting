@@ -62,4 +62,16 @@ public class RegisterRequest {
     @Column
     private LocalDateTime verificationTokenTime;
 
+    public RegisterRequest(String firstName, String surname, String email, String password, String phone,
+                           String country, String city, String address, String postcode) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.country = country;
+        this.city = city;
+        this.address = address;
+        this.postcode = postcode;
+    }
 }
