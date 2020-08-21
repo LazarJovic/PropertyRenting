@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,4 +41,13 @@ public class Client {
             inverseJoinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "id"))
     private Set<Ad> favouriteAdSet;
 
+    public Client(Long id, String firstName, String surname, String email, boolean isTenant) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.isTenant = isTenant;
+        this.ownedPropertySet = new HashSet<>();
+        this.favouriteAdSet = new HashSet<>();
+    }
 }

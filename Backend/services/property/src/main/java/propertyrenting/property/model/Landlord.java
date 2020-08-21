@@ -29,7 +29,8 @@ public class Landlord {
     @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Property> propertySet;
 
-    public Landlord(String firstName, String surname, String email) {
+    public Landlord(Long id, String firstName, String surname, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;

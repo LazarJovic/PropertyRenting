@@ -3,6 +3,7 @@ package propertyrenting.user.mapper;
 import propertyrenting.user.model.RegisterRequest;
 import proto.registerRequest.RegisterRequestMessage;
 import propertyrenting.user.model.User;
+import proto.user.CreateClientMessage;
 
 public class RegisterRequestMapper {
 
@@ -30,9 +31,14 @@ public class RegisterRequestMapper {
                 .build();
     }
 
-    public User toUser(RegisterRequest registerRequest) {
-        return new User(registerRequest.getFirstName(), registerRequest.getSurname(), registerRequest.getEmail(),
-                registerRequest.getPhone(), registerRequest.getPassword());
+    public CreateClientMessage toCreateClientMessage(User user, boolean isLandlord) {
+        return CreateClientMessage.newBuilder()
+                .setId(user.getId())
+                .setFirstName(user.getFirstName())
+                .setSurname(user.getSurname())
+                .setEmail(user.getEmail())
+                .setIsLandlord(isLandlord)
+                .build();
     }
 
 }

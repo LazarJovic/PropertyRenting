@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.awt.print.Book;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -39,6 +40,13 @@ public class Client {
     @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Booking> rentedBookingSet;
 
-
-
+    public Client(Long id, String firstName, String surname, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.commentingBlocked = false;
+        this.ownerBookingSet = new HashSet<>();
+        this.rentedBookingSet = new HashSet<>();
+    }
 }

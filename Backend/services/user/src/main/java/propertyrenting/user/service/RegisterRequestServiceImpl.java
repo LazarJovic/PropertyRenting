@@ -13,6 +13,7 @@ import propertyrenting.user.model.RegisterRequest;
 import propertyrenting.user.repository.RegisterRequestRepository;
 import propertyrenting.user.repository.UserRepository;
 import proto.registerRequest.*;
+import proto.user.CreateClientMessage;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,6 +33,8 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
 
     private RoleService roleService;
 
+    private UserServiceImpl userService;
+
     private RegisterRequestMapper registerRequestMapper;
 
     private UserMapper userMapper;
@@ -39,13 +42,14 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
     @Autowired
     public RegisterRequestServiceImpl(RegisterRequestRepository registerRequestRepository, ValidationService validationService,
                                       CustomUserDetailsService customUserDetailsService, EmailService emailService,
-                                      UserRepository userRepository, RoleService roleService) {
+                                      UserRepository userRepository, RoleService roleService, UserServiceImpl userService) {
         this.registerRequestRepository = registerRequestRepository;
         this.validationService = validationService;
         this.customUserDetailsService = customUserDetailsService;
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.userService = userService;
         this.registerRequestMapper = new RegisterRequestMapper();
         this.userMapper = new UserMapper();
     }
@@ -102,16 +106,21 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
         }
         else {
             RegisterRequest registerRequest = this.registerRequestRepository.findByEmail(request.getEmail());
+            CreateClientMessage createClientMessage;
             if(registerRequest.isLandlord()) {
                 Landlord landlord = this.userMapper.toLandlord(registerRequest);
                 landlord.setRoleSet(this.roleService.findByType(RoleType.ROLE_LANDLORD));
                 this.userRepository.save(landlord);
+                createClientMessage = this.registerRequestMapper.toCreateClientMessage(landlord, registerRequest.isLandlord());
             }
             else {
                 Tenant tenant = this.userMapper.toTenant(registerRequest);
                 tenant.setRoleSet(this.roleService.findByType(RoleType.ROLE_TENANT));
                 this.userRepository.save(tenant);
+                createClientMessage = this.registerRequestMapper.toCreateClientMessage(tenant, registerRequest.isLandlord());
             }
+
+            this.userService.createUser(createClientMessage);
 
             response = EmailVerificationResponse.newBuilder()
                     .setEmail(request.getEmail())
