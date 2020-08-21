@@ -13,9 +13,19 @@ type RegisterRequestServiceCreateRegisterRequest = {
   readonly responseType: typeof register_request_pb.CreateRegisterRequestResponse;
 };
 
+type RegisterRequestServiceVerifyEmail = {
+  readonly methodName: string;
+  readonly service: typeof RegisterRequestService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof register_request_pb.EmailVerificationMessage;
+  readonly responseType: typeof register_request_pb.EmailVerificationResponse;
+};
+
 export class RegisterRequestService {
   static readonly serviceName: string;
   static readonly CreateRegisterRequest: RegisterRequestServiceCreateRegisterRequest;
+  static readonly VerifyEmail: RegisterRequestServiceVerifyEmail;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -58,6 +68,15 @@ export class RegisterRequestServiceClient {
   createRegisterRequest(
     requestMessage: register_request_pb.RegisterRequestMessage,
     callback: (error: ServiceError|null, responseMessage: register_request_pb.CreateRegisterRequestResponse|null) => void
+  ): UnaryResponse;
+  verifyEmail(
+    requestMessage: register_request_pb.EmailVerificationMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: register_request_pb.EmailVerificationResponse|null) => void
+  ): UnaryResponse;
+  verifyEmail(
+    requestMessage: register_request_pb.EmailVerificationMessage,
+    callback: (error: ServiceError|null, responseMessage: register_request_pb.EmailVerificationResponse|null) => void
   ): UnaryResponse;
 }
 

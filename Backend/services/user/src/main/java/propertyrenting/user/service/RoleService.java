@@ -29,6 +29,10 @@ public class RoleService {
     public void initRoles() {
         List<Permission> permissions = this.permissionService.initPermissions();
 
+        if(this.roleRepository.findAll().size() != 0) {
+            return;
+        }
+
         Role roleAdmin = new Role(RoleType.ROLE_ADMIN);
         Role roleLandlord = new Role(RoleType.ROLE_LANDLORD);
         Role roleTenant = new Role(RoleType.ROLE_TENANT);

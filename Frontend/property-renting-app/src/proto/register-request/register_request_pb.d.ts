@@ -93,3 +93,51 @@ export namespace CreateRegisterRequestResponse {
   }
 }
 
+export class EmailVerificationMessage extends jspb.Message {
+  getEmail(): string;
+  setEmail(value: string): void;
+
+  getToken(): string;
+  setToken(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EmailVerificationMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: EmailVerificationMessage): EmailVerificationMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: EmailVerificationMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EmailVerificationMessage;
+  static deserializeBinaryFromReader(message: EmailVerificationMessage, reader: jspb.BinaryReader): EmailVerificationMessage;
+}
+
+export namespace EmailVerificationMessage {
+  export type AsObject = {
+    email: string,
+    token: string,
+  }
+}
+
+export class EmailVerificationResponse extends jspb.Message {
+  getEmail(): string;
+  setEmail(value: string): void;
+
+  getReturnMessage(): string;
+  setReturnMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EmailVerificationResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: EmailVerificationResponse): EmailVerificationResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: EmailVerificationResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EmailVerificationResponse;
+  static deserializeBinaryFromReader(message: EmailVerificationResponse, reader: jspb.BinaryReader): EmailVerificationResponse;
+}
+
+export namespace EmailVerificationResponse {
+  export type AsObject = {
+    email: string,
+    returnMessage: string,
+  }
+}
+

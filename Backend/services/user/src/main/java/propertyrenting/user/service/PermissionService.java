@@ -29,7 +29,7 @@ public class PermissionService {
 
     public List<Permission> initPermissions() {
         if(!this.findAll().isEmpty()) {
-            return null;
+            return this.permissionRepository.findAll();
         }
         List<Permission> permissions = new ArrayList<>();
         for(PermissionType permissionType: PermissionType.values()) {

@@ -1,5 +1,9 @@
 package propertyrenting.user.service;
 
+import propertyrenting.user.enumeration.RoleType;
+import propertyrenting.user.mapper.UserMapper;
+import propertyrenting.user.model.Landlord;
+import propertyrenting.user.model.Tenant;
 import propertyrenting.user.model.User;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -26,18 +30,24 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
 
     private UserRepository userRepository;
 
+    private RoleService roleService;
+
     private RegisterRequestMapper registerRequestMapper;
+
+    private UserMapper userMapper;
 
     @Autowired
     public RegisterRequestServiceImpl(RegisterRequestRepository registerRequestRepository, ValidationService validationService,
                                       CustomUserDetailsService customUserDetailsService, EmailService emailService,
-                                      UserRepository userRepository) {
+                                      UserRepository userRepository, RoleService roleService) {
         this.registerRequestRepository = registerRequestRepository;
         this.validationService = validationService;
         this.customUserDetailsService = customUserDetailsService;
         this.emailService = emailService;
         this.userRepository = userRepository;
+        this.roleService = roleService;
         this.registerRequestMapper = new RegisterRequestMapper();
+        this.userMapper = new UserMapper();
     }
 
     public void createRegisterRequest(RegisterRequestMessage request, StreamObserver<CreateRegisterRequestResponse> responseObserver) {
@@ -92,7 +102,24 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
         }
         else {
             RegisterRequest registerRequest = this.registerRequestRepository.findByEmail(request.getEmail());
-            User user = this.registerRequestMapper.toUser(registerRequest);
+            if(registerRequest.isLandlord()) {
+                Landlord landlord = this.userMapper.toLandlord(registerRequest);
+                landlord.setRoleSet(this.roleService.findByType(RoleType.ROLE_LANDLORD));
+                this.userRepository.save(landlord);
+            }
+            else {
+                Tenant tenant = this.userMapper.toTenant(registerRequest);
+                tenant.setRoleSet(this.roleService.findByType(RoleType.ROLE_TENANT));
+                this.userRepository.save(tenant);
+            }
+
+            response = EmailVerificationResponse.newBuilder()
+                    .setEmail(request.getEmail())
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
         }
     }
 
@@ -100,7 +127,7 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
 
         RegisterRequest registerRequest = this.registerRequestRepository.findByEmail(verificationMessage.getEmail());
 
-        if(this.validationService.isEmailValid(verificationMessage.getEmail())) {
+        if(!this.validationService.isEmailValid(verificationMessage.getEmail())) {
             return "Email or validation token are not correct";
         }
         else if(registerRequest == null) {
@@ -109,7 +136,7 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
         else if(this.userRepository.findByEmail(verificationMessage.getEmail()) != null) {
             return "You have already verified your account. You can log in.";
         }
-        else if(!registerRequest.getVerificationToken().equals(verificationMessage.getToken())) {
+        else if(!registerRequest.getVerificationToken().toString().equals(verificationMessage.getToken())) {
             return "Email or validation token are not correct";
         }
         else if(registerRequest.getVerificationTokenTime().plusMinutes(30).isBefore(LocalDateTime.now())) {

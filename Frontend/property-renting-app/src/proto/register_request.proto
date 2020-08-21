@@ -2,6 +2,8 @@ syntax = "proto3";
 
 service RegisterRequestService {
     rpc CreateRegisterRequest (RegisterRequestMessage) returns (CreateRegisterRequestResponse) {}
+
+    rpc VerifyEmail (EmailVerificationMessage) returns (EmailVerificationResponse) {}
 }
 
 message RegisterRequestMessage {
@@ -21,5 +23,15 @@ message RegisterRequestMessage {
 
 message CreateRegisterRequestResponse {
     RegisterRequestMessage register_request = 1;
+    string return_message = 2;
+}
+
+message EmailVerificationMessage {
+    string email = 1;
+    string token = 2;
+}
+
+message EmailVerificationResponse {
+    string email = 1;
     string return_message = 2;
 }

@@ -39,7 +39,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
             return;
         }
 
-        User admin = new User("Admir", "Admirovic", "admin@maildrop.cc", "2342343",
+        User admin = new Admin("Admir", "Admirovic", "admin@maildrop.cc", "2342343",
                 "123123123");
         admin.setPassword(this.userDetailsService.encodePassword(admin.getPassword()));
         admin.setRoleSet(this.roleService.findByType(RoleType.ROLE_ADMIN));

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RegisterRequestsService } from '@core/service/register-request-service/register-requests.service';
+import { EmailVerification } from '@core/model/email-verification';
 
 @Component({
   selector: 'app-verify',
@@ -10,7 +12,9 @@ export class VerifyComponent implements OnInit {
 
   verifyForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private registerRequestService: RegisterRequestsService
+  ) { }
 
   ngOnInit() {
     this.verifyForm = new FormGroup({
@@ -22,6 +26,9 @@ export class VerifyComponent implements OnInit {
 
   submit() {
 
+    const emailVerification: EmailVerification = new EmailVerification(this.verifyForm.value.email, this.verifyForm.value.token);
+
+    this.registerRequestService.verifyEmail(emailVerification);
   }
 
 }
