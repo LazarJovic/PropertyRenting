@@ -2,6 +2,7 @@ package propertyrenting.user.mapper;
 
 import propertyrenting.user.model.RegisterRequest;
 import proto.registerRequest.RegisterRequestMessage;
+import propertyrenting.user.model.User;
 
 public class RegisterRequestMapper {
 
@@ -27,6 +28,11 @@ public class RegisterRequestMapper {
                 .setAddress(registerRequest.getAddress())
                 .setIsLandlord(registerRequest.isLandlord())
                 .build();
+    }
+
+    public User toUser(RegisterRequest registerRequest) {
+        return new User(registerRequest.getFirstName(), registerRequest.getSurname(), registerRequest.getEmail(),
+                registerRequest.getPhone(), registerRequest.getPassword());
     }
 
 }

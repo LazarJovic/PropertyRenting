@@ -23,6 +23,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    @Setter
     @ManyToMany
     @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
@@ -31,4 +32,7 @@ public class Role {
     @ManyToMany(mappedBy = "roleSet")
     private Set<User> userSet;
 
+    public Role(RoleType roleType) {
+        this.roleType = roleType;
+    }
 }

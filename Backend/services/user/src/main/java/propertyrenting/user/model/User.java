@@ -43,6 +43,14 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roleSet;
 
+    public User(String firstName, String surname, String email, String phone, String password) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

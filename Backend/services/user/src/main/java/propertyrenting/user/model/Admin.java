@@ -8,4 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Admin extends User {
+
+    public Admin(String firstName, String surname, String email, String phone, String password) {
+        super(firstName, surname, email, phone, password);
+    }
+
 }

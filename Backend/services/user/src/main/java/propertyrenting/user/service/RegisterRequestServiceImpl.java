@@ -1,5 +1,6 @@
 package propertyrenting.user.service;
 
+import propertyrenting.user.model.User;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import propertyrenting.user.mapper.RegisterRequestMapper;
 import propertyrenting.user.model.RegisterRequest;
 import propertyrenting.user.repository.RegisterRequestRepository;
 import propertyrenting.user.repository.UserRepository;
-import proto.propertyType.EmptyMessage;
 import proto.registerRequest.*;
 
 import java.time.LocalDateTime;
@@ -91,7 +91,8 @@ public class RegisterRequestServiceImpl extends RegisterRequestServiceGrpc.Regis
             responseObserver.onCompleted();
         }
         else {
-
+            RegisterRequest registerRequest = this.registerRequestRepository.findByEmail(request.getEmail());
+            User user = this.registerRequestMapper.toUser(registerRequest);
         }
     }
 

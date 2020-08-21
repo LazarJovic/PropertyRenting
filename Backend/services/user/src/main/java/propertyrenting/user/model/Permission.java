@@ -24,4 +24,8 @@ public class Permission {
     @ManyToMany(mappedBy = "permissionSet")
     private Set<Role> roles;
 
+    public Permission(PermissionType permissionType) {
+        this.permissionType = permissionType;
+    }
+
 }
