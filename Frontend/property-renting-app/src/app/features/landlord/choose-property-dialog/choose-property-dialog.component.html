@@ -5,7 +5,7 @@
       </button>
     <h1>Available properties</h1>
     <div id="properties-div">
-        <!-- <choose-vehicle-card *ngFor="let item of vehicles" [item]='item' (vehicleChosen)='onSubmit($event)'></choose-vehicle-card> -->
+        <app-choose-property-card *ngFor="let item of properties" [item]='item' (propertyChosen)='onSubmit($event)'></app-choose-property-card>
         <p>Choose properties dialog!</p>
     </div>
 </div>

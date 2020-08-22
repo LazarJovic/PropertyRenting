@@ -10,11 +10,12 @@ import { ChoosePropertyDialogComponent } from './choose-property-dialog/choose-p
 import { MyAdsComponent } from './my-ads/my-ads.component';
 import { LandlordBookingRequestsComponent } from './landlord-booking-requests/landlord-booking-requests.component';
 import { PropertyStatsComponent } from './property-stats/property-stats.component';
+import { ChoosePropertyCardComponent } from './choose-property-card/choose-property-card.component';
 
 
 @NgModule({
   declarations: [LandlordDashboardComponent, RegisterPropertyComponent, CreateAdComponent, ChoosePropertyDialogComponent,
-     MyAdsComponent, LandlordBookingRequestsComponent, PropertyStatsComponent],
+     MyAdsComponent, LandlordBookingRequestsComponent, PropertyStatsComponent, ChoosePropertyCardComponent],
   imports: [
     CommonModule,
     LandlordRoutingModule,
