@@ -12,7 +12,7 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var property_type_pb = require('./property_type_pb.js');
+var property_type_pb = require('../property-type/property_type_pb');
 goog.object.extend(proto, property_type_pb);
 goog.exportSymbol('proto.AdImageMessage', null, global);
 goog.exportSymbol('proto.AdMessage', null, global);

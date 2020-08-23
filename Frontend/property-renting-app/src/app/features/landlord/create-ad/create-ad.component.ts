@@ -5,6 +5,9 @@ import { ChoosePropertyDialogComponent } from '../choose-property-dialog/choose-
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChooseProperty } from '@core/model/choose-property';
 import { resolve } from 'url';
+import { AdsService } from '@core/service/ad-service/ads.service';
+import { ToastrService } from 'ngx-toastr';
+import { Ad } from '@core/model/ad';
 
 @Component({
   selector: 'app-create-ad',
@@ -20,10 +23,13 @@ export class CreateAdComponent implements OnInit {
 
   @ViewChild('slider', { static: false }) private slider: NgImageSliderComponent;
   imageObject: Array<object> = [];
+  images: Array<any> = new Array<any>();
   adImageFiles: Array<File>;
 
   constructor(
     private choosePropertyDialog: MatDialog,
+    private toastr: ToastrService,
+    private adService: AdsService
   ) { }
 
   ngOnInit() {
@@ -46,7 +52,11 @@ export class CreateAdComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.adForm.value);
+    const ad: Ad = new Ad(0, this.choosenProperty.id, this.adForm.value.durationLimited, this.adForm.value.startDate,
+       this.adForm.value.endDate, this.adForm.value.guestPreference, this.adForm.value.pricePerNight,
+       this.adForm.value.securityDeposit, this.adForm.value.additionalInfo);
+
+    this.adService.createAd(ad, this.images);
   }
 
   durationLimitedChange() {
@@ -77,11 +87,12 @@ export class CreateAdComponent implements OnInit {
 
   onFileSelected(event) {
     if (event.target.files.length > 8) {
-      // this.toast.info("You can upload maximum 8 images for ad.");
+      this.toastr.info('You can upload maximum 8 images for ad.');
       return;
     }
     for (const file of event.target.files) {
       this.adImageFiles.push(file);
+      console.log(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -89,10 +100,15 @@ export class CreateAdComponent implements OnInit {
         obj = {
           image: reader.result, thumbImage: reader.result
         };
+        let imageMessageObj;
+        imageMessageObj = {
+          image: reader.result, name: file.name, type: file.type
+        };
         if (this.imageObject.length + 1 <= 8) {
           this.imageObject.push(obj);
+          this.images.push(imageMessageObj);
         } else {
-          // this.toast.info("You can upload maximum 8 images for ad.");
+          this.toastr.info('You can upload maximum 8 images for ad.');
           return;
         }
       };

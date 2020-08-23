@@ -82,7 +82,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         else if(this.validationService.isStringNullOrEmpty(adMessage.getStartDate())) {
             return "You must provide ad's start date";
         }
-        else if(this.validationService.checkDateFormat(adMessage.getStartDate())) {
+        else if(!this.validationService.checkDateFormat(adMessage.getStartDate())) {
             return "Start date is not in correct format";
         }
         else if(this.validationService.checkIfDoubleExistsAndIsNotNegative(adMessage.getPricePerNight())) {
@@ -105,7 +105,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
             if(this.validationService.isStringNullOrEmpty(adMessage.getEndDate())) {
                 return "You must provide ad's end date";
             }
-            else if(this.validationService.checkDateFormat(adMessage.getEndDate())) {
+            else if(!this.validationService.checkDateFormat(adMessage.getEndDate())) {
                 return "End date is not in correct format";
             }
         }

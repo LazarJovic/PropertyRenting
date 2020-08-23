@@ -6,6 +6,7 @@ import lombok.Setter;
 import propertyrenting.ad.enumeration.GuestPreference;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,11 +39,11 @@ public class Ad {
 
     @Setter
     @Column
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Setter
     @Column
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Setter
     @Column(name = "guest_preference")
@@ -69,7 +70,7 @@ public class Ad {
     private Set<AdImage> adImageSet;
 
     public Ad(double pricePerNight, double securityDeposit, LocalDateTime postingDate, boolean durationLimited,
-              LocalDateTime startDate, LocalDateTime endDate, String additionalInfo) {
+              LocalDate startDate, LocalDate endDate, String additionalInfo) {
         this.pricePerNight = pricePerNight;
         this.securityDeposit = securityDeposit;
         this.postingDate = postingDate;

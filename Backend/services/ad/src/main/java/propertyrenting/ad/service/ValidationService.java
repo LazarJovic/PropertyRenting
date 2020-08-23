@@ -2,6 +2,7 @@ package propertyrenting.ad.service;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -25,7 +26,7 @@ public class ValidationService {
 
     public boolean checkDateFormat(String data) {
         try {
-            LocalDateTime.parse(data);
+            LocalDate.parse(data);
             return true;
         }
         catch (Exception e) {

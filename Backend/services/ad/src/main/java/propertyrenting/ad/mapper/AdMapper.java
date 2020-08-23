@@ -5,6 +5,7 @@ import propertyrenting.ad.model.Ad;
 import proto.ad.AdImageMessage;
 import proto.ad.AdMessage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,10 +13,10 @@ public class AdMapper {
 
     public Ad toAd(AdMessage adMessage) {
 
-        LocalDateTime startDate = LocalDateTime.parse(adMessage.getStartDate());
-        LocalDateTime endDate;
+        LocalDate startDate = LocalDate.parse(adMessage.getStartDate());
+        LocalDate endDate;
         if(adMessage.getDurationLimited()) {
-             endDate = LocalDateTime.parse(adMessage.getEndDate());
+             endDate = LocalDate.parse(adMessage.getEndDate());
         }
         else {
             endDate = null;
