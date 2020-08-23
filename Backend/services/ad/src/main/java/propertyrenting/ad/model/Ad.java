@@ -3,9 +3,11 @@ package propertyrenting.ad.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import propertyrenting.ad.enumeration.GuestPreference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -43,6 +45,11 @@ public class Ad {
     private LocalDateTime endDate;
 
     @Setter
+    @Column(name = "guest_preference")
+    @Enumerated(EnumType.STRING)
+    private GuestPreference guestPreference;
+
+    @Setter
     @Column
     private String additionalInfo;
 
@@ -59,6 +66,18 @@ public class Ad {
     private Set<Client> tenantSet;
 
     @OneToMany(mappedBy = "ad", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<AdImage> adSet;
+    private Set<AdImage> adImageSet;
 
+    public Ad(double pricePerNight, double securityDeposit, LocalDateTime postingDate, boolean durationLimited,
+              LocalDateTime startDate, LocalDateTime endDate, String additionalInfo) {
+        this.pricePerNight = pricePerNight;
+        this.securityDeposit = securityDeposit;
+        this.postingDate = postingDate;
+        this.durationLimited = durationLimited;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.additionalInfo = additionalInfo;
+        this.tenantSet = new HashSet<>();
+        this.adImageSet = new HashSet<>();
+    }
 }

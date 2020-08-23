@@ -1,6 +1,8 @@
-package propertyrenting.property.service;
+package propertyrenting.ad.service;
 
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class ValidationService {
@@ -11,14 +13,24 @@ public class ValidationService {
 
     public boolean checkStringLength(String data) {
         return data.length() > 50;
-   }
+    }
 
     public boolean checkIfDoubleExistsAndIsNotNegative(Double data) {
-       return data == null || data <= 0;
-   }
+        return data == null || data <= 0;
+    }
 
     public boolean checkIfIntExistsAndIsNotNegative(Integer data) {
         return data == null || data <= 0;
-   }
+    }
+
+    public boolean checkDateFormat(String data) {
+        try {
+            LocalDateTime.parse(data);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 
 }

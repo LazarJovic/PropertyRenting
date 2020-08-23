@@ -31,7 +31,6 @@ button {
 button:hover {
   background-color: #7b1fa2;
   color: white;
-  border: 1px solid white;
 }
 
 .in-form-btn {
@@ -56,7 +55,7 @@ button:hover {
 }
 
 .submit-button {
-  border: 1.5px solid white;
+  border: 1px solid white;
   width: 300px;
   background-color: white;
   color: #7b1fa2;
@@ -82,6 +81,14 @@ button:hover {
 
 #duration-cbx {
   width: 100px;
+}
+
+#guest-preference-field {
+  width: 150px;
+}
+
+#security-deposit-field {
+  width: 143px;
 }
 
 #textarea-field {
@@ -143,14 +150,9 @@ button:hover {
   height: 605px;
 }
 
-/* .not-first {
-  margin-left: 45px;
+.mat-option.mat-selected {
+  color: white !important;
 }
-
-.type-name-p {
-  font-weight: bold;
-  margin-top: -10px;
-} */
 
 #slider {
   width: 31vw;

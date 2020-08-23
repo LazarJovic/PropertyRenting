@@ -22,8 +22,7 @@ export class ChoosePropertyCardComponent implements OnInit {
   }
 
   chooseProperty() {
-    // this.propertyChosen.emit(this.item);
-    console.log(this.item);
+    this.propertyChosen.emit(this.item);
   }
 
 }

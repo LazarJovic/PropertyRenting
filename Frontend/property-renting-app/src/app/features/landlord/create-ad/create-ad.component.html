@@ -1,11 +1,11 @@
 <mat-card class="create-ad-card">
   <h4>Create ad</h4>
   <mat-card-content>
-    <form>
+    <form [formGroup]="adForm">
       <div>
         <mat-form-field id="property-field">
           <mat-label>Property</mat-label>
-          <input matInput type="text" readonly />
+          <input matInput type="text" readonly formControlName="property"/>
         </mat-form-field>
         <button
           mat-flat-button
@@ -17,38 +17,42 @@
         </button>
       </div>
       <div>
-        <mat-checkbox class="triple-field" id="duration-cbx"
-          >Duration limited</mat-checkbox
+        <mat-checkbox class="triple-field" id="duration-cbx" formControlName="durationLimited"
+        [(ngModel)]="durationLimited" (change)="durationLimitedChange()">Duration limited</mat-checkbox
         >
         <mat-form-field appearance="fill" class="triple-field date-field">
           <mat-label>Start date</mat-label>
-          <input matInput type="date" />
+          <input matInput type="date" formControlName="startDate" [min]="minDate"/>
         </mat-form-field>
         <mat-form-field appearance="fill" class="triple-field date-field">
           <mat-label>End date</mat-label>
-          <input matInput type="date" />
+          <input matInput type="date" formControlName="endDate" [readonly]="!durationLimited" [min]="minDate"/>
         </mat-form-field>
       </div>
       <div>
-        <mat-form-field appearance="fill" class="triple-field">
+        <mat-form-field appearance="fill" class="triple-field" id="guest-preference-field">
           <mat-label>Guest preference</mat-label>
-          <mat-select>
-            <mat-option></mat-option>
+          <mat-select formControlName="guestPreference">
+            <mat-option value="Student">Student</mat-option>
+            <mat-option value="Family">Family</mat-option>
+            <mat-option value="Couple">Couple</mat-option>
+            <mat-option value="Working professional">Working professional</mat-option>
+            <mat-option value="Not important">Not important</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill" class="triple-field right-field">
           <mat-label>Price per night (&euro;)</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" formControlName="pricePerNight"/>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="triple-field right-field">
-          <mat-label>Security deposit (&euro;)</mat-label>
-          <input matInput type="text" />
+        <mat-form-field appearance="fill" class="triple-field right-field" id="security-deposit-field">
+          <mat-label>Security deposit (&euro;)</mat-label>      
+          <input matInput type="text" formControlName="securityDeposit"/>
         </mat-form-field>
       </div>
       <div>
         <mat-form-field appearance="fill" id="textarea-field">
           <mat-label>Additional information...</mat-label>
-          <textarea matInput></textarea>
+          <textarea matInput formControlName="additionalInfo"></textarea>
         </mat-form-field>
       </div>
       <div id="images-div">
@@ -83,6 +87,7 @@
           type="submit"
           class="submit-button"
           id="submit-button"
+          (click)="submit()"
         >
           Create ad
         </button>

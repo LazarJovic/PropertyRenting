@@ -21,15 +21,17 @@ export class ChoosePropertyDialogComponent implements OnInit {
   ngOnInit() {
 
     this.propertyService.getMyProperties().then(value => {
-      console.log(value);
       this.properties = value;
-      console.log(this.properties);
     });
 
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onSubmit(property) {
+    this.dialogRef.close({ property });
   }
 
 

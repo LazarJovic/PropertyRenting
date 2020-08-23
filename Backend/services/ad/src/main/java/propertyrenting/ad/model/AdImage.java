@@ -33,4 +33,9 @@ public class AdImage {
     @JoinColumn(name = "ad", referencedColumnName = "id")
     private Ad ad;
 
+    public AdImage(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
 }

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "proto.ad";
+option java_outer_classname = "AdProto";
+
+import "property_type.proto";
+
+service AdService {
+    rpc CreateAd (AdMessage) returns (CreateAdResponse) {}
+}
+
+message AdMessage {
+    int64 id = 1;
+    int64 property_id = 2;
+    bool duration_limited = 3;
+    string start_date = 4;
+    string end_date = 5;
+    string guest_preference = 6;
+    double price_per_night = 7;
+    double security_deposit = 8;
+    string additional_info = 9;
+    repeated AdImageMessage images = 10;
+}
+
+message AdImageMessage {
+    string name = 1;
+    string type = 2;
+    bytes pic_byte = 3;
+}
+
+message CreateAdResponse {
+    AdMessage ad = 1;
+    string return_message = 2;
+}
