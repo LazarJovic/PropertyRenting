@@ -2,6 +2,7 @@
 // file: property.proto
 
 var property_pb = require("./property_pb");
+var property_type_pb = require("../property-type/property_type_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var PropertyService = (function () {
@@ -17,6 +18,15 @@ PropertyService.RegisterProperty = {
   responseStream: false,
   requestType: property_pb.PropertyMessage,
   responseType: property_pb.RegisterPropertyResponse
+};
+
+PropertyService.GetMyProperties = {
+  methodName: "GetMyProperties",
+  service: PropertyService,
+  requestStream: false,
+  responseStream: true,
+  requestType: property_type_pb.EmptyMessage,
+  responseType: property_pb.PropertyMessage
 };
 
 exports.PropertyService = PropertyService;
@@ -52,6 +62,45 @@ PropertyServiceClient.prototype.registerProperty = function registerProperty(req
   return {
     cancel: function () {
       callback = null;
+      client.close();
+    }
+  };
+};
+
+PropertyServiceClient.prototype.getMyProperties = function getMyProperties(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(PropertyService.GetMyProperties, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
       client.close();
     }
   };

@@ -1,7 +1,11 @@
 syntax = "proto3";
 
+import "property_type.proto";
+
 service PropertyService {
     rpc RegisterProperty (PropertyMessage) returns (RegisterPropertyResponse) {}
+
+    rpc GetMyProperties (EmptyMessage) returns (stream PropertyMessage) {}
 }
 
 message PropertyMessage {

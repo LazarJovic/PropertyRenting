@@ -12,6 +12,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var property_type_pb = require('../property-type/property_type_pb');
+goog.object.extend(proto, property_type_pb);
 goog.exportSymbol('proto.PropertyImageMessage', null, global);
 goog.exportSymbol('proto.PropertyMessage', null, global);
 goog.exportSymbol('proto.RegisterPropertyResponse', null, global);

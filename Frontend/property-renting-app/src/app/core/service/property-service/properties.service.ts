@@ -5,6 +5,9 @@ import { PropertyService } from 'src/proto/property/property_pb_service';
 import { PropertyImageMessage, PropertyMessage } from 'src/proto/property/property_pb';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
+import { ChooseProperty } from '@core/model/choose-property';
+import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
+import { PropertyImage } from '@core/model/property-image';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +60,39 @@ export class PropertiesService {
         }
       },
     });
+  }
+
+  getMyProperties() {
+
+    const array: Array<ChooseProperty> = new Array<ChooseProperty>();
+
+    const promise = new Promise<Array<ChooseProperty>>((resolve, reject) => {
+      grpc.invoke(PropertyService.GetMyProperties, {
+              request: new EmptyMessage(),
+              host: environment.property,
+              onMessage: (message: PropertyMessage) => {
+
+                const property: ChooseProperty = new ChooseProperty(message.getId(), message.getCountry(), message.getCity(),
+                  message.getAddress(), message.getSize(), message.getNumberOfRooms(), message.getDistanceFromCenter(),
+                  message.getFurnished(), message.getInternetIncluded(), message.getAirConditionIncluded());
+
+                const image: PropertyImage = new PropertyImage(message.getImage().getName(), message.getImage().getType(),
+                  message.getImage().getPicByte_asB64());
+
+                property.image = image;
+                array.push(property);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting properties');
+                }
+              }
+            });
+    });
+
+    return promise;
   }
 
 }

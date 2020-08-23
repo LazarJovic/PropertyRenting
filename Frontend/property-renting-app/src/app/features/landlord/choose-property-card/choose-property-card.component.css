@@ -1,0 +1,49 @@
+.example-card {
+  width: 300px;
+  min-height: 400px;
+  background-color: #7b1fa2;
+  color: white;
+}
+
+mat-card-subtitle {
+  color: white;
+}
+
+button {
+  background-color: white;
+  color: #7b1fa2;
+  border: 1px solid white;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  margin-top: -0.5vw;
+  margin-left: 85px;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #7b1fa2;
+  color: white;
+}
+
+#image-div {
+  margin-left: 1vw;
+  margin-bottom: 0.3vw;
+}
+
+mat-checkbox {
+    display: block;
+}
+
+img {
+  width: 230px;
+  height: 180px;
+}
+
+#info-div {
+  margin-left: 1vw;
+}
+
+.property-info-p {
+  margin-bottom: -0.15vw;
+}

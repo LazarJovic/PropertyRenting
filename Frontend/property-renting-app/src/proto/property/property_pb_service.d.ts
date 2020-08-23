@@ -2,6 +2,7 @@
 // file: property.proto
 
 import * as property_pb from "./property_pb";
+import * as property_type_pb from "../property-type/property_type_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
 type PropertyServiceRegisterProperty = {
@@ -13,9 +14,19 @@ type PropertyServiceRegisterProperty = {
   readonly responseType: typeof property_pb.RegisterPropertyResponse;
 };
 
+type PropertyServiceGetMyProperties = {
+  readonly methodName: string;
+  readonly service: typeof PropertyService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof property_pb.PropertyMessage;
+};
+
 export class PropertyService {
   static readonly serviceName: string;
   static readonly RegisterProperty: PropertyServiceRegisterProperty;
+  static readonly GetMyProperties: PropertyServiceGetMyProperties;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,5 +70,6 @@ export class PropertyServiceClient {
     requestMessage: property_pb.PropertyMessage,
     callback: (error: ServiceError|null, responseMessage: property_pb.RegisterPropertyResponse|null) => void
   ): UnaryResponse;
+  getMyProperties(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<property_pb.PropertyMessage>;
 }
 

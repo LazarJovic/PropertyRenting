@@ -4,8 +4,12 @@ option java_multiple_files = true;
 option java_package = "proto.property";
 option java_outer_classname = "PropertyProto";
 
+import "property_type.proto";
+
 service PropertyService {
     rpc RegisterProperty (PropertyMessage) returns (RegisterPropertyResponse) {}
+
+    rpc GetMyProperties (EmptyMessage) returns (stream PropertyMessage) {}
 }
 
 message PropertyMessage {

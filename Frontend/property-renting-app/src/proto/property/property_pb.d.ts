@@ -2,6 +2,7 @@
 // file: property.proto
 
 import * as jspb from "google-protobuf";
+import * as property_type_pb from "../property-type/property_type_pb";
 
 export class PropertyMessage extends jspb.Message {
   getId(): number;

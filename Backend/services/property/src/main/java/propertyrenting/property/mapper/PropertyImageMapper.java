@@ -14,14 +14,14 @@ public class PropertyImageMapper {
 
     public PropertyImage toPropertyImage(PropertyImageMessage propertyImageMessage) {
         return new PropertyImage(propertyImageMessage.getName(), propertyImageMessage.getType(),
-                compressBytes(propertyImageMessage.getPicByte().toByteArray()));
+                propertyImageMessage.getPicByte().toByteArray());
     }
 
     public PropertyImageMessage toPropertyImageMessage(PropertyImage propertyImage) {
         return PropertyImageMessage.newBuilder()
                 .setName(propertyImage.getName())
                 .setType(propertyImage.getType())
-                .setPicByte(ByteString.copyFrom(decompressBytes(propertyImage.getPicByte())))
+                .setPicByte(ByteString.copyFrom(propertyImage.getPicByte()))
                 .build();
     }
 

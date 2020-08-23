@@ -6,6 +6,5 @@
     <h1>Available properties</h1>
     <div id="properties-div">
         <app-choose-property-card *ngFor="let item of properties" [item]='item' (propertyChosen)='onSubmit($event)'></app-choose-property-card>
-        <p>Choose properties dialog!</p>
     </div>
 </div>

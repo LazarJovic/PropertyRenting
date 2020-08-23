@@ -4,8 +4,10 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import propertyrenting.property.mapper.PropertyImageMapper;
 import propertyrenting.property.mapper.PropertyMapper;
 import propertyrenting.property.model.Property;
+import propertyrenting.property.model.PropertyImage;
 import propertyrenting.property.model.PropertyType;
 import propertyrenting.property.repository.PropertyRepository;
 import propertyrenting.property.repository.PropertyTypeRepository;
@@ -15,6 +17,8 @@ import proto.property.PropertyServiceGrpc;
 import proto.property.RegisterPropertyResponse;
 import proto.propertyInfo.PropertyInfoServiceGrpc;
 import proto.propertyType.EmptyMessage;
+
+import java.util.List;
 
 @GrpcService
 public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImplBase {
@@ -29,6 +33,8 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
 
     private PropertyMapper propertyMapper;
 
+    private PropertyImageMapper propertyImageMapper;
+
     @GrpcClient("ad-server")
     private PropertyInfoServiceGrpc.PropertyInfoServiceStub propertyInfoServiceStub;
 
@@ -40,6 +46,7 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
         this.propertyImageService = propertyImageService;
         this.validationService = validationService;
         this.propertyMapper = new PropertyMapper();
+        this.propertyImageMapper = new PropertyImageMapper();
     }
 
     public void registerProperty(PropertyMessage request, StreamObserver<RegisterPropertyResponse> responseObserver) {
@@ -85,6 +92,20 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
             responseObserver.onCompleted();
 
         }
+    }
+
+    public void getMyProperties(EmptyMessage request, StreamObserver<PropertyMessage> responseObserver) {
+        // TODO: Get only properties of logged-in user
+        List<Property> properties = this.propertyRepository.findAll();
+
+        properties.forEach(property -> {
+            PropertyImage image = property.getPropertyImagesSet().iterator().next();
+            PropertyMessage message = this.propertyMapper.toPropertyMessage(property,
+                    this.propertyImageMapper.toPropertyImageMessage(image));
+            responseObserver.onNext(message);
+        });
+
+        responseObserver.onCompleted();
     }
 
     private String validateProperty(PropertyMessage propertyMessage) {

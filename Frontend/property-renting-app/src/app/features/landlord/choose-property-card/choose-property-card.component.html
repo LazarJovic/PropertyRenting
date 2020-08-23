@@ -10,9 +10,6 @@
       </div>
       <div id="info-div">
         <p class="property-info-p">
-            <b>Type:</b> {{item?.type}}
-          </p>
-        <p class="property-info-p">
           <b>Size:</b> {{item?.size}} (&#13217;)
         </p>
         <p class="property-info-p">
@@ -21,13 +18,13 @@
         <p class="property-info-p">
           <b>Distance from center:</b> {{item?.distanceFromCenter}}
         </p>
-        <mat-checkbox [checked]="item?.furnished" >Furnished</mat-checkbox>
-        <mat-checkbox [checked]="item?.internet" >Internet included</mat-checkbox>
-        <mat-checkbox [checked]="item?.airCondition" >Air condition included</mat-checkbox>
+        <mat-checkbox [checked]="item?.furnished" disabled>Furnished</mat-checkbox>
+        <mat-checkbox [checked]="item?.internet" disabled>Internet included</mat-checkbox>
+        <mat-checkbox [checked]="item?.airCondition" disabled>Air condition included</mat-checkbox>
       </div>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-flat-button color="primary" type="button" (click)="chooseProperty()">Choose</button>
+        <button mat-flat-button type="button" (click)="chooseProperty()">Choose</button>
     </mat-card-actions>
   </mat-card>
 
