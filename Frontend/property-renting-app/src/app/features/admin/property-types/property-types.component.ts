@@ -25,7 +25,7 @@ export class PropertyTypesComponent implements OnInit {
     private propertyTypeService: PropertyTypesService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.propertyTypeService.getPropertyTypes().then(value => {
       this.dataSource = value;
     });

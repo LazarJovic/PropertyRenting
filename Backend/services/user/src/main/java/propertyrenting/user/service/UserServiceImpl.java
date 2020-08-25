@@ -4,7 +4,9 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import propertyrenting.user.enumeration.RoleType;
+import propertyrenting.user.mapper.UserMapper;
 import propertyrenting.user.model.Admin;
+import propertyrenting.user.model.Client;
 import propertyrenting.user.model.Role;
 import propertyrenting.user.model.User;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -13,10 +15,13 @@ import org.springframework.context.event.EventListener;
 import propertyrenting.user.repository.UserRepository;
 import proto.propertyType.EmptyMessage;
 import proto.user.CreateClientMessage;
+import proto.user.GetByRoleMessage;
+import proto.user.UserMessage;
 import proto.user.UserServiceGrpc;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @GrpcService
 public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
@@ -26,6 +31,8 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     private RoleService roleService;
 
     private CustomUserDetailsService userDetailsService;
+
+    private UserMapper userMapper;
 
     @GrpcClient("property-server")
     private UserServiceGrpc.UserServiceStub userServiceStubProperty;
@@ -44,6 +51,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.userDetailsService = userDetailsService;
+        this.userMapper = new UserMapper();
     }
 
     public void createUser(CreateClientMessage createClientMessage) {
@@ -55,6 +63,17 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         //this.userServiceStubBooking.createClient(createClientMessage, this.getStreamObserver());
         //this.userServiceStubCommunication.createClient(createClientMessage, this.getStreamObserver());
 
+    }
+
+    public void getUsersByRole(GetByRoleMessage request, StreamObserver<UserMessage> responseObserver) {
+        List<User> users = this.userRepository.findByType(request.getRole());
+
+        users.forEach(user -> {
+            UserMessage message = this.userMapper.toUserMessage((Client) user);
+            responseObserver.onNext(message);
+        });
+
+        responseObserver.onCompleted();
     }
 
     @EventListener(ApplicationReadyEvent.class)

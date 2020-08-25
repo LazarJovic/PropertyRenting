@@ -1,8 +1,7 @@
 package propertyrenting.user.mapper;
 
-import propertyrenting.user.model.Landlord;
-import propertyrenting.user.model.RegisterRequest;
-import propertyrenting.user.model.Tenant;
+import propertyrenting.user.model.*;
+import proto.user.UserMessage;
 
 public class UserMapper {
 
@@ -20,4 +19,15 @@ public class UserMapper {
                 registerRequest.getPostcode());
     }
 
+    public UserMessage toUserMessage(Client user) {
+        return UserMessage.newBuilder()
+                .setId(user.getId())
+                .setFirstName(user.getFirstName())
+                .setSurname(user.getSurname())
+                .setEmail(user.getEmail())
+                .setPhone(user.getPhone())
+                .setAccountBlocked(user.isAccountBlocked())
+                .setRole(user.getRoleSet().iterator().next().getRoleType().toString())
+                .build();
+    }
 }
