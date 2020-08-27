@@ -14,7 +14,7 @@
               class="mat-elevation-z8"
             >
               <ng-container matColumnDef="person">
-                <th mat-header-cell *matHeaderCellDef>Person</th>
+                <th mat-header-cell *matHeaderCellDef class="person-th">Person</th>
                 <td mat-cell *matCellDef="let user">{{ user.firstName }} {{user.surname}}</td>
               </ng-container>
 
@@ -29,7 +29,7 @@
               </ng-container>
 
               <ng-container matColumnDef="btnBlockAccount">
-                <th mat-header-cell *matHeaderCellDef>Block account</th>
+                <th mat-header-cell *matHeaderCellDef class="block-account-th">Block account</th>
                 <td mat-cell *matCellDef="let user">
                   <button
                     mat-stroked-button
@@ -44,6 +44,7 @@
                     matTooltip="Unblock user's account"
                     (click)="unblockUser(user)"
                     *ngIf="user.accountBlocked"
+                    class="table-btn"
                   >
                     Unblock account
                   </button>
@@ -91,7 +92,7 @@
               class="mat-elevation-z8"
             >
               <ng-container matColumnDef="person">
-                <th mat-header-cell *matHeaderCellDef>Person</th>
+                <th mat-header-cell *matHeaderCellDef class="person-th">Person</th>
                 <td mat-cell *matCellDef="let user">{{ user.firstName }} {{user.surname}}</td>
               </ng-container>
 
@@ -106,7 +107,7 @@
               </ng-container>
 
               <ng-container matColumnDef="btnBlockAccount">
-                <th mat-header-cell *matHeaderCellDef>Block account</th>
+                <th mat-header-cell *matHeaderCellDef class="block-account-th">Block account</th>
                 <td mat-cell *matCellDef="let user">
                   <button
                     mat-stroked-button
