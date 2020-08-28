@@ -28,7 +28,7 @@ export class UsersService {
               host: environment.user,
               onMessage: (message: UserMessage) => {
                 const type: Client = new Client(message.getId(), message.getFirstName(), message.getSurname(),
-                      message.getEmail(), message.getPhone(), message.getAccountBlocked(), message.getRole());1
+                      message.getEmail(), message.getPhone(), message.getAccountBlocked(), message.getRole());
                 dataSource.data.push(type);
               },
               onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {

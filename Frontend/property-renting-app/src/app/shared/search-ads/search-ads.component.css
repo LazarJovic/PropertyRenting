@@ -1,0 +1,74 @@
+#box-div {
+    background-color: white; /* fallback for old browsers */
+    color: black;
+    top:0;
+    left:0;
+    width:100%;
+}
+
+#title-div {
+    margin: 0 auto;
+    width: 30vw;
+}
+
+h5 {
+    margin-bottom: 1.5vw;
+    color: #4d014b;
+}
+
+.content-div {
+    background-color: white;
+    width: 80vw;
+    min-width: 600px;
+    margin:auto;
+    min-height: 75vh;
+    /*text-align: center;*/
+    padding: 50px;
+    border-radius: 10px;
+    margin-bottom: 10.5vh;
+}
+
+mat-expansion-panel {
+    background-color: #4d014b;
+}
+
+mat-form-field {
+    width: 15vw;
+}
+
+button {
+    width: 8vw;
+    background-color: white;
+    color: #4d014b;
+    border: 1px solid white;
+}
+
+button:hover {
+    background-color: #4d014b;
+    color: white;
+}
+
+#button-div {
+    margin-top: 1.5vw;
+    margin-left: 27.5vw;
+}
+
+#clear-btn {
+    margin-left: 1vw;
+}
+
+.third-field {
+    margin-left: 5vw;
+}
+
+.right-field {
+    margin-left: 2vw;
+}
+
+.first-field {
+    margin-left: 2vw;
+}
+
+#cbx-div {
+    margin-left: 20vw;
+}

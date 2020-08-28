@@ -1,0 +1,150 @@
+<div id="box-div">
+  <div id="middle-div">
+    <div class="content-div">
+      <div class="row advanced-div">
+        <div id="title-div">
+          <h5>Here you can search all currently active ads</h5>
+        </div>
+
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="advancedPanelOpenState = true"
+            (closed)="advancedPanelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Advanced Search </mat-panel-title>
+              <mat-panel-description>
+                Click to
+                {{ advancedPanelOpenState ? "close" : "open" }} advanced search
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form [formGroup]="searchForm">
+              <div class="row">
+                <div>
+                  <mat-form-field class="first-field">
+                    <mat-label>Start date</mat-label>
+                    <input matInput type="datetime-local" />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>End date</mat-label>
+                    <input matInput type="datetime-local" />
+                  </mat-form-field>
+                  <mat-form-field class="third-field">
+                    <mat-label>Property type</mat-label>
+                    <mat-select
+                      formControlName="type"
+                      (selectionChange)="changeType($event)"
+                    >
+                      <mat-option [value]="{ value: null }">Any</mat-option>
+                      <mat-option *ngFor="let type of types" [value]="type">
+                        {{ type.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>Guest preference</mat-label>
+                    <mat-select formControlName="guestPreference">
+                      <mat-option value="Student">Student</mat-option>
+                      <mat-option value="Family">Family</mat-option>
+                      <mat-option value="Couple">Couple</mat-option>
+                      <mat-option value="Working professional"
+                        >Working professional</mat-option
+                      >
+                      <mat-option value="Not important"
+                        >Not important</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="first-field">
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" formControlName="country" />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>City</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      class="city-input"
+                      formControlName="city"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="third-field">
+                    <mat-label>Address</mat-label>
+                    <input matInput type="text" formControlName="address" />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>Size</mat-label>
+                    <input matInput type="text" formControlName="size" />
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="first-field">
+                    <mat-label>Number of rooms</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="numberOfRooms"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>Distance from center</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="distanceFromCenter"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="third-field">
+                    <mat-label>Price per night (min)</mat-label>
+                    <span matPrefix>€ &nbsp;</span>
+                    <input matInput type="text" formControlName="priceMin" />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>Price per night (max)</mat-label>
+                    <span matPrefix>€ &nbsp;</span>
+                    <input matInput type="text" formControlName="priceMax" />
+                  </mat-form-field>
+                </div>
+                <div id="cbx-div">
+                  <mat-checkbox class="right-field" formControlName="furnished"
+                    >Furnished</mat-checkbox
+                  >
+                  <mat-checkbox
+                    class="right-field"
+                    formControlName="internetIncluded"
+                    >Internet included</mat-checkbox
+                  >
+                  <mat-checkbox
+                    class="right-field"
+                    formControlName="airConditionIncluded"
+                    >Air condition included</mat-checkbox
+                  >
+                </div>
+              </div>
+              <div id="button-div">
+                <button
+                  mat-flat-button
+                  type="submit"
+                  id="submit-btn"
+                  (click)="submit()"
+                >
+                  Search
+                </button>
+                <button
+                  mat-flat-button
+                  type="button"
+                  id="clear-btn"
+                  (click)="clear()"
+                >
+                  clear
+                </button>
+              </div>
+            </form>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </div>
+</div>

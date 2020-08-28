@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing-carousel',
@@ -8,7 +9,10 @@ import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LandingCarouselComponent implements OnInit {
 
-  constructor(config: NgbCarouselConfig) {
+  constructor(
+    config: NgbCarouselConfig,
+    private router: Router
+  ) {
     config.interval = 2000;
     config.wrap = true;
     config.keyboard = false;
@@ -17,6 +21,10 @@ export class LandingCarouselComponent implements OnInit {
     config.showNavigationIndicators = true;
   }
   ngOnInit() {
+  }
+
+  search() {
+    this.router.navigate(['/search']);
   }
 
 }
