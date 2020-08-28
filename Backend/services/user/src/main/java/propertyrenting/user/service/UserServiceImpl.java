@@ -81,7 +81,10 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     }
 
     public void unblockUser(UserIdMessage request, StreamObserver<UserMessage> responseObserver) {
-
+        Client client =  (Client) this.userRepository.findById(request.getId()).orElseGet(null);
+        client.setAccountBlocked(false);
+        responseObserver.onNext(this.userMapper.toUserMessage(this.userRepository.save(client)));
+        responseObserver.onCompleted();
     }
 
     @EventListener(ApplicationReadyEvent.class)

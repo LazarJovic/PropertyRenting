@@ -63,4 +63,23 @@ export class UsersService {
     });
   }
 
+  unblock(userId: number) {
+    const userIdMessage = new UserIdMessage();
+    userIdMessage.setId(userId);
+
+    grpc.unary(UserService.UnblockUser, {
+      request: userIdMessage,
+      host: environment.user,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          this.toastr.success('Account unblocked successfully');
+        } else {
+          this.toastr.error('An error occurred while unblocking user\'s account');
+        }
+      },
+    });
+  }
+
 }
