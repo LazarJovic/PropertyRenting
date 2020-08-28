@@ -1,7 +1,3 @@
-.mat-dialog-container {
-    background-color: white;
-}
-
 #container-div {
     width: 100%;
     height: 100%;
@@ -12,22 +8,30 @@
     margin-left: 1vw;
 }
 
-#create-btn {
-    border: 1px solid #7b1fa2;
+button {
+    background-color: #4d014b;
 }
 
 #create-btn:hover {
-    border: 1px solid #7b1fa2;
     background-color: white;
-    color: #7b1fa2;
-}
-
-#close-btn {
-    border: 1px solid #7b1fa2;
+    color: #4d014b;
 }
 
 #close-btn:hover {
-    border: 1px solid #7b1fa2;
     background-color: white;
-    color: #7b1fa2;
+    color: #4d014b;
+}
+
+.ng-star-inserted {
+    color: white;
+}
+
+.mat-form-field-underline {
+    color: white !important;
+    background-color: white;
+}
+
+.mat-form-field-ripple {
+    color: white !important;
+    background-color: white;
 }

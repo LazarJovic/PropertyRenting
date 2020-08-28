@@ -30,20 +30,20 @@ export class LandingPageComponent implements OnInit {
   }
 
   login() {
-    // this.router.navigate(['/login']);
-    const helloRequest = new HelloRequest();
-    helloRequest.setName('Lazar');
-    grpc.unary(MyService.SayHello, {
-      request: helloRequest,
-      host: 'http://localhost:8070',
-      onEnd: (res) => {
-        const { status, statusMessage, headers, message, trailers } = res;
-        if (status === grpc.Code.OK && message) {
-          console.log('all ok. got hello: ', message.toObject());
-          this.toastr.success('Success!');
-        }
-      },
-    });
+    this.router.navigate(['/login']);
+    // const helloRequest = new HelloRequest();
+    // helloRequest.setName('Lazar');
+    // grpc.unary(MyService.SayHello, {
+    //   request: helloRequest,
+    //   host: 'http://localhost:8070',
+    //   onEnd: (res) => {
+    //     const { status, statusMessage, headers, message, trailers } = res;
+    //     if (status === grpc.Code.OK && message) {
+    //       console.log('all ok. got hello: ', message.toObject());
+    //       this.toastr.success('Success!');
+    //     }
+    //   },
+    // });
   }
 
   register() {

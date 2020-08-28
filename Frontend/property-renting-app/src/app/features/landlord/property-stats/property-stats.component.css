@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    color: #7b1fa2;
+    color: #4d014b;
 }
 
 #container-div {
@@ -25,7 +25,7 @@
 }
 
 p {
-    color: #7b1fa2;
+    color: #4d014b;
 }
 
 h5 {
@@ -33,7 +33,7 @@ h5 {
 }
 
 table {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     width: 60vw;
     margin-left: 10vw;
     margin-top: 2vw;

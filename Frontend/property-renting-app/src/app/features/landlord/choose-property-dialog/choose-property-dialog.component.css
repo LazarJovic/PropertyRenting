@@ -18,8 +18,8 @@ app-choose-property-card {
 
 #back-button:hover {
     background-color:white;
-    color: #7b1fa2;
-    border: 1px solid #7b1fa2;
+    color: #4d014b;
+    border: 1px solid #4d014b;
 }
 
 #back-button {
@@ -27,7 +27,7 @@ app-choose-property-card {
     margin-top: 10px;
     position: fixed;
     margin-bottom: -3vw;
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     color: white;
 }
 

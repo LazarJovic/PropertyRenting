@@ -13,12 +13,12 @@
 
 .login-card {
   max-width: 400px;
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
   z-index: 5;
   margin-top: -500px;
   margin-left: 850px;
-  border: 1px solid #7b1fa2;
+  border: 1px solid #4d014b;
   text-align: center;
 }
 
@@ -39,11 +39,11 @@ mat-form-field {
   margin-top: 20px;
   width: 300px;
   background-color: white;
-  color: #7b1fa2;
+  color: #4d014b;
 }
 
 .submit-button:hover {
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
 }
 

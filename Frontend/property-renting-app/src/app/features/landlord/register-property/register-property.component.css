@@ -1,12 +1,12 @@
 .register-property-card {
   width: 1140px;
   max-height: 450px;
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
   z-index: 5;
   margin-top: 20px;
   margin-left: 200px;
-  border: 1px solid #7b1fa2;
+  border: 1px solid #4d014b;
 }
 
 mat-label {
@@ -34,12 +34,12 @@ h4 {
   border: 1.5px solid white;
   width: 300px;
   background-color: white;
-  color: #7b1fa2;
+  color: #4d014b;
   margin-left: 120px;
 }
 
 .submit-button:hover {
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
 }
 
@@ -83,7 +83,7 @@ h4 {
 
 #add-image-btn {
   background-color: white;
-  color: #7b1fa2;
+  color: #4d014b;
 }
 
 .upload-btn-wrapper {
@@ -112,7 +112,7 @@ h4 {
 
 #bottom-div {
   text-align: center;
-  color: #7b1fa2;
+  color: #4d014b;
   margin-top: 25px;
 }
 

@@ -7,7 +7,7 @@
 }
 
 #form-holder-div {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     width: 500px;
     margin: auto;
     margin-top: 80px;
@@ -30,11 +30,11 @@ mat-form-field {
     margin-top: 20px;
     width: 400px;
     background-color: white;
-    color: #7b1fa2;
+    color: #4d014b;
 }
 
 .submit-button:hover {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     color: white;
 }
 

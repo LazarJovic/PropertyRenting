@@ -24,6 +24,11 @@ h1.example-app-name {
   flex: 1 0 auto;
 }
 
+mat-toolbar {
+  background-color: #4d014b;
+  color: white;
+}
+
 .btn-icon {
   width: 20px;
   margin: 10px 10px 10px 0;
@@ -91,18 +96,18 @@ h1.example-app-name {
 .toolbar-btn {
     width: 6vw;
     background-color: white;
-    color: #7b1fa2;
+    color: #4d014b;
     border: 0.5px solid white;
 }
 
 .toolbar-btn:hover {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     color: white;
 }
 
 .home-btn {
   width: 12vw;
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
   font-size: 18px;
   text-align: center;

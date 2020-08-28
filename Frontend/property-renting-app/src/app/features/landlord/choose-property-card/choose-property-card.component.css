@@ -1,7 +1,7 @@
 .example-card {
   width: 300px;
   min-height: 400px;
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
 }
 
@@ -11,7 +11,7 @@ mat-card-subtitle {
 
 button {
   background-color: white;
-  color: #7b1fa2;
+  color: #4d014b;
   border: 1px solid white;
   width: 100px;
   height: 40px;
@@ -22,7 +22,7 @@ button {
 }
 
 button:hover {
-  background-color: #7b1fa2;
+  background-color: #4d014b;
   color: white;
 }
 

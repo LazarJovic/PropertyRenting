@@ -1,5 +1,5 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="primary" class="example-toolbar">
+  <mat-toolbar class="example-toolbar">
     <div class="sidebar-brand-text mx-3" class="example-app-name">
       <button mat-flat-button class="home-btn" (click)="router.navigate([''])">Property Renting</button>
     </div>
@@ -7,7 +7,6 @@
     <!--Profile dropdown-->
     <div class="ml-auto profile-dropdown">
       <div class="avatar-dropdown" id="icon">
-        <i class="fas fa-user-shield"></i>
         <!-- <span class="mr-2 d-lg-inline text-gray-600 small username">{{ username }}</span> -->
         <div class="btn-div">
           <button mat-flat-button class="toolbar-btn" id="sign-in-btn" (click)="login()">
