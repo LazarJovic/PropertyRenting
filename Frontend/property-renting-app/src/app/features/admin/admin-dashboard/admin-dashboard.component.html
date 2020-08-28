@@ -2,7 +2,7 @@
   class="dashboard-container"
   [class.example-is-mobile]="mobileQuery.matches"
 >
-  <mat-toolbar color="primary" class="dashboard-toolbar">
+  <mat-toolbar class="dashboard-toolbar">
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -16,7 +16,6 @@
     <!--Profile dropdown-->
     <div class="ml-auto profile-dropdown">
       <div class="avatar-dropdown" id="icon">
-        <i class="fas fa-user-tie"></i>
         <button mat-flat-button class="toolbar-btn" (click)="logout()">
           Logout
         </button>

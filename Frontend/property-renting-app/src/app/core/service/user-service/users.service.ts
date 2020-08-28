@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/proto/user/user_pb_service';
-import { GetByRoleMessage, UserMessage } from 'src/proto/user/user_pb';
+import { GetByRoleMessage, UserMessage, UserIdMessage } from 'src/proto/user/user_pb';
 import { Client } from '@core/model/client';
 import { MatTableDataSource } from '@angular/material/table';
 import { grpc } from '@improbable-eng/grpc-web';
@@ -42,6 +42,25 @@ export class UsersService {
     });
 
     return promise;
+  }
+
+  block(userId: number) {
+    const userIdMessage = new UserIdMessage();
+    userIdMessage.setId(userId);
+
+    grpc.unary(UserService.BlockUser, {
+      request: userIdMessage,
+      host: environment.user,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          this.toastr.success('Account blocked successfully');
+        } else {
+          this.toastr.error('An error occurred while blocking user\'s account');
+        }
+      },
+    });
   }
 
 }

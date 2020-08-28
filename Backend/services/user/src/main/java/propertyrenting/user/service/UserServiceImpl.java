@@ -14,10 +14,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import propertyrenting.user.repository.UserRepository;
 import proto.propertyType.EmptyMessage;
-import proto.user.CreateClientMessage;
-import proto.user.GetByRoleMessage;
-import proto.user.UserMessage;
-import proto.user.UserServiceGrpc;
+import proto.user.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -74,6 +71,17 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
         });
 
         responseObserver.onCompleted();
+    }
+
+    public void blockUser(UserIdMessage request, StreamObserver<UserMessage> responseObserver) {
+        Client client =  (Client) this.userRepository.findById(request.getId()).orElseGet(null);
+        client.setAccountBlocked(true);
+        responseObserver.onNext(this.userMapper.toUserMessage(this.userRepository.save(client)));
+        responseObserver.onCompleted();
+    }
+
+    public void unblockUser(UserIdMessage request, StreamObserver<UserMessage> responseObserver) {
+
     }
 
     @EventListener(ApplicationReadyEvent.class)

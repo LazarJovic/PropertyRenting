@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    color: #7b1fa2;
+    color: #4d014b;
 }
 
 #container-div {
@@ -25,7 +25,7 @@
 }
 
 p {
-    color: #7b1fa2;
+    color: #4d014b;
 }
 
 h5 {
@@ -33,7 +33,7 @@ h5 {
 }
 
 table {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     width: 60vw;
     margin-left: 10vw;
     margin-top: 2vw;
@@ -44,8 +44,8 @@ table th {
     width: 8vw;
     padding: 10px;
     background-color: white;
-    border-top: 1px solid #7b1fa2;
-    color: #7b1fa2;
+    border-top: 1px solid #4d014b;
+    color: #4d014b;
 }
 
 table td {
@@ -53,25 +53,26 @@ table td {
     width: 8vw;
     padding: 10px;
     color: white;
-    background-color: #7b1fa2;
+    background-color: #4d014b;
 }
 
 button {
+    width: 20px;
     background-color: white;
-    color: #7b1fa2;
+    color: #4d014b;
     border: 1px solid white;
 }
 
 button:hover {
-    background-color: #7b1fa2;
+    background-color: #4d014b;
     color: white;
     border: 1px solid white;
 }
 
 .person-th {
-    border-left: 1px solid #7b1fa2;
+    border-left: 1px solid #4d014b;
 }
 
 .block-account-th {
-    border-right: 1px solid #7b1fa2;
+    border-right: 1px solid #4d014b;
 }

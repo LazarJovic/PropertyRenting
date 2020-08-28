@@ -37,7 +37,7 @@
                     (click)="blockUser(user)"
                     *ngIf="!user.accountBlocked"
                   >
-                    Block account
+                    <i class="fas fa-lock "></i>
                   </button>
                   <button
                     mat-stroked-button
@@ -46,7 +46,7 @@
                     *ngIf="user.accountBlocked"
                     class="table-btn"
                   >
-                    Unblock account
+                    <i class="fas fa-unlock "></i>
                   </button>
                 </td>
               </ng-container>
@@ -115,7 +115,7 @@
                     (click)="blockUser(user)"
                     *ngIf="!user.accountBlocked"
                   >
-                    Block account
+                    <i class="fas fa-lock lock"></i>
                   </button>
                   <button
                     mat-stroked-button
@@ -123,7 +123,7 @@
                     (click)="unblockUser(user)"
                     *ngIf="user.accountBlocked"
                   >
-                    Unblock account
+                    <i class="fas fa-unlock unlock"></i>
                   </button>
                 </td>
               </ng-container>
