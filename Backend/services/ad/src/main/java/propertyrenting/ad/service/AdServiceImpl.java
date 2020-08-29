@@ -165,6 +165,12 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         }
     }
 
+    public void getAdDetails(AdIdMessage request, StreamObserver<AdDetailsMessage> responseObserver) {
+        Ad ad = this.adRepository.findById(request.getId()).orElseGet(null);
+        responseObserver.onNext(this.adMapper.toAdDetailsMessage(ad));
+        responseObserver.onCompleted();
+    }
+
     private String validateSearchAd(SearchAdMessage searchAdMessage) {
         if(searchAdMessage.getStartDate() != null && !searchAdMessage.getStartDate().equals("") &&
                 this.validationService.checkDateFormat(searchAdMessage.getStartDate())) {

@@ -263,3 +263,115 @@ export namespace SearchAdResultMessage {
   }
 }
 
+export class AdIdMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AdIdMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: AdIdMessage): AdIdMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: AdIdMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AdIdMessage;
+  static deserializeBinaryFromReader(message: AdIdMessage, reader: jspb.BinaryReader): AdIdMessage;
+}
+
+export namespace AdIdMessage {
+  export type AsObject = {
+    id: number,
+  }
+}
+
+export class AdDetailsMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  getStartDate(): string;
+  setStartDate(value: string): void;
+
+  getEndDate(): string;
+  setEndDate(value: string): void;
+
+  getPostingDate(): string;
+  setPostingDate(value: string): void;
+
+  getPrice(): number;
+  setPrice(value: number): void;
+
+  getSecurityDeposit(): number;
+  setSecurityDeposit(value: number): void;
+
+  getGuestPreference(): string;
+  setGuestPreference(value: string): void;
+
+  getAdditionalInfo(): string;
+  setAdditionalInfo(value: string): void;
+
+  getType(): string;
+  setType(value: string): void;
+
+  getCountry(): string;
+  setCountry(value: string): void;
+
+  getCity(): string;
+  setCity(value: string): void;
+
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getSize(): number;
+  setSize(value: number): void;
+
+  getNumberOfRooms(): number;
+  setNumberOfRooms(value: number): void;
+
+  getDistanceFromCenter(): number;
+  setDistanceFromCenter(value: number): void;
+
+  getFurnished(): boolean;
+  setFurnished(value: boolean): void;
+
+  getInternetIncluded(): boolean;
+  setInternetIncluded(value: boolean): void;
+
+  getAirConditionIncluded(): boolean;
+  setAirConditionIncluded(value: boolean): void;
+
+  getAverageRating(): number;
+  setAverageRating(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): AdDetailsMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: AdDetailsMessage): AdDetailsMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: AdDetailsMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): AdDetailsMessage;
+  static deserializeBinaryFromReader(message: AdDetailsMessage, reader: jspb.BinaryReader): AdDetailsMessage;
+}
+
+export namespace AdDetailsMessage {
+  export type AsObject = {
+    id: number,
+    startDate: string,
+    endDate: string,
+    postingDate: string,
+    price: number,
+    securityDeposit: number,
+    guestPreference: string,
+    additionalInfo: string,
+    type: string,
+    country: string,
+    city: string,
+    address: string,
+    size: number,
+    numberOfRooms: number,
+    distanceFromCenter: number,
+    furnished: boolean,
+    internetIncluded: boolean,
+    airConditionIncluded: boolean,
+    averageRating: number,
+  }
+}
+

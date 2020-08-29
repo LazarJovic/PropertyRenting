@@ -2,6 +2,7 @@ package propertyrenting.ad.mapper;
 
 import propertyrenting.ad.enumeration.GuestPreference;
 import propertyrenting.ad.model.Ad;
+import proto.ad.AdDetailsMessage;
 import proto.ad.AdImageMessage;
 import proto.ad.AdMessage;
 import proto.ad.SearchAdResultMessage;
@@ -65,7 +66,6 @@ public class AdMapper {
     }
 
     public SearchAdResultMessage toSearchResultMessage(Ad ad) {
-
         return SearchAdResultMessage.newBuilder()
                 .setId(ad.getId())
                 .setStartDate(ad.getStartDate().toString())
@@ -78,6 +78,30 @@ public class AdMapper {
                 .setPrice(ad.getPricePerNight())
                 .setImage(this.adImageMapper.toAdImageMessage(ad.getAdImageSet().iterator().next()))
                 .build();
+    }
 
+    public AdDetailsMessage toAdDetailsMessage(Ad ad) {
+
+        return AdDetailsMessage.newBuilder()
+                .setId(ad.getId())
+                .setStartDate(ad.getStartDate().toString())
+                .setEndDate(ad.getEndDate().toString())
+                .setPostingDate(ad.getPostingDate().toLocalDate().toString())
+                .setPrice(ad.getPricePerNight())
+                .setSecurityDeposit(ad.getSecurityDeposit())
+                .setGuestPreference(ad.getGuestPreference().toString())
+                .setAdditionalInfo(ad.getAdditionalInfo())
+                .setType(ad.getPropertyInfo().getPropertyType())
+                .setCountry(ad.getPropertyInfo().getCountry())
+                .setCity(ad.getPropertyInfo().getCity())
+                .setAddress(ad.getPropertyInfo().getAddress())
+                .setSize(ad.getPropertyInfo().getSize())
+                .setNumberOfRooms(ad.getPropertyInfo().getNumberOfRooms())
+                .setDistanceFromCenter(ad.getPropertyInfo().getDistanceFromCenter())
+                .setFurnished(ad.getPropertyInfo().isFurnished())
+                .setInternetIncluded(ad.getPropertyInfo().isInternetIncluded())
+                .setAirConditionIncluded(ad.getPropertyInfo().isAirConditionIncluded())
+                .setAverageRating(ad.getPropertyInfo().getAverageRating())
+                .build();
     }
 }

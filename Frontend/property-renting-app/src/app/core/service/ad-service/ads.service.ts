@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Ad } from '@core/model/ad';
-import { AdMessage, AdImageMessage, SearchAdMessage, SearchAdResultMessage } from 'src/proto/ad/ad_pb';
+import { AdMessage, AdImageMessage, SearchAdMessage, SearchAdResultMessage, AdIdMessage, AdDetailsMessage } from 'src/proto/ad/ad_pb';
 import { AdService } from 'src/proto/ad/ad_pb_service';
 import { ToastrService } from 'ngx-toastr';
 import { grpc } from '@improbable-eng/grpc-web';
@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { SearchAdsComponent } from '@shared/search-ads/search-ads.component';
 import { SearchAd } from '@core/model/search-ad';
 import { SearchAdResult } from '@core/model/search-ad-result';
+import { AdDetails } from '@core/model/ad-details';
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,42 @@ export class AdsService {
 
     return promise;
 
+  }
+
+  getAdDetails(id: number) {
+    const adIdMessage: AdIdMessage = new AdIdMessage();
+    adIdMessage.setId(id);
+
+    const promise = new Promise<AdDetails>((resolve, reject) => {
+    grpc.unary(AdService.GetAdDetails, {
+        request: adIdMessage,
+        host: environment.ad,
+        onEnd: (res) => {
+          const { status, statusMessage, headers, message, trailers } = res;
+
+          if (status === grpc.Code.OK && message) {
+            const returnValue = message.toObject();
+
+            // tslint:disable-next-line: no-string-literal
+            const adDetails: AdDetails = new AdDetails(returnValue['id'], returnValue['startDate'], returnValue['endDate'],
+            // tslint:disable-next-line: no-string-literal
+              returnValue['postingDate'], returnValue['price'], returnValue['securityDeposit'], returnValue['guestPreference'],
+              // tslint:disable-next-line: no-string-literal
+              returnValue['additionalInfo'], returnValue['type'], returnValue['country'], returnValue['city'], returnValue['address'],
+              // tslint:disable-next-line: no-string-literal
+              returnValue['size'], returnValue['numberOfRooms'], returnValue['distanceFromCenter'], returnValue['furnished'],
+              // tslint:disable-next-line: no-string-literal
+               returnValue['internetIncluded'], returnValue['airConditionIncluded'], returnValue['averageRating']);
+
+            resolve(adDetails);
+          } else {
+            this.toastr.error('An error occurred while creating ad');
+          }
+        },
+      });
+    });
+
+    return promise;
   }
 
 }

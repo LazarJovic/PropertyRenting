@@ -9,6 +9,9 @@ service AdService {
 
     rpc SearchAds (SearchAdMessage) returns (stream SearchAdResultMessage) {}
 
+    rpc GetAdDetails (AdIdMessage) returns (AdDetailsMessage) {}
+
+    rpc GetAdImages (AdIdMessage) returns (stream AdImageMessage) {}
 }
 
 message AdMessage {
@@ -67,4 +70,30 @@ message SearchAdResultMessage {
     double security_deposit = 8;
     double price = 9;
     AdImageMessage image = 10;
+}
+
+message AdIdMessage {
+    int64 id = 1;
+}
+
+message AdDetailsMessage {
+    int64 id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    string posting_date = 4;
+    double price = 5;
+    double security_deposit = 6;
+    string guest_preference = 7;
+    string additional_info = 8;
+    string type = 9;
+    string country = 10;
+    string city = 11;
+    string address = 12;
+    double size = 13;
+    int32 number_of_rooms = 14;
+    double distance_from_center = 15;
+    bool furnished = 16;
+    bool internet_included = 17;
+    bool air_condition_included = 18;
+    double average_rating = 19;
 }

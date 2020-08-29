@@ -22,10 +22,30 @@ type AdServiceSearchAds = {
   readonly responseType: typeof ad_pb.SearchAdResultMessage;
 };
 
+type AdServiceGetAdDetails = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof ad_pb.AdIdMessage;
+  readonly responseType: typeof ad_pb.AdDetailsMessage;
+};
+
+type AdServiceGetAdImages = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof ad_pb.AdIdMessage;
+  readonly responseType: typeof ad_pb.AdImageMessage;
+};
+
 export class AdService {
   static readonly serviceName: string;
   static readonly CreateAd: AdServiceCreateAd;
   static readonly SearchAds: AdServiceSearchAds;
+  static readonly GetAdDetails: AdServiceGetAdDetails;
+  static readonly GetAdImages: AdServiceGetAdImages;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -70,5 +90,15 @@ export class AdServiceClient {
     callback: (error: ServiceError|null, responseMessage: ad_pb.CreateAdResponse|null) => void
   ): UnaryResponse;
   searchAds(requestMessage: ad_pb.SearchAdMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.SearchAdResultMessage>;
+  getAdDetails(
+    requestMessage: ad_pb.AdIdMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: ad_pb.AdDetailsMessage|null) => void
+  ): UnaryResponse;
+  getAdDetails(
+    requestMessage: ad_pb.AdIdMessage,
+    callback: (error: ServiceError|null, responseMessage: ad_pb.AdDetailsMessage|null) => void
+  ): UnaryResponse;
+  getAdImages(requestMessage: ad_pb.AdIdMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.AdImageMessage>;
 }
 

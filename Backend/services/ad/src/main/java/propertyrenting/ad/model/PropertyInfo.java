@@ -57,6 +57,10 @@ public class PropertyInfo {
     private boolean airConditionIncluded;
 
     @Setter
+    @Column
+    private double averageRating;
+
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landlord", referencedColumnName = "id")
     private Client landlord;
