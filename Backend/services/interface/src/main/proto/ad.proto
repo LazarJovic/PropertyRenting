@@ -6,6 +6,9 @@ option java_outer_classname = "AdProto";
 
 service AdService {
     rpc CreateAd (AdMessage) returns (CreateAdResponse) {}
+
+    rpc SearchAds (SearchAdMessage) returns (stream SearchAdResultMessage) {}
+
 }
 
 message AdMessage {
@@ -30,4 +33,38 @@ message AdImageMessage {
 message CreateAdResponse {
     AdMessage ad = 1;
     string return_message = 2;
+}
+
+message SearchAdMessage {
+    string start_date = 1;
+    string end_date = 2;
+    string type = 3;
+    string guest_preference = 4;
+    string country = 5;
+    string city = 6;
+    string address = 7;
+    double size_min = 8;
+    double size_max = 9;
+    int32 number_of_rooms_min = 10;
+    int32 number_of_rooms_max = 11;
+    double distance_from_center_min = 12;
+    double distance_from_center_max = 13;
+    double price_min = 14;
+    double price_max = 15;
+    bool furnished = 16;
+    bool internet_included = 17;
+    bool air_condition_included = 18;
+}
+
+message SearchAdResultMessage {
+    int64 id = 1;
+    string start_date = 2;
+    string end_date = 3;
+    string type = 4;
+    string country = 5;
+    string city = 6;
+    string address = 7;
+    double security_deposit = 8;
+    double price = 9;
+    AdImageMessage image = 10;
 }

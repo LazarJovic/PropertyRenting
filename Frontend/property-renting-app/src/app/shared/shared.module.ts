@@ -12,11 +12,12 @@ import { PaidBookingRequestsComponent } from './paid-booking-requests/paid-booki
 import { FinishedBookingRequestsComponent } from './finished-booking-requests/finished-booking-requests.component';
 import { CanceledBookingRequestsComponent } from './canceled-booking-requests/canceled-booking-requests.component';
 import { SearchAdsComponent } from './search-ads/search-ads.component';
+import { SearchAdResultCardComponent } from './search-ad-result-card/search-ad-result-card.component';
 
 
 @NgModule({
   declarations: [PendingBookingRequestsComponent, ReservedBookingRequestsComponent,
-     PaidBookingRequestsComponent, FinishedBookingRequestsComponent, CanceledBookingRequestsComponent, SearchAdsComponent],
+     PaidBookingRequestsComponent, FinishedBookingRequestsComponent, CanceledBookingRequestsComponent, SearchAdsComponent, SearchAdResultCardComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,

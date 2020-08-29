@@ -23,17 +23,16 @@
                 <div>
                   <mat-form-field class="first-field">
                     <mat-label>Start date</mat-label>
-                    <input matInput type="datetime-local" />
+                    <input matInput type="date" formControlName="startDate"/>
                   </mat-form-field>
                   <mat-form-field class="right-field">
                     <mat-label>End date</mat-label>
-                    <input matInput type="datetime-local" />
+                    <input matInput type="date" formControlName="endDate"/>
                   </mat-form-field>
                   <mat-form-field class="third-field">
                     <mat-label>Property type</mat-label>
                     <mat-select
                       formControlName="type"
-                      (selectionChange)="changeType($event)"
                     >
                       <mat-option [value]="{ value: null }">Any</mat-option>
                       <mat-option *ngFor="let type of types" [value]="type">
@@ -42,26 +41,12 @@
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class="right-field">
-                    <mat-label>Guest preference</mat-label>
-                    <mat-select formControlName="guestPreference">
-                      <mat-option value="Student">Student</mat-option>
-                      <mat-option value="Family">Family</mat-option>
-                      <mat-option value="Couple">Couple</mat-option>
-                      <mat-option value="Working professional"
-                        >Working professional</mat-option
-                      >
-                      <mat-option value="Not important"
-                        >Not important</mat-option
-                      >
-                    </mat-select>
+                    <mat-label>Country</mat-label>
+                    <input matInput type="text" formControlName="country" />
                   </mat-form-field>
                 </div>
                 <div>
                   <mat-form-field class="first-field">
-                    <mat-label>Country</mat-label>
-                    <input matInput type="text" formControlName="country" />
-                  </mat-form-field>
-                  <mat-form-field class="right-field">
                     <mat-label>City</mat-label>
                     <input
                       matInput
@@ -70,33 +55,55 @@
                       formControlName="city"
                     />
                   </mat-form-field>
-                  <mat-form-field class="third-field">
+                  <mat-form-field class="right-field">
                     <mat-label>Address</mat-label>
                     <input matInput type="text" formControlName="address" />
                   </mat-form-field>
+                  <mat-form-field class="third-field">
+                    <mat-label>Size (min - &#13217;)</mat-label>
+                    <input matInput type="text" formControlName="sizeMin" />
+                  </mat-form-field>
                   <mat-form-field class="right-field">
-                    <mat-label>Size</mat-label>
-                    <input matInput type="text" formControlName="size" />
+                    <mat-label>Size (max - &#13217;)</mat-label>
+                    <input matInput type="text" formControlName="sizeMax" />
                   </mat-form-field>
                 </div>
                 <div>
                   <mat-form-field class="first-field">
-                    <mat-label>Number of rooms</mat-label>
+                    <mat-label>Number of rooms (min)</mat-label>
                     <input
                       matInput
                       type="text"
-                      formControlName="numberOfRooms"
+                      formControlName="numberOfRoomsMin"
                     />
                   </mat-form-field>
                   <mat-form-field class="right-field">
-                    <mat-label>Distance from center</mat-label>
+                    <mat-label>Number of rooms (max)</mat-label>
                     <input
                       matInput
                       type="text"
-                      formControlName="distanceFromCenter"
+                      formControlName="numberOfRoomsMax"
                     />
                   </mat-form-field>
                   <mat-form-field class="third-field">
+                    <mat-label>Distance from center (min - meters)</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="distanceFromCenterMin"
+                    />
+                  </mat-form-field>
+                  <mat-form-field class="right-field">
+                    <mat-label>Distance from center (max - meters)</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="distanceFromCenterMax"
+                    />
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="first-field">
                     <mat-label>Price per night (min)</mat-label>
                     <span matPrefix>€ &nbsp;</span>
                     <input matInput type="text" formControlName="priceMin" />
@@ -106,9 +113,7 @@
                     <span matPrefix>€ &nbsp;</span>
                     <input matInput type="text" formControlName="priceMax" />
                   </mat-form-field>
-                </div>
-                <div id="cbx-div">
-                  <mat-checkbox class="right-field" formControlName="furnished"
+                  <mat-checkbox class="third-field" formControlName="furnished"
                     >Furnished</mat-checkbox
                   >
                   <mat-checkbox
@@ -138,13 +143,22 @@
                   id="clear-btn"
                   (click)="clear()"
                 >
-                  clear
+                  Clear
                 </button>
               </div>
             </form>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
+      <div *ngIf="!loading">
+        <app-search-ad-result-card *ngFor="let item of results" [item]='item'
+            (detailsEvent)='onDetailsClicked($event)'>
+        </app-search-ad-result-card>
+    </div>
+
+    <div class="row empty-message-div" *ngIf="results?.length == 0">
+        <p class="empty-message">No Results</p>
+    </div>
     </div>
   </div>
 </div>

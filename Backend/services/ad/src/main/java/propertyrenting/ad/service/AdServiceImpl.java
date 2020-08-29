@@ -8,11 +8,11 @@ import propertyrenting.ad.model.Ad;
 import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
-import proto.ad.AdImageMessage;
-import proto.ad.AdMessage;
-import proto.ad.AdServiceGrpc;
-import proto.ad.CreateAdResponse;
+import proto.ad.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @GrpcService
@@ -69,6 +69,114 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         }
     }
 
+    public void searchAds(SearchAdMessage request, StreamObserver<SearchAdResultMessage> responseObserver) {
+        List<SearchAdResultMessage> result = new ArrayList<>();
+        String validationMessage = this.validateSearchAd(request);
+        if(!validationMessage.equals("ok")) {
+            responseObserver.onCompleted();
+        }
+        else {
+            List<Ad> ads = this.adRepository.findAllActive();
+            Iterator i = ads.iterator();
+            while(i.hasNext()) {
+                Ad ad = (Ad) i.next();
+                if(request.getStartDate() != null &&
+                        LocalDate.parse(request.getStartDate()).isAfter(ad.getStartDate())) {
+                    i.remove();
+                    continue;
+                }
+                else if((request.getEndDate() != null &&
+                        LocalDate.parse(request.getEndDate()).isBefore(ad.getEndDate()))) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getType() != null && !ad.getPropertyInfo().getPropertyType().equals(request.getType())) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getGuestPreference() != null && !ad.getGuestPreference().toString()
+                        .equals(request.getGuestPreference().toUpperCase())) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getCountry() != null && !ad.getPropertyInfo().getCountry().contains(request.getCountry())) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getCity() != null && !ad.getPropertyInfo().getCity().contains(request.getCity())) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getAddress() != null && !ad.getPropertyInfo().getAddress().contains(request.getAddress())) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getSize() < request.getSizeMin()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getSize() > request.getSizeMax()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getNumberOfRooms() < request.getNumberOfRoomsMin()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getNumberOfRooms() > request.getNumberOfRoomsMax()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getDistanceFromCenter() < request.getDistanceFromCenterMin()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPropertyInfo().getDistanceFromCenter() > request.getDistanceFromCenterMax()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPricePerNight() < request.getPriceMin()) {
+                    i.remove();
+                    continue;
+                }
+                else if(ad.getPricePerNight() > request.getPriceMax()) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getFurnished() != ad.getPropertyInfo().isFurnished()) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getInternetIncluded() != ad.getPropertyInfo().isInternetIncluded()) {
+                    i.remove();
+                    continue;
+                }
+                else if(request.getAirConditionIncluded() != ad.getPropertyInfo().isAirConditionIncluded()) {
+                    i.remove();
+                    continue;
+                }
+
+                responseObserver.onNext(this.adMapper.toSearchResultMessage(ad));
+
+            }
+
+            responseObserver.onCompleted();
+        }
+    }
+
+    private String validateSearchAd(SearchAdMessage searchAdMessage) {
+        if(searchAdMessage.getStartDate() != null && !searchAdMessage.getStartDate().equals("") &&
+                this.validationService.checkDateFormat(searchAdMessage.getStartDate())) {
+            return "Wrong start date format";
+        }
+        else if(searchAdMessage.getEndDate() != null && !searchAdMessage.getEndDate().equals("") &&
+                this.validationService.checkDateFormat(searchAdMessage.getEndDate())) {
+            return "Wrong end date format";
+        }
+
+        return "ok";
+    }
+
     private String validateAd(AdMessage adMessage) {
         PropertyInfo propertyInfo = this.propertyInfoRepository.findById(adMessage.getPropertyId())
                 .orElseGet(null);
@@ -82,7 +190,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         else if(this.validationService.isStringNullOrEmpty(adMessage.getStartDate())) {
             return "You must provide ad's start date";
         }
-        else if(!this.validationService.checkDateFormat(adMessage.getStartDate())) {
+        else if(this.validationService.checkDateFormat(adMessage.getStartDate())) {
             return "Start date is not in correct format";
         }
         else if(this.validationService.checkIfDoubleExistsAndIsNotNegative(adMessage.getPricePerNight())) {
@@ -105,7 +213,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
             if(this.validationService.isStringNullOrEmpty(adMessage.getEndDate())) {
                 return "You must provide ad's end date";
             }
-            else if(!this.validationService.checkDateFormat(adMessage.getEndDate())) {
+            else if(this.validationService.checkDateFormat(adMessage.getEndDate())) {
                 return "End date is not in correct format";
             }
         }

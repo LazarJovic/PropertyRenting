@@ -4,12 +4,19 @@ import propertyrenting.ad.enumeration.GuestPreference;
 import propertyrenting.ad.model.Ad;
 import proto.ad.AdImageMessage;
 import proto.ad.AdMessage;
+import proto.ad.SearchAdResultMessage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class AdMapper {
+
+    private AdImageMapper adImageMapper;
+
+    public AdMapper() {
+        this.adImageMapper = new AdImageMapper();
+    }
 
     public Ad toAd(AdMessage adMessage) {
 
@@ -57,4 +64,20 @@ public class AdMapper {
                 .build();
     }
 
+    public SearchAdResultMessage toSearchResultMessage(Ad ad) {
+
+        return SearchAdResultMessage.newBuilder()
+                .setId(ad.getId())
+                .setStartDate(ad.getStartDate().toString())
+                .setEndDate(ad.getEndDate().toString())
+                .setType(ad.getPropertyInfo().getPropertyType())
+                .setCountry(ad.getPropertyInfo().getCountry())
+                .setCity(ad.getPropertyInfo().getCity())
+                .setAddress(ad.getPropertyInfo().getAddress())
+                .setSecurityDeposit(ad.getSecurityDeposit())
+                .setPrice(ad.getPricePerNight())
+                .setImage(this.adImageMapper.toAdImageMessage(ad.getAdImageSet().iterator().next()))
+                .build();
+
+    }
 }

@@ -3,7 +3,6 @@ package propertyrenting.ad.service;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 public class ValidationService {
@@ -27,10 +26,10 @@ public class ValidationService {
     public boolean checkDateFormat(String data) {
         try {
             LocalDate.parse(data);
-            return true;
+            return false;
         }
         catch (Exception e) {
-            return false;
+            return true;
         }
     }
 
