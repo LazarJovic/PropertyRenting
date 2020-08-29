@@ -21,11 +21,10 @@ export class SearchAdResultCardComponent implements OnInit {
 
   ngOnInit() {
     this.propertyImage = 'data:image/jpeg;base64,' + this.item.image;
-    console.log(this.propertyImage);
   }
 
   details() {
-
+    this.detailsEvent.emit(this.item);
   }
 
 }

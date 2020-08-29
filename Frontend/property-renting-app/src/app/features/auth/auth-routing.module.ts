@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { LandingCarouselComponent } from '@features/auth/landing-carousel/landing-carousel.component';
 import { VerifyComponent } from './verify/verify.component';
 import { SearchAdsComponent } from '@shared/search-ads/search-ads.component';
+import { AdDetailsComponent } from '@features/auth/ad-details/ad-details.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,10 @@ const routes: Routes = [
         path: 'search',
         component: SearchAdsComponent,
         pathMatch: 'full'
+      },
+      {
+        path: 'ad/:id',
+        component: AdDetailsComponent
       }
 
     ]

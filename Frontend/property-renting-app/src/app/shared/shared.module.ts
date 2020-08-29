@@ -17,7 +17,8 @@ import { SearchAdResultCardComponent } from './search-ad-result-card/search-ad-r
 
 @NgModule({
   declarations: [PendingBookingRequestsComponent, ReservedBookingRequestsComponent,
-     PaidBookingRequestsComponent, FinishedBookingRequestsComponent, CanceledBookingRequestsComponent, SearchAdsComponent, SearchAdResultCardComponent],
+     PaidBookingRequestsComponent, FinishedBookingRequestsComponent, CanceledBookingRequestsComponent,
+      SearchAdsComponent, SearchAdResultCardComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,

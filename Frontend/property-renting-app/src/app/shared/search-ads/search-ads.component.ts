@@ -5,6 +5,7 @@ import { PropertyTypesService } from '@core/service/property-type-service/proper
 import { PropertyType } from '@core/model/property-type';
 import { SearchAdResult } from '@core/model/search-ad-result';
 import { AdsService } from '@core/service/ad-service/ads.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-ads',
@@ -19,7 +20,8 @@ export class SearchAdsComponent implements OnInit {
 
   constructor(
     private propertyTypeService: PropertyTypesService,
-    private adService: AdsService
+    private adService: AdsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -65,7 +67,7 @@ export class SearchAdsComponent implements OnInit {
   }
 
   onDetailsClicked(item: SearchAdResult) {
-    // this.router.navigate([`/client-dashboard/ad/${item.id}`])
+    this.router.navigate([`/ad/${item.id}`]);
   }
 
 }
