@@ -17,7 +17,7 @@ h3 {
 
 .content-div {
     background-color: #4d014b;
-    width: 60vw;
+    width: 85vw;
     min-width: 500px;
     margin:auto;
     min-height: 75vh;
@@ -120,4 +120,14 @@ textarea {
 #ad-info-p {
     font-size: small;
     display: block;
+}
+
+.map-container {
+    margin-left: 2vw;
+    max-width: 30vw;
+    padding: 0;
+}
+
+#map {
+    height: 20vw;
 }
