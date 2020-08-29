@@ -13,9 +13,19 @@ type AdServiceCreateAd = {
   readonly responseType: typeof ad_pb.CreateAdResponse;
 };
 
+type AdServiceSearchAds = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof ad_pb.SearchAdMessage;
+  readonly responseType: typeof ad_pb.SearchAdResultMessage;
+};
+
 export class AdService {
   static readonly serviceName: string;
   static readonly CreateAd: AdServiceCreateAd;
+  static readonly SearchAds: AdServiceSearchAds;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,5 +69,6 @@ export class AdServiceClient {
     requestMessage: ad_pb.AdMessage,
     callback: (error: ServiceError|null, responseMessage: ad_pb.CreateAdResponse|null) => void
   ): UnaryResponse;
+  searchAds(requestMessage: ad_pb.SearchAdMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.SearchAdResultMessage>;
 }
 

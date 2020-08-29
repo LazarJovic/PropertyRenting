@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Ad } from '@core/model/ad';
-import { AdMessage, AdImageMessage } from 'src/proto/ad/ad_pb';
+import { AdMessage, AdImageMessage, SearchAdMessage, SearchAdResultMessage } from 'src/proto/ad/ad_pb';
 import { AdService } from 'src/proto/ad/ad_pb_service';
 import { ToastrService } from 'ngx-toastr';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
+import { SearchAdsComponent } from '@shared/search-ads/search-ads.component';
+import { SearchAd } from '@core/model/search-ad';
+import { SearchAdResult } from '@core/model/search-ad-result';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +62,56 @@ export class AdsService {
         }
       },
     });
+  }
+
+  searchAds(searchAd: SearchAd) {
+
+    const array: Array<SearchAdResult> = new Array<SearchAdResult>();
+
+    const searchAdMessage: SearchAdMessage = new SearchAdMessage();
+    searchAdMessage.setStartDate(searchAd.startDate);
+    searchAdMessage.setEndDate(searchAd.endDate);
+    searchAdMessage.setType(searchAd.type);
+    searchAdMessage.setCountry(searchAd.country);
+    searchAdMessage.setCity(searchAd.city);
+    searchAdMessage.setAddress(searchAd.address);
+    searchAdMessage.setSizeMin(searchAd.sizeMin);
+    searchAdMessage.setSizeMax(searchAd.sizeMax);
+    searchAdMessage.setNumberOfRoomsMin(searchAd.numberOfRoomsMin);
+    searchAdMessage.setNumberOfRoomsMax(searchAd.numberOfRoomsMax);
+    searchAdMessage.setDistanceFromCenterMin(searchAd.distanceFromCenterMin);
+    searchAdMessage.setDistanceFromCenterMax(searchAd.distanceFromCenterMax);
+    searchAdMessage.setPriceMin(searchAd.priceMin);
+    searchAdMessage.setPriceMax(searchAd.priceMax);
+    searchAdMessage.setFurnished(searchAd.furnished);
+    searchAdMessage.setInternetIncluded(searchAd.internetIncluded);
+    searchAdMessage.setAirConditionIncluded(searchAd.airConditionIncluded);
+
+    const promise = new Promise<Array<SearchAdResult>>((resolve, reject) => {
+      grpc.invoke(AdService.SearchAds, {
+              request: searchAdMessage,
+              host: environment.ad,
+              onMessage: (message: SearchAdResultMessage) => {
+
+                const result: SearchAdResult = new SearchAdResult(message.getId(), message.getStartDate(), message.getEndDate(),
+                  message.getType(), message.getCountry(), message.getCity(), message.getAddress(),
+                  message.getSecurityDeposit(), message.getPrice(),
+                  message.getImage().getPicByte_asB64());
+
+                array.push(result);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting search results');
+                }
+              }
+            });
+    });
+
+    return promise;
+
   }
 
 }

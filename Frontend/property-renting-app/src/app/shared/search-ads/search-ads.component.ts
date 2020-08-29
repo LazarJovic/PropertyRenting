@@ -4,6 +4,7 @@ import { SearchAd } from '@core/model/search-ad';
 import { PropertyTypesService } from '@core/service/property-type-service/property-types.service';
 import { PropertyType } from '@core/model/property-type';
 import { SearchAdResult } from '@core/model/search-ad-result';
+import { AdsService } from '@core/service/ad-service/ads.service';
 
 @Component({
   selector: 'app-search-ads',
@@ -17,7 +18,8 @@ export class SearchAdsComponent implements OnInit {
   results: Array<SearchAdResult> = new Array<SearchAdResult>();
 
   constructor(
-    private propertyTypeService: PropertyTypesService
+    private propertyTypeService: PropertyTypesService,
+    private adService: AdsService
   ) { }
 
   ngOnInit() {
@@ -50,14 +52,16 @@ export class SearchAdsComponent implements OnInit {
 
   submit() {
     const searchAd: SearchAd = new SearchAd(this.searchForm.value.startDate, this.searchForm.value.endDate,
-      this.searchForm.value.type.id, this.searchForm.value.guestPreference, this.searchForm.value.country,
+      this.searchForm.value.type.name, this.searchForm.value.country,
       this.searchForm.value.city, this.searchForm.value.address, this.searchForm.value.sizeMin, this.searchForm.value.sizeMax,
       this.searchForm.value.numberOfRoomsMin, this.searchForm.value.numberOfRoomsMax,
       this.searchForm.value.distanceFromCenterMin, this.searchForm.value.distanceFromCenterMax, this.searchForm.value.priceMin,
       this.searchForm.value.priceMax, this.searchForm.value.furnished, this.searchForm.value.internetIncluded,
       this.searchForm.value.airConditionIncluded);
 
-    console.log(searchAd);
+    this.adService.searchAds(searchAd).then(value => {
+      this.results = value;
+    });
   }
 
   onDetailsClicked(item: SearchAdResult) {

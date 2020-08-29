@@ -1,19 +1,18 @@
 <div class="row container">
-    <div class="col-sm">
+    <div class="col-sm" *ngIf="propertyImage">
         <img class="thumbnail" [src]="propertyImage" (click)="details()">
     </div>
     <div class="col-sm-4">
-        <!-- <h6 class="property-location" (click)="details()">{{item?.property.country}} {{item?.property.city}}, {{item?.property.address}}</h6> -->
-        <p class="small-text"><i class="fas fa-star icon"></i> {{item?.property.averageRating}}</p>
-        <p class="small-text"><i class="fas fa-map-marker-alt icon"></i>{{item?.property.country}} {{item?.property.city}}, {{item?.property.address}}</p>
+        <h6 class="property-location" (click)="details()"><i class="fas fa-map-marker-alt icon"></i>{{item?.address}}, {{item?.city}}, {{item?.country}}</h6>
+        <p class="small-text">Active from {{item?.startDate}} to {{item?.endDate}}</p>
     </div>
     <div class="col-sm features-div">
-        <div class="row" *ngIf="item.furnished">
+        <div class="row" *ngIf="item?.furnished">
             <p class="small-text"><i class="fas fa-check icon"></i>Furnished</p>
         </div>
     </div>
     <div class="col-sm" *ngIf="item.price">
-        <p class="price-text">{{item?.price}}€</p>
+        <p class="price-text">Price per night: <b>{{item?.price}}€</b></p>
     </div>
     <div class="col-lg">
         <div class="row">

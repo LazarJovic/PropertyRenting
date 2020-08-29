@@ -80,66 +80,67 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
             Iterator i = ads.iterator();
             while(i.hasNext()) {
                 Ad ad = (Ad) i.next();
-                if(request.getStartDate() != null &&
+                if(!request.getStartDate().equals("") &&
                         LocalDate.parse(request.getStartDate()).isAfter(ad.getStartDate())) {
                     i.remove();
                     continue;
                 }
-                else if((request.getEndDate() != null &&
-                        LocalDate.parse(request.getEndDate()).isBefore(ad.getEndDate()))) {
+                else if(!request.getEndDate().equals("") &&
+                        LocalDate.parse(request.getEndDate()).isBefore(ad.getEndDate())) {
                     i.remove();
                     continue;
                 }
-                else if(request.getType() != null && !ad.getPropertyInfo().getPropertyType().equals(request.getType())) {
+                else if(!request.getType().equals("") && !ad.getPropertyInfo().getPropertyType().equals(request.getType())) {
                     i.remove();
                     continue;
                 }
-                else if(request.getGuestPreference() != null && !ad.getGuestPreference().toString()
-                        .equals(request.getGuestPreference().toUpperCase())) {
+                else if(!request.getCountry().equals("") && !ad.getPropertyInfo().getCountry().contains(request.getCountry())) {
                     i.remove();
                     continue;
                 }
-                else if(request.getCountry() != null && !ad.getPropertyInfo().getCountry().contains(request.getCountry())) {
+                else if(!request.getCity().equals("") && !ad.getPropertyInfo().getCity().contains(request.getCity())) {
                     i.remove();
                     continue;
                 }
-                else if(request.getCity() != null && !ad.getPropertyInfo().getCity().contains(request.getCity())) {
+                else if(!request.getAddress().equals("") && !ad.getPropertyInfo().getAddress().contains(request.getAddress())) {
                     i.remove();
                     continue;
                 }
-                else if(request.getAddress() != null && !ad.getPropertyInfo().getAddress().contains(request.getAddress())) {
+                else if(request.getSizeMin() != 0 && ad.getPropertyInfo().getSize() < request.getSizeMin()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getSize() < request.getSizeMin()) {
+                else if(request.getSizeMax() != 0 && ad.getPropertyInfo().getSize() > request.getSizeMax()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getSize() > request.getSizeMax()) {
+                else if(request.getNumberOfRoomsMin() != 0 &&
+                        ad.getPropertyInfo().getNumberOfRooms() < request.getNumberOfRoomsMin()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getNumberOfRooms() < request.getNumberOfRoomsMin()) {
+                else if(request.getNumberOfRoomsMax() != 0 &&
+                        ad.getPropertyInfo().getNumberOfRooms() > request.getNumberOfRoomsMax()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getNumberOfRooms() > request.getNumberOfRoomsMax()) {
+                else if(request.getDistanceFromCenterMin() != 0 &&
+                        ad.getPropertyInfo().getDistanceFromCenter() < request.getDistanceFromCenterMin()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getDistanceFromCenter() < request.getDistanceFromCenterMin()) {
+                else if(request.getDistanceFromCenterMax() != 0 &&
+                        ad.getPropertyInfo().getDistanceFromCenter() > request.getDistanceFromCenterMax()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPropertyInfo().getDistanceFromCenter() > request.getDistanceFromCenterMax()) {
+                else if(request.getPriceMin() != 0 &&
+                        ad.getPricePerNight() < request.getPriceMin()) {
                     i.remove();
                     continue;
                 }
-                else if(ad.getPricePerNight() < request.getPriceMin()) {
-                    i.remove();
-                    continue;
-                }
-                else if(ad.getPricePerNight() > request.getPriceMax()) {
+                else if(request.getPriceMax() != 0 &&
+                        ad.getPricePerNight() > request.getPriceMax()) {
                     i.remove();
                     continue;
                 }

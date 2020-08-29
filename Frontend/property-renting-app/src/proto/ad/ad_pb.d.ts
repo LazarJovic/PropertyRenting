@@ -2,7 +2,6 @@
 // file: ad.proto
 
 import * as jspb from "google-protobuf";
-import * as property_type_pb from "../property-type/property_type_pb";
 
 export class AdMessage extends jspb.Message {
   getId(): number;
@@ -115,6 +114,152 @@ export namespace CreateAdResponse {
   export type AsObject = {
     ad?: AdMessage.AsObject,
     returnMessage: string,
+  }
+}
+
+export class SearchAdMessage extends jspb.Message {
+  getStartDate(): string;
+  setStartDate(value: string): void;
+
+  getEndDate(): string;
+  setEndDate(value: string): void;
+
+  getType(): string;
+  setType(value: string): void;
+
+  getGuestPreference(): string;
+  setGuestPreference(value: string): void;
+
+  getCountry(): string;
+  setCountry(value: string): void;
+
+  getCity(): string;
+  setCity(value: string): void;
+
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getSizeMin(): number;
+  setSizeMin(value: number): void;
+
+  getSizeMax(): number;
+  setSizeMax(value: number): void;
+
+  getNumberOfRoomsMin(): number;
+  setNumberOfRoomsMin(value: number): void;
+
+  getNumberOfRoomsMax(): number;
+  setNumberOfRoomsMax(value: number): void;
+
+  getDistanceFromCenterMin(): number;
+  setDistanceFromCenterMin(value: number): void;
+
+  getDistanceFromCenterMax(): number;
+  setDistanceFromCenterMax(value: number): void;
+
+  getPriceMin(): number;
+  setPriceMin(value: number): void;
+
+  getPriceMax(): number;
+  setPriceMax(value: number): void;
+
+  getFurnished(): boolean;
+  setFurnished(value: boolean): void;
+
+  getInternetIncluded(): boolean;
+  setInternetIncluded(value: boolean): void;
+
+  getAirConditionIncluded(): boolean;
+  setAirConditionIncluded(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SearchAdMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: SearchAdMessage): SearchAdMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SearchAdMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SearchAdMessage;
+  static deserializeBinaryFromReader(message: SearchAdMessage, reader: jspb.BinaryReader): SearchAdMessage;
+}
+
+export namespace SearchAdMessage {
+  export type AsObject = {
+    startDate: string,
+    endDate: string,
+    type: string,
+    guestPreference: string,
+    country: string,
+    city: string,
+    address: string,
+    sizeMin: number,
+    sizeMax: number,
+    numberOfRoomsMin: number,
+    numberOfRoomsMax: number,
+    distanceFromCenterMin: number,
+    distanceFromCenterMax: number,
+    priceMin: number,
+    priceMax: number,
+    furnished: boolean,
+    internetIncluded: boolean,
+    airConditionIncluded: boolean,
+  }
+}
+
+export class SearchAdResultMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  getStartDate(): string;
+  setStartDate(value: string): void;
+
+  getEndDate(): string;
+  setEndDate(value: string): void;
+
+  getType(): string;
+  setType(value: string): void;
+
+  getCountry(): string;
+  setCountry(value: string): void;
+
+  getCity(): string;
+  setCity(value: string): void;
+
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getSecurityDeposit(): number;
+  setSecurityDeposit(value: number): void;
+
+  getPrice(): number;
+  setPrice(value: number): void;
+
+  hasImage(): boolean;
+  clearImage(): void;
+  getImage(): AdImageMessage | undefined;
+  setImage(value?: AdImageMessage): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SearchAdResultMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: SearchAdResultMessage): SearchAdResultMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: SearchAdResultMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SearchAdResultMessage;
+  static deserializeBinaryFromReader(message: SearchAdResultMessage, reader: jspb.BinaryReader): SearchAdResultMessage;
+}
+
+export namespace SearchAdResultMessage {
+  export type AsObject = {
+    id: number,
+    startDate: string,
+    endDate: string,
+    type: string,
+    country: string,
+    city: string,
+    address: string,
+    securityDeposit: number,
+    price: number,
+    image?: AdImageMessage.AsObject,
   }
 }
 

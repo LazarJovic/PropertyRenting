@@ -19,6 +19,15 @@ AdService.CreateAd = {
   responseType: ad_pb.CreateAdResponse
 };
 
+AdService.SearchAds = {
+  methodName: "SearchAds",
+  service: AdService,
+  requestStream: false,
+  responseStream: true,
+  requestType: ad_pb.SearchAdMessage,
+  responseType: ad_pb.SearchAdResultMessage
+};
+
 exports.AdService = AdService;
 
 function AdServiceClient(serviceHost, options) {
@@ -52,6 +61,45 @@ AdServiceClient.prototype.createAd = function createAd(requestMessage, metadata,
   return {
     cancel: function () {
       callback = null;
+      client.close();
+    }
+  };
+};
+
+AdServiceClient.prototype.searchAds = function searchAds(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(AdService.SearchAds, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
       client.close();
     }
   };

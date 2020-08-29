@@ -77,7 +77,6 @@ button:hover {
   color: white !important;
 }
 
-#paginator-div {
-    background-color: #4d014b;
-    color: white;
+.advanced-div {
+  margin-bottom: 2vw;
 }

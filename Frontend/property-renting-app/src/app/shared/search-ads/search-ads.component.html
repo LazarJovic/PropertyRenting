@@ -23,17 +23,15 @@
                 <div>
                   <mat-form-field class="first-field">
                     <mat-label>Start date</mat-label>
-                    <input matInput type="date" formControlName="startDate"/>
+                    <input matInput type="date" formControlName="startDate" />
                   </mat-form-field>
                   <mat-form-field class="right-field">
                     <mat-label>End date</mat-label>
-                    <input matInput type="date" formControlName="endDate"/>
+                    <input matInput type="date" formControlName="endDate" />
                   </mat-form-field>
                   <mat-form-field class="third-field">
                     <mat-label>Property type</mat-label>
-                    <mat-select
-                      formControlName="type"
-                    >
+                    <mat-select formControlName="type">
                       <mat-option [value]="{ value: null }">Any</mat-option>
                       <mat-option *ngFor="let type of types" [value]="type">
                         {{ type.name }}
@@ -151,14 +149,17 @@
         </mat-accordion>
       </div>
       <div *ngIf="!loading">
-        <app-search-ad-result-card *ngFor="let item of results" [item]='item'
-            (detailsEvent)='onDetailsClicked($event)'>
+        <app-search-ad-result-card
+          *ngFor="let item of results"
+          [item]="item"
+          (detailsEvent)="onDetailsClicked($event)"
+        >
         </app-search-ad-result-card>
-    </div>
+      </div>
 
-    <div class="row empty-message-div" *ngIf="results?.length == 0">
+      <div class="row empty-message-div" *ngIf="results?.length == 0">
         <p class="empty-message">No Results</p>
-    </div>
+      </div>
     </div>
   </div>
 </div>

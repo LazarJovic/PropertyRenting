@@ -2,8 +2,7 @@ export class SearchAd {
 
     public startDate: string;
     public endDate: string;
-    public type: number;
-    public guestPreference: string;
+    public type: string;
     public country: string;
     public city: string;
     public address: string;
@@ -19,20 +18,19 @@ export class SearchAd {
     public internetIncluded: boolean;
     public airConditionIncluded: boolean;
 
-    constructor(startDate: string, endDate: string, type: number, guestPreference: string, country: string, city: string,
+    constructor(startDate: string, endDate: string, type: string, country: string, city: string,
                 address: string, sizeMin: number, sizeMax: number, numberOfRoomsMin: number, numberOfRoomsMax: number,
                 distanceFromCenterMin: number, distanceFromCenterMax: number, priceMin: number, priceMax: number,
                 furnished: boolean, internetIncluded: boolean, airConditionIncluded: boolean) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.type = type;
-            this.guestPreference = guestPreference;
             this.country = country;
             this.city = city;
             this.address = address;
             this.sizeMin = sizeMin;
             this.sizeMax = sizeMax;
-            this.numberOfRoomsMin = numberOfRoomsMax;
+            this.numberOfRoomsMin = numberOfRoomsMin;
             this.numberOfRoomsMax = numberOfRoomsMax;
             this.distanceFromCenterMin = distanceFromCenterMin;
             this.distanceFromCenterMax = distanceFromCenterMax;

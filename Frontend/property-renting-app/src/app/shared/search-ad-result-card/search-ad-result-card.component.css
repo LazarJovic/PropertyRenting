@@ -8,8 +8,7 @@
 }
 
 .thumbnail {
-    /*width: 150px;*/
-    width: 100%;
+    width: 150px;
     height: 80px;
     margin: auto;
     margin-top: 10px;
@@ -45,7 +44,7 @@
 }
 
 .delete-button:hover {
-    background-color: #3F51B5;
+    background-color: #4d014b;
     color: white;
 }
 
@@ -69,8 +68,8 @@
 
 .details-button {
     background-color:white;
-    color: #3F51B5;
-    border: solid #3F51B5 1px;
+    color: #4d014b;
+    border: solid #4d014b 1px;
     width: 90%;
     height: 40px;
     margin: auto;
@@ -82,8 +81,8 @@
 }
 
 .cart-button {
-    background-color: #3F51B5;
-    border: solid #3F51B5 1px;
+    background-color: #4d014b;
+    border: solid #4d014b 1px;
     color: white;
     width: 90%;
     height: 40px;
@@ -106,11 +105,11 @@
 
 .cart-button:hover {
     background-color: white;
-    color: #3F51B5;
+    color: #4d014b;
 }
 
 .details-button:hover {
-    background-color:#3F51B5;
+    background-color:#4d014b;
     color: white;
 }
 
@@ -119,7 +118,7 @@
 }
 
 .icon {
-    color: #3F51B5;
+    color: #4d014b;
     margin-right: 1px;
     width: 15px;
 }
