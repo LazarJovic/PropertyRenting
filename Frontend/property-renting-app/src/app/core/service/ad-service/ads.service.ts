@@ -9,6 +9,7 @@ import { SearchAdsComponent } from '@shared/search-ads/search-ads.component';
 import { SearchAd } from '@core/model/search-ad';
 import { SearchAdResult } from '@core/model/search-ad-result';
 import { AdDetails } from '@core/model/ad-details';
+import { AdImage } from '@core/model/ad-image';
 
 @Injectable({
   providedIn: 'root'
@@ -146,6 +147,33 @@ export class AdsService {
           }
         },
       });
+    });
+
+    return promise;
+  }
+
+  getAdImages(id: number) {
+    const array: Array<AdImage> = new Array();
+
+    const adIdMessage: AdIdMessage = new AdIdMessage();
+    adIdMessage.setId(id);
+
+    const promise = new Promise<Array<AdImage>>((resolve, reject) => {
+      grpc.invoke(AdService.GetAdImages, {
+              request: adIdMessage,
+              host: environment.ad,
+              onMessage: (message: AdImageMessage) => {
+                const image: AdImage = new AdImage(message.getName(), message.getType(), message.getPicByte_asB64());
+                array.push(image);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting ad\'s images');
+                }
+              }
+            });
     });
 
     return promise;

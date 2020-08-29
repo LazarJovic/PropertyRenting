@@ -38,4 +38,8 @@ public class AdImageService {
         return retVal;
     }
 
+    List<AdImage> findByAdId(Long id) {
+        return this.adImageRepository.findByAdId(id);
+    }
+
 }

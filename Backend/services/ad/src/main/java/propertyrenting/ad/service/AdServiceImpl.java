@@ -3,8 +3,10 @@ package propertyrenting.ad.service;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import propertyrenting.ad.mapper.AdImageMapper;
 import propertyrenting.ad.mapper.AdMapper;
 import propertyrenting.ad.model.Ad;
+import propertyrenting.ad.model.AdImage;
 import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
@@ -28,6 +30,8 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
 
     private AdMapper adMapper;
 
+    private AdImageMapper adImageMapper;
+
     @Autowired
     public AdServiceImpl(AdRepository adRepository, PropertyInfoRepository propertyInfoRepository,
                          ValidationService validationService, AdImageService adImageService) {
@@ -36,6 +40,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         this.validationService = validationService;
         this.adImageService = adImageService;
         this.adMapper = new AdMapper();
+        this.adImageMapper = new AdImageMapper();
     }
 
     public void createAd(AdMessage request, StreamObserver<CreateAdResponse> responseObserver) {
@@ -168,6 +173,15 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
     public void getAdDetails(AdIdMessage request, StreamObserver<AdDetailsMessage> responseObserver) {
         Ad ad = this.adRepository.findById(request.getId()).orElseGet(null);
         responseObserver.onNext(this.adMapper.toAdDetailsMessage(ad));
+        responseObserver.onCompleted();
+    }
+
+    public void getAdImages(AdIdMessage request, StreamObserver<AdImageMessage> responseObserver) {
+        List<AdImage> adImages = this.adImageService.findByAdId(request.getId());
+        adImages.forEach(image -> {
+            responseObserver.onNext(this.adImageMapper.toAdImageMessage(image));
+        });
+
         responseObserver.onCompleted();
     }
 

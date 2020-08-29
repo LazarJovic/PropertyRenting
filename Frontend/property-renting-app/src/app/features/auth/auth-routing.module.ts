@@ -41,7 +41,8 @@ const routes: Routes = [
       },
       {
         path: 'ad/:id',
-        component: AdDetailsComponent
+        component: AdDetailsComponent,
+        pathMatch: 'full'
       }
 
     ]

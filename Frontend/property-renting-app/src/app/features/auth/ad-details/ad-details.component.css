@@ -1,0 +1,123 @@
+#box-div {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    margin-top: 8.5vh;
+}
+
+#middle-div {
+    margin-top: 6vh;
+}
+
+h3 {
+    margin-top: -1.5vw;
+    text-align: left;
+}
+
+.content-div {
+    background-color: #4d014b;
+    width: 60vw;
+    min-width: 500px;
+    margin:auto;
+    min-height: 75vh;
+    /*text-align: center;*/
+    padding: 50px;
+    border-radius: 10px;
+    margin-top: 10vh;
+    color: white;
+}
+
+.icon {
+    color: white;
+    margin-right: 10px;
+    width: 15px;
+}
+
+button {
+    background-color: #424242;
+    color: white;
+    border: 1px solid white;
+}
+
+button:hover {
+    background-color: #4d014b;
+    color: white;
+}
+
+.button-icon {
+    color: lightgray;
+    margin-right: 10px;
+}
+
+.slider {
+    width: 200px;
+    height: 200px;
+}
+
+.features {
+    margin-left: 20px;
+}
+
+.features p {
+    font-size: small;
+}
+
+.row {
+    margin-top: 10px;
+}
+
+.rate-button {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    width: 100px;
+}
+
+.date-input {
+    border: none;
+}
+
+.availability {
+    border: solid gray 1px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#end-date {
+    margin-left: 10px;
+}
+
+.check-button {
+    margin: auto;
+    width: 300px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+  
+tr:nth-child(even) {
+    background-color: #424242;
+}
+
+.subtitle {
+    font-size: smaller;
+}
+
+textarea {
+    background-color: #4d014b;
+    color: white;
+    width: 100%;
+    border: 1px solid #424242;
+}
+
+#ad-info-p {
+    font-size: small;
+    display: block;
+}
