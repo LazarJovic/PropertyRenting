@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CommentsService } from '@core/service/comment-service/comments.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { Comment } from '@core/model/comment';
 
 @Component({
   selector: 'app-comments',
@@ -7,11 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentsComponent implements OnInit {
 
+  dataSource: MatTableDataSource<Comment> = new MatTableDataSource<Comment>();
+
   displayedColumns: string[] = ['sender', 'senderEmail', 'timestamp', 'content', 'btnApprove', 'btnDeny'];
 
-  constructor() { }
+  constructor(
+    private commentService: CommentsService
+  ) { }
 
   ngOnInit() {
+    this.commentService.getPendingComments().then(value => {
+      this.dataSource = value;
+    });
+  }
+
+  approve(comment) {
+
+  }
+
+  deny(comment) {
+
   }
 
 }

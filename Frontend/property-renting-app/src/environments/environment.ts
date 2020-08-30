@@ -7,7 +7,8 @@ export const environment = {
   property: 'http://localhost:8080',
   communication: 'http://localhost:8070',
   user: 'http://localhost:8060',
-  ad: 'http://localhost:8050'
+  ad: 'http://localhost:8050',
+  booking: 'http://localhost:8040'
 };
 
 /*

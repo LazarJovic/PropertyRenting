@@ -3,58 +3,54 @@
     <div id="content-div">
       <div class="entity-div">
         <h5>List of all pending comments</h5>
-        <!-- <table mat-table [dataSource]="dataSourceComments" class="mat-elevation-z8"> -->
-        <table
-          mat-table
-          class="mat-elevation-z8"
-        >
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="sender">
-            <th mat-header-cell *matHeaderCellDef>Sender</th>
-            <!-- <td mat-cell *matCellDef="let comment">{{ comment.sender }}</td> -->
+            <th mat-header-cell *matHeaderCellDef id="sender-th">Sender</th>
+            <td mat-cell *matCellDef="let comment">{{ comment.firstName }} {{ comment.surname }}</td>
           </ng-container>
 
           <ng-container matColumnDef="senderEmail">
             <th mat-header-cell *matHeaderCellDef>Sender email</th>
-            <!-- <td mat-cell *matCellDef="let comment">{{ comment.senderEmail }}</td> -->
+            <td mat-cell *matCellDef="let comment">{{ comment.email }}</td>
           </ng-container>
 
           <ng-container matColumnDef="timestamp">
             <th mat-header-cell *matHeaderCellDef>Timestamp</th>
-            <!-- <td mat-cell *matCellDef="let comment">{{ comment.timestamp }}</td> -->
+            <td mat-cell *matCellDef="let comment">{{ comment.timestamp }}</td>
           </ng-container>
 
           <ng-container matColumnDef="content">
-            <th mat-header-cell *matHeaderCellDef>Content</th>
+            <th mat-header-cell *matHeaderCellDef id="content-th">Content</th>
             <!-- Probaj da stavis TEXTAREA!!! -->
-            <!-- <td mat-cell *matCellDef="let comment">{{ comment.content }}</td> -->
+            <td mat-cell *matCellDef="let comment" id="content-td">{{ comment.content }}</td>
           </ng-container>
 
           <ng-container matColumnDef="btnApprove">
-            <th mat-header-cell *matHeaderCellDef>Approve</th>
-            <!-- <td mat-cell *matCellDef="let comment">
+            <th mat-header-cell *matHeaderCellDef id="approve-th">Approve</th>
+            <td mat-cell *matCellDef="let comment" id="approve-td">
                     <button
                       mat-stroked-button
                       class="approve-btn"
                       matTooltip="Approve this comment"
                       (click)="approve(comment)"
                     >
-                      Approve comment
+                    <i class="fas fa-check"></i>
                     </button>
-                  </td> -->
+                  </td>
           </ng-container>
 
           <ng-container matColumnDef="btnDeny">
-            <th mat-header-cell *matHeaderCellDef>Deny</th>
-            <!-- <td mat-cell *matCellDef="let comment">
+            <th mat-header-cell *matHeaderCellDef id="deny-th">Deny</th>
+            <td mat-cell *matCellDef="let comment" id="deny-td">
                     <button
                       mat-stroked-button
                       class="deny-btn"
                       matTooltip="Deny this comment"
                       (click)="deny(comment)"
                     >
-                      Deny comment
+                    <i class="fas fa-ban"></i>
                     </button>
-                  </td> -->
+                  </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
