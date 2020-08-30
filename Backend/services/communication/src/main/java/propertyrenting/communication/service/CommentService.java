@@ -44,7 +44,10 @@ public class CommentService extends CommentServiceGrpc.CommentServiceImplBase {
     }
 
     public void denyComment(CommentIdMessage request, StreamObserver<CommentMessage> responseObserver) {
-
+        Comment comment = this.commentRepository.findById(request.getId()).orElseGet(null);
+        comment.setStatus(CommentStatus.DENIED);
+        responseObserver.onNext(this.commentMapper.toCommentMessage(this.commentRepository.save(comment)));
+        responseObserver.onCompleted();
     }
 
 }

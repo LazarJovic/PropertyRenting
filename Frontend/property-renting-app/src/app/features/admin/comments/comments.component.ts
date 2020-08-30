@@ -32,7 +32,10 @@ export class CommentsComponent implements OnInit {
   }
 
   deny(comment) {
-
+    this.commentService.denyComment(comment.id);
+    setTimeout(() => {
+      this.updateCommentsTable();
+    }, 300);
   }
 
   updateCommentsTable() {

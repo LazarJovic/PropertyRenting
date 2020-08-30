@@ -68,4 +68,28 @@ export class CommentsService {
     });
   }
 
+  denyComment(id: number) {
+
+    const commentIdMessage: CommentIdMessage = new CommentIdMessage();
+    commentIdMessage.setId(id);
+
+    grpc.unary(CommentService.DenyComment, {
+      request: commentIdMessage,
+      host: environment.communication,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          if (returnValue) {
+            this.toastr.success('Comment denied');
+          }
+        } else {
+          this.toastr.error('An error occurred while denying comment');
+        }
+      },
+    });
+  }
+
 }
