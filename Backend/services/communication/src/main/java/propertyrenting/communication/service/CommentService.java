@@ -3,6 +3,7 @@ package propertyrenting.communication.service;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import propertyrenting.communication.enumeration.CommentStatus;
 import propertyrenting.communication.mapper.CommentMapper;
 import propertyrenting.communication.model.Comment;
 import propertyrenting.communication.repository.CommentRepository;
@@ -36,7 +37,10 @@ public class CommentService extends CommentServiceGrpc.CommentServiceImplBase {
     }
 
     public void acceptComment(CommentIdMessage request, StreamObserver<CommentMessage> responseObserver) {
-
+        Comment comment = this.commentRepository.findById(request.getId()).orElseGet(null);
+        comment.setStatus(CommentStatus.ACCEPTED);
+        responseObserver.onNext(this.commentMapper.toCommentMessage(this.commentRepository.save(comment)));
+        responseObserver.onCompleted();
     }
 
     public void denyComment(CommentIdMessage request, StreamObserver<CommentMessage> responseObserver) {

@@ -25,11 +25,20 @@ export class CommentsComponent implements OnInit {
   }
 
   approve(comment) {
-
+    this.commentService.acceptComment(comment.id);
+    setTimeout(() => {
+      this.updateCommentsTable();
+    }, 300);
   }
 
   deny(comment) {
 
+  }
+
+  updateCommentsTable() {
+    this.commentService.getPendingComments().then(value => {
+      this.dataSource = value;
+    });
   }
 
 }
