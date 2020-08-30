@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -15,6 +16,34 @@ public class BookingAd {
 
     @Id
     private Long id;
+
+    @Setter
+    @Column
+    private String country;
+
+    @Setter
+    @Column
+    private String city;
+
+    @Setter
+    @Column
+    private String address;
+
+    @Setter
+    @Column
+    private double pricePerNight;
+
+    @Setter
+    @Column
+    private double securityDeposit;
+
+    @Setter
+    @Column
+    private LocalDate startDate;
+
+    @Setter
+    @Column
+    private LocalDate endDate;
 
     @Setter
     @Column

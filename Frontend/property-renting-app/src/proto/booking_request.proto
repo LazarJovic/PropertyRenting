@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+service BookingRequestService {
+    rpc CheckAvailability (CheckAvailabilityMessage) returns (CheckAvailabilityResponse) {}
+
+    rpc GetRequestsByStatus (BookingRequestStatusMessage) returns (stream BookingRequestMessage) {}
+
+    rpc AcceptBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc DenyBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc PayBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc FinishBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc CancelBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+}
+
+message CheckAvailabilityMessage {
+    int64 ad_id = 1;
+    string start_date = 2;
+    string end_date = 3;
+}
+
+message CheckAvailabilityResponse {
+    bool available = 1;
+    string return_message = 2;
+}
+
+message BookingRequestStatusMessage {
+    string status = 1;
+}
+
+message BookingRequestMessage {
+    int64 id = 1;
+    string country = 2;
+    string city = 3;
+    string address = 4;
+    double price = 5;
+    double security_deposit = 6;
+    string pending_date_time = 7;
+    string acceptance_date_time = 8;
+    string booking_start = 9;
+    string booking_end = 10;
+    string client_email = 11;
+    int64 ad_id = 12;
+}
+
+message BookingRequestIdMessage {
+    int64 id = 1;
+}
+
+message ChangeRequestStatusResponse {
+    string return_message = 1;
+}

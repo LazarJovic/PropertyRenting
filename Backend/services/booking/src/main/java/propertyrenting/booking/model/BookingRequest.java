@@ -6,6 +6,7 @@ import lombok.Setter;
 import propertyrenting.booking.enumeration.BookingRequestStatus;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,11 +26,11 @@ public class BookingRequest {
 
     @Setter
     @Column
-    private LocalDateTime bookingStart;
+    private LocalDate bookingStart;
 
     @Setter
     @Column
-    private LocalDateTime bookingEnd;
+    private LocalDate bookingEnd;
 
     @Setter
     @Column
