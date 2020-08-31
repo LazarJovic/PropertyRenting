@@ -74,7 +74,13 @@ export class LandlordBookingRequestsComponent implements OnInit {
 
   requestDetails(request) {}
 
-  accept(request) {}
+  accept(request) {
+    this.bookingRequestService.acceptBookingRequest(request.id);
+    setTimeout(() => {
+      this.getAllPending();
+      this.getAllReserved();
+    }, 400);
+  }
 
   deny(request) {}
 

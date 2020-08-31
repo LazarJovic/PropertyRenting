@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CheckAvailability } from '@core/model/check-availability';
-import { CheckAvailabilityMessage, BookingRequestStatusMessage, BookingRequestMessage } from 'src/proto/booking-request/booking_request_pb';
+import { CheckAvailabilityMessage, BookingRequestStatusMessage, BookingRequestMessage,
+   BookingRequestIdMessage } from 'src/proto/booking-request/booking_request_pb';
 import { BookingRequestService } from 'src/proto/booking-request/booking_request_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
@@ -90,4 +91,30 @@ export class BookingRequestsService {
     return promise;
   }
 
+  acceptBookingRequest(requestId: number) {
+
+    const requestIdMessage: BookingRequestIdMessage = new BookingRequestIdMessage();
+    requestIdMessage.setId(requestId);
+
+    grpc.unary(BookingRequestService.AcceptBookingRequest, {
+      request: requestIdMessage,
+      host: environment.booking,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Booking request successfully accepted')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while accepting booking request');
+        }
+      },
+    });
+
+  }
 }

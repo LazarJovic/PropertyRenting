@@ -13,6 +13,7 @@ import propertyrenting.booking.repository.BookingRequestRepository;
 import proto.bookingRequest.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -87,6 +88,35 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         });
 
         responseObserver.onCompleted();
+    }
+
+    public void acceptBookingRequest(BookingRequestIdMessage request,
+                                     StreamObserver<ChangeRequestStatusResponse> responseObserver) {
+        ChangeRequestStatusResponse response;
+        BookingRequest bookingRequest = this.bookingRequestRepository.findById(request.getId()).orElseGet(null);
+        if(bookingRequest == null || bookingRequest.getBookingRequestStatus() != BookingRequestStatus.PENDING) {
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("Request does not exist or it's status is not PENDING")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            bookingRequest.setBookingRequestStatus(BookingRequestStatus.RESERVED);
+            bookingRequest.setAcceptanceTime(LocalDateTime.now());
+            this.bookingRequestRepository.save(bookingRequest);
+            //TODO: Create Booking object in CommunicationService (asynchronous)
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    public void denyBookingRequest(BookingRequestIdMessage request,
+                                   StreamObserver<ChangeRequestStatusResponse> responseObserver) {
+
     }
 
     private boolean checkForAvailabilityConflicts(List<BookingRequest> requests, LocalDate requestStart, LocalDate requestEnd) {
