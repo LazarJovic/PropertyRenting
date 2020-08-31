@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BookingRequest } from '@core/model/booking-request';
 import { BookingRequestService } from 'src/proto/booking-request/booking_request_pb_service';
 import { BookingRequestsService } from '@core/service/booking-request-service/booking-requests.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landlord-booking-requests',
@@ -27,6 +28,7 @@ export class LandlordBookingRequestsComponent implements OnInit {
 
   isLandlord: boolean;
   constructor(
+    private router: Router,
     private bookingRequestService: BookingRequestsService
   ) { }
 
@@ -72,17 +74,25 @@ export class LandlordBookingRequestsComponent implements OnInit {
     });
   }
 
-  requestDetails(request) {}
+  requestDetails(request) {
+    this.router.navigate([`/ad/${request.adId}`]);
+  }
 
   accept(request) {
     this.bookingRequestService.acceptBookingRequest(request.id);
     setTimeout(() => {
       this.getAllPending();
       this.getAllReserved();
-    }, 400);
+    }, 500);
   }
 
-  deny(request) {}
+  deny(request) {
+    this.bookingRequestService.denyBookingRequest(request.id);
+    setTimeout(() => {
+      this.getAllPending();
+      this.getAllCanceled();
+    }, 500);
+  }
 
   messages(request) {}
 

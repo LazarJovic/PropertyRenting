@@ -6,6 +6,7 @@ import { CreateAdComponent } from './create-ad/create-ad.component';
 import { MyAdsComponent } from './my-ads/my-ads.component';
 import { LandlordBookingRequestsComponent } from './landlord-booking-requests/landlord-booking-requests.component';
 import { PropertyStatsComponent } from './property-stats/property-stats.component';
+import { AdDetailsComponent } from '@features/auth/ad-details/ad-details.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,11 @@ const routes: Routes = [
       {
         path: 'property-stats',
         component: PropertyStatsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'ad/:id',
+        component: AdDetailsComponent,
         pathMatch: 'full'
       }
     ]

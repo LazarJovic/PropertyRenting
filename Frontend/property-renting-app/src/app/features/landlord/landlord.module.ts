@@ -11,6 +11,7 @@ import { MyAdsComponent } from './my-ads/my-ads.component';
 import { LandlordBookingRequestsComponent } from './landlord-booking-requests/landlord-booking-requests.component';
 import { PropertyStatsComponent } from './property-stats/property-stats.component';
 import { ChoosePropertyCardComponent } from './choose-property-card/choose-property-card.component';
+import { AuthModule } from '@features/auth/auth.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ChoosePropertyCardComponent } from './choose-property-card/choose-prope
   imports: [
     CommonModule,
     LandlordRoutingModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ],
   entryComponents: [
     ChoosePropertyDialogComponent
