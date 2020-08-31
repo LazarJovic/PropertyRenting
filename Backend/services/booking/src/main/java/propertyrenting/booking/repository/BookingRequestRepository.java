@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface BookingRequestRepository extends JpaRepository<BookingRequest, Long> {
 
-    @Query(value = "select * from booking_request r, booking_ad a where r.booking_ad = a.id and a.property_id = ?1" +
-            "and r.booking_request_status in ('RESERVED','PAID')", nativeQuery = true)
-    List<BookingRequest> isPropertyAvailable(Long propertyId);
+    @Query(value = "select * from booking_request r, booking_ad a where r.booking_ad = a.id and a.property_id = ?1 " +
+            "and r.booking_request_status in (1,2)", nativeQuery = true)
+    List<BookingRequest> findPropertyReservedAndPaid(Long propertyId);
 
 }

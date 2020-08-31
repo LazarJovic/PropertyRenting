@@ -27,28 +27,28 @@
                     </div>
                     
                     <div class="row availability">
-                        <mat-form-field>
-                            <mat-label>From when</mat-label>
-                            <input class="date-input" matInput type="date" placeholder="Start date"
-                                [min]="minDate" [(ngModel)]="startDateTime" (ngModelChange)="datesChanged($event)">
-                        </mat-form-field>
-                        <mat-form-field id="end-date">
-                            <mat-label>To when</mat-label>
-                            <input class="date-input" matInput type="date" placeholder="End date"
-                                [min]="minDate" [(ngModel)]="endDateTime" (ngModelChange)="datesChanged($event)">
-                        </mat-form-field>
-                        <button mat-flat-button class="check-button"
-                            [disabled]="!startDateTime || !endDateTime" (click)="checkAvailability()"><i
-                                class="fas fa-question button-icon"></i>Check
-                            availability</button>
+                            <mat-form-field>
+                                <mat-label>From when</mat-label>
+                                <input class="date-input" matInput type="date" placeholder="Start date"
+                                    [min]="minDate" [(ngModel)]="startDate" (ngModelChange)="datesChanged($event)">
+                            </mat-form-field>
+                            <mat-form-field id="end-date">
+                                <mat-label>To when</mat-label>
+                                <input class="date-input" matInput type="date" placeholder="End date"
+                                    [min]="minDate" [(ngModel)]="endDate" (ngModelChange)="datesChanged($event)">
+                            </mat-form-field>
+                            <button mat-flat-button class="check-button"
+                                [disabled]="!startDate || !endDate" (click)="checkAvailability()"><i
+                                    class="fas fa-question button-icon"></i>Check
+                                availability</button>
                     </div>
                     <div class="row">
-                        <i *ngIf="startDateTime && endDateTime && checkedAvailability"
+                        <i *ngIf="startDate && endDate && checkedAvailability"
                             class="fas fa-info-circle icon"></i>
-                        <p *ngIf="startDateTime && endDateTime && isAvailable && checkedAvailability">Vehicle is
-                            available for the selected time</p>
-                        <p *ngIf="startDateTime && endDateTime && !isAvailable && checkedAvailability">Vehicle is
-                            not available for the selected time</p>
+                        <h6 *ngIf="startDate && endDate && isAvailable && checkedAvailability">Vehicle is
+                            available for the selected time</h6>
+                        <h6 *ngIf="startDate && endDate && !isAvailable && checkedAvailability">Vehicle is
+                            not available for the selected time</h6>
                     </div>
                 </div>
                 <div class="col-lg">

@@ -9,6 +9,8 @@ import { AdImage } from '@core/model/ad-image';
 import { icon, Marker } from 'leaflet';
 import * as L from 'leaflet';
 import * as esriGeo from 'esri-leaflet-geocoder';
+import { CheckAvailability } from '@core/model/check-availability';
+import { BookingRequestsService } from '@core/service/booking-request-service/booking-requests.service';
 
 const iconRetinaUrl = 'leaflet/marker-icon-2x.png';
 const iconUrl = 'leaflet/marker-icon.png';
@@ -38,8 +40,8 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
   id: number;
   ad: AdDetails;
   adImages: Array<AdImage>;
-  startDateTime: string;
-  endDateTime: string;
+  startDate: string;
+  endDate: string;
   isAvailable: boolean;
   checkedAvailability: boolean;
   minDate: string;
@@ -51,7 +53,8 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
 
   constructor(
     private route: ActivatedRoute,
-    private adService: AdsService) {
+    private adService: AdsService,
+    private bookingRequestService: BookingRequestsService) {
     const temp: Observable<number> = route.params.pipe(map(p => p.id));
     temp.subscribe(id => {
       if (id) {
@@ -134,7 +137,16 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     }
   }
 
+  checkAvailability() {
+    const checkAvailability: CheckAvailability = new CheckAvailability(this.id, this.startDate, this.endDate);
+    this.bookingRequestService.checkAdAvailability(checkAvailability).then(value => {
+      this.isAvailable = value;
+      this.checkedAvailability = true;
+    });
+  }
+
   datesChanged() {
+    console.log(this.startDate + ' ' + this.endDate);
     this.isAvailable = false;
     this.checkedAvailability = false;
   }

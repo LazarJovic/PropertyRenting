@@ -21,7 +21,6 @@ public class BookingRequest {
 
     @Setter
     @Column(name = "booking_request_status")
-    @Enumerated(EnumType.STRING)
     private BookingRequestStatus bookingRequestStatus;
 
     @Setter
