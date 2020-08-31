@@ -141,7 +141,32 @@ export class BookingRequestsService {
         }
       },
     });
+  }
 
+  finishBookingRequest(requestId: number) {
+
+    const requestIdMessage: BookingRequestIdMessage = new BookingRequestIdMessage();
+    requestIdMessage.setId(requestId);
+
+    grpc.unary(BookingRequestService.FinishBookingRequest, {
+      request: requestIdMessage,
+      host: environment.booking,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Booking successfully finished')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while finishing booking');
+        }
+      },
+    });
   }
 
 

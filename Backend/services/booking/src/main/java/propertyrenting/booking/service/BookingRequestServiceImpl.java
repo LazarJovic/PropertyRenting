@@ -128,7 +128,28 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         else {
             bookingRequest.setBookingRequestStatus(BookingRequestStatus.CANCELED);
             this.bookingRequestRepository.save(bookingRequest);
-            //TODO: Create Booking object in CommunicationService (asynchronous)
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    public void finishBookingRequest(BookingRequestIdMessage request,
+                                     StreamObserver<ChangeRequestStatusResponse> responseObserver) {
+        ChangeRequestStatusResponse response;
+        BookingRequest bookingRequest = this.bookingRequestRepository.findById(request.getId()).orElseGet(null);
+        if(bookingRequest == null || bookingRequest.getBookingRequestStatus() != BookingRequestStatus.PAID) {
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("Request does not exist or it's status is not PAID")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            bookingRequest.setBookingRequestStatus(BookingRequestStatus.FINISHED);
+            this.bookingRequestRepository.save(bookingRequest);
             response = ChangeRequestStatusResponse.newBuilder()
                     .setReturnMessage("OK")
                     .build();
