@@ -34,20 +34,69 @@ h5 {
 
 table {
     background-color: #4d014b;
-    width: 60vw;
-    margin-left: 10vw;
+    width: 75vw;
+    margin-left: 2vw;
     margin-top: 2vw;
 }
 
 table th {
     text-align: left;
-    width: 8vw;
+    width: 10vw;
     padding: 5px;
+    background-color: white;
+    color: #4d014b;
+    border-top: 1px solid #4d014b;
 }
 
 table td {
     text-align: left;
-    width: 8vw;
+    width: 10vw;
     padding: 5px;
+    background-color: #4d014b;
+}
+
+button {
+    background-color: #424242;
+}
+
+button:hover {
+    background-color: #4d014b;
+}
+
+.location-th {
+    width: 16vw !important;
+    border-left: 1px solid #4d014b;
+}
+
+.location-td {
+    width: 16vw !important;
+}
+
+.button-th {
+    width: 1vw;
+}
+
+.button-td {
+    width: 1vw;
+}
+
+.date-th {
+    width: 2vw;
+}
+
+.date-td {
+    width: 2vw;
+}
+
+#pending-th {
+    width: 10vw;
+}
+
+#pending-td {
+    width: 10vw;
+}
+
+.last-th {
+    border-right: 1px solid #4d014b;
 }
 

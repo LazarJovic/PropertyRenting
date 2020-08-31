@@ -12,4 +12,6 @@ public interface BookingRequestRepository extends JpaRepository<BookingRequest, 
             "and r.booking_request_status in (1,2)", nativeQuery = true)
     List<BookingRequest> findPropertyReservedAndPaid(Long propertyId);
 
+    @Query(value = "select * from booking_request r where r.booking_request_status=?1", nativeQuery = true)
+    List<BookingRequest> findByStatus(int status);
 }

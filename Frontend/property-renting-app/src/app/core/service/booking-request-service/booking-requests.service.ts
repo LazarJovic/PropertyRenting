@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CheckAvailability } from '@core/model/check-availability';
-import { CheckAvailabilityMessage } from 'src/proto/booking-request/booking_request_pb';
+import { CheckAvailabilityMessage, BookingRequestStatusMessage, BookingRequestMessage } from 'src/proto/booking-request/booking_request_pb';
 import { BookingRequestService } from 'src/proto/booking-request/booking_request_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
+import { BookingRequest } from '@core/model/booking-request';
+import { MatTableDataSource } from '@angular/material/table';
+import { PropertyType } from '@core/model/property-type';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +49,42 @@ export class BookingRequestsService {
           }
         },
       });
+    });
+
+    return promise;
+  }
+
+  getRequestsByStatus(status: string) {
+    const array: MatTableDataSource<BookingRequest> = new MatTableDataSource();
+
+    const statusMessage: BookingRequestStatusMessage = new BookingRequestStatusMessage();
+    statusMessage.setStatus(status);
+
+    const promise = new Promise<MatTableDataSource<BookingRequest>>((resolve, reject) => {
+      grpc.invoke(BookingRequestService.GetRequestsByStatus, {
+              request: statusMessage,
+              host: environment.booking,
+              onMessage: (message: BookingRequestMessage) => {
+
+                const pendingDateTime = message.getPendingDateTime().split('T')[0] + ' '
+                                        + message.getPendingDateTime().split('T')[1].substring(0, 5);
+                const acceptanceDateTime = message.getAcceptanceDateTime().split('T')[0] + ' '
+                                        + message.getAcceptanceDateTime().split('T')[1].substring(0, 5);
+
+                const request: BookingRequest = new BookingRequest(message.getId(), message.getAdId(), message.getCountry(),
+                                    message.getCity(), message.getAddress(), message.getPrice(), message.getSecurityDeposit(),
+                                    pendingDateTime, acceptanceDateTime, message.getBookingStart(),
+                                    message.getBookingEnd(), message.getClientEmail());
+                array.data.push(request);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting booking reqests');
+                }
+              }
+            });
     });
 
     return promise;

@@ -13,25 +13,5 @@ export class PendingBookingRequestsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.isLandlord = true;
-    this.isLandlord
-      ? (this.displayedColumns = [
-          'location',
-          'pendingDateTime',
-          'bookingStart',
-          'bookingEnd',
-          'clientEmail',
-          'btnDetails',
-          'btnAccept',
-          'btnDeny',
-        ])
-      : (this.displayedColumns = [
-          'location',
-          'pendingDateTime',
-          'bookingStart',
-          'bookingEnd',
-          'clientEmail',
-          'btnDetails'
-        ]);
   }
 }

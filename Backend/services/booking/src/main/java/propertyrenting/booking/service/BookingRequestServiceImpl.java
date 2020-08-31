@@ -4,15 +4,16 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import propertyrenting.booking.enumeration.BookingRequestStatus;
+import propertyrenting.booking.mapper.BookingRequestMapper;
 import propertyrenting.booking.model.BookingAd;
 import propertyrenting.booking.model.BookingRequest;
 import propertyrenting.booking.repository.BookingAdRepository;
 import propertyrenting.booking.repository.BookingRequestRepository;
-import proto.bookingRequest.BookingRequestServiceGrpc;
-import proto.bookingRequest.CheckAvailabilityMessage;
-import proto.bookingRequest.CheckAvailabilityResponse;
+import proto.bookingRequest.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -25,12 +26,15 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
     private BookingAdRepository bookingAdRepository;
 
+    private BookingRequestMapper bookingRequestMapper;
+
     @Autowired
     public BookingRequestServiceImpl(BookingRequestRepository bookingRequestRepository, ValidationService validationService,
                                      BookingAdRepository bookingAdRepository) {
         this.bookingRequestRepository = bookingRequestRepository;
         this.validationService = validationService;
         this.bookingAdRepository = bookingAdRepository;
+        this.bookingRequestMapper = new BookingRequestMapper();
     }
 
     public void checkAvailability(CheckAvailabilityMessage request,
@@ -59,6 +63,30 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+    }
+
+    public void getRequestsByStatus(BookingRequestStatusMessage request, StreamObserver<BookingRequestMessage> responseObserver) {
+        //TODO: Get requests by logged-in user (landlord or tenant)
+        List<BookingRequest> requests = new ArrayList<>();
+        switch (request.getStatus()) {
+            case "PENDING": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.PENDING.ordinal());
+                break;
+            case "RESERVED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.RESERVED.ordinal());
+                break;
+            case "PAID": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.PAID.ordinal());
+                break;
+            case "FINISHED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.FINISHED.ordinal());
+                break;
+            case "CANCELED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.CANCELED.ordinal());
+                break;
+        }
+
+        requests.forEach(bookingRequest -> {
+            BookingRequestMessage message = this.bookingRequestMapper.toBookingRequestMessage(bookingRequest);
+            responseObserver.onNext(message);
+        });
+
+        responseObserver.onCompleted();
     }
 
     private boolean checkForAvailabilityConflicts(List<BookingRequest> requests, LocalDate requestStart, LocalDate requestEnd) {
