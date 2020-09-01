@@ -29,6 +29,15 @@ PropertyService.GetMyProperties = {
   responseType: property_pb.PropertyMessage
 };
 
+PropertyService.DeleteProperty = {
+  methodName: "DeleteProperty",
+  service: PropertyService,
+  requestStream: false,
+  responseStream: false,
+  requestType: property_pb.PropertyIdMessage,
+  responseType: property_pb.DeletePropertyResponse
+};
+
 exports.PropertyService = PropertyService;
 
 function PropertyServiceClient(serviceHost, options) {
@@ -101,6 +110,37 @@ PropertyServiceClient.prototype.getMyProperties = function getMyProperties(reque
     },
     cancel: function () {
       listeners = null;
+      client.close();
+    }
+  };
+};
+
+PropertyServiceClient.prototype.deleteProperty = function deleteProperty(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(PropertyService.DeleteProperty, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
       client.close();
     }
   };

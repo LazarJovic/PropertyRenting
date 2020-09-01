@@ -11,6 +11,7 @@ import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
 import proto.ad.*;
+import proto.property.PropertyIdMessage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -183,6 +184,24 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         });
 
         responseObserver.onCompleted();
+    }
+
+    public void checkDeleteProperty(PropertyIdMessage request, StreamObserver<CheckDeletePropertyResponse> responseObserver) {
+        CheckDeletePropertyResponse response;
+        if(this.adRepository.findByPropertyInfo(request.getId()).size() != 0) {
+            response = CheckDeletePropertyResponse.newBuilder()
+                    .setCanBeDeleted(false)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            response = CheckDeletePropertyResponse.newBuilder()
+                    .setCanBeDeleted(true)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
     }
 
     private String validateSearchAd(SearchAdMessage searchAdMessage) {

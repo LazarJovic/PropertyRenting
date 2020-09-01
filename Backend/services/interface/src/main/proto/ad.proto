@@ -4,6 +4,8 @@ option java_multiple_files = true;
 option java_package = "proto.ad";
 option java_outer_classname = "AdProto";
 
+import "property.proto";
+
 service AdService {
     rpc CreateAd (AdMessage) returns (CreateAdResponse) {}
 
@@ -12,6 +14,8 @@ service AdService {
     rpc GetAdDetails (AdIdMessage) returns (AdDetailsMessage) {}
 
     rpc GetAdImages (AdIdMessage) returns (stream AdImageMessage) {}
+
+    rpc CheckDeleteProperty (PropertyIdMessage) returns (CheckDeletePropertyResponse) {}
 }
 
 message AdMessage {
@@ -96,4 +100,8 @@ message AdDetailsMessage {
     bool internet_included = 17;
     bool air_condition_included = 18;
     double average_rating = 19;
+}
+
+message CheckDeletePropertyResponse {
+    bool canBeDeleted = 1;
 }

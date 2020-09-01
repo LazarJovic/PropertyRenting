@@ -25,4 +25,19 @@ export class MyPropertiesComponent implements OnInit {
     });
   }
 
+  delete(property) {
+    this.propertyService.deleteProperty(property.id);
+    setTimeout(() => {
+      this.updatePropertyTable();
+    }, 500);
+  }
+
+  updatePropertyTable() {
+    setTimeout(() => {
+      this.propertyService.myProperties().then(value => {
+        this.dataSource = value;
+      });
+    }, 100);
+  }
+
 }

@@ -23,10 +23,20 @@ type PropertyServiceGetMyProperties = {
   readonly responseType: typeof property_pb.PropertyMessage;
 };
 
+type PropertyServiceDeleteProperty = {
+  readonly methodName: string;
+  readonly service: typeof PropertyService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof property_pb.PropertyIdMessage;
+  readonly responseType: typeof property_pb.DeletePropertyResponse;
+};
+
 export class PropertyService {
   static readonly serviceName: string;
   static readonly RegisterProperty: PropertyServiceRegisterProperty;
   static readonly GetMyProperties: PropertyServiceGetMyProperties;
+  static readonly DeleteProperty: PropertyServiceDeleteProperty;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -71,5 +81,14 @@ export class PropertyServiceClient {
     callback: (error: ServiceError|null, responseMessage: property_pb.RegisterPropertyResponse|null) => void
   ): UnaryResponse;
   getMyProperties(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<property_pb.PropertyMessage>;
+  deleteProperty(
+    requestMessage: property_pb.PropertyIdMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: property_pb.DeletePropertyResponse|null) => void
+  ): UnaryResponse;
+  deleteProperty(
+    requestMessage: property_pb.PropertyIdMessage,
+    callback: (error: ServiceError|null, responseMessage: property_pb.DeletePropertyResponse|null) => void
+  ): UnaryResponse;
 }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Property } from '@core/model/property';
 import { ToastrService } from 'ngx-toastr';
 import { PropertyService } from 'src/proto/property/property_pb_service';
-import { PropertyImageMessage, PropertyMessage } from 'src/proto/property/property_pb';
+import { PropertyImageMessage, PropertyMessage, PropertyIdMessage } from 'src/proto/property/property_pb';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
 import { ChooseProperty } from '@core/model/choose-property';
@@ -126,6 +126,32 @@ export class PropertiesService {
     });
 
     return promise;
+  }
+
+  deleteProperty(propertyId: number) {
+
+    const propertyIdMessage: PropertyIdMessage = new PropertyIdMessage();
+    propertyIdMessage.setId(propertyId);
+
+    grpc.unary(PropertyService.DeleteProperty, {
+      request: propertyIdMessage,
+      host: environment.property,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Property deleted')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while deleting property');
+        }
+      },
+    });
   }
 
 }

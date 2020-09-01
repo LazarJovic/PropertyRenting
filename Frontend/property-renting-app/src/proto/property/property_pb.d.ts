@@ -130,3 +130,43 @@ export namespace RegisterPropertyResponse {
   }
 }
 
+export class PropertyIdMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PropertyIdMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: PropertyIdMessage): PropertyIdMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PropertyIdMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PropertyIdMessage;
+  static deserializeBinaryFromReader(message: PropertyIdMessage, reader: jspb.BinaryReader): PropertyIdMessage;
+}
+
+export namespace PropertyIdMessage {
+  export type AsObject = {
+    id: number,
+  }
+}
+
+export class DeletePropertyResponse extends jspb.Message {
+  getReturnMessage(): string;
+  setReturnMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DeletePropertyResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DeletePropertyResponse): DeletePropertyResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DeletePropertyResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DeletePropertyResponse;
+  static deserializeBinaryFromReader(message: DeletePropertyResponse, reader: jspb.BinaryReader): DeletePropertyResponse;
+}
+
+export namespace DeletePropertyResponse {
+  export type AsObject = {
+    returnMessage: string,
+  }
+}
+

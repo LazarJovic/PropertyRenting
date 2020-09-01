@@ -11,10 +11,9 @@ import propertyrenting.property.model.PropertyImage;
 import propertyrenting.property.model.PropertyType;
 import propertyrenting.property.repository.PropertyRepository;
 import propertyrenting.property.repository.PropertyTypeRepository;
-import proto.property.PropertyImageMessage;
-import proto.property.PropertyMessage;
-import proto.property.PropertyServiceGrpc;
-import proto.property.RegisterPropertyResponse;
+import proto.ad.AdServiceGrpc;
+import proto.ad.CheckDeletePropertyResponse;
+import proto.property.*;
 import proto.propertyInfo.PropertyInfoServiceGrpc;
 import proto.propertyType.EmptyMessage;
 
@@ -37,6 +36,9 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
 
     @GrpcClient("ad-server")
     private PropertyInfoServiceGrpc.PropertyInfoServiceStub propertyInfoServiceStub;
+
+    @GrpcClient("ad-server")
+    private AdServiceGrpc.AdServiceBlockingStub adServiceBlockingStub;
 
     @Autowired
     public PropertyServiceImpl(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
@@ -94,9 +96,40 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
         }
     }
 
+    public void deleteProperty(PropertyIdMessage request, StreamObserver<DeletePropertyResponse> responseObserver) {
+        DeletePropertyResponse response;
+        Property property = this.propertyRepository.findById(request.getId()).orElseGet(null);
+        if(property == null) {
+            response = DeletePropertyResponse.newBuilder()
+                    .setReturnMessage("Selected property does not exist")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            CheckDeletePropertyResponse checkResponse = this.adServiceBlockingStub.checkDeleteProperty(request);
+            if(checkResponse.getCanBeDeleted()) {
+                property.setDeleted(true);
+                this.propertyRepository.save(property);
+                response = DeletePropertyResponse.newBuilder()
+                        .setReturnMessage("OK")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
+            else {
+                response = DeletePropertyResponse.newBuilder()
+                        .setReturnMessage("Property cannot be deleted. You have to delete ads of this property first.")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
+        }
+    }
+
     public void getMyProperties(EmptyMessage request, StreamObserver<PropertyMessage> responseObserver) {
         // TODO: Get only properties of logged-in user
-        List<Property> properties = this.propertyRepository.findAll();
+        List<Property> properties = this.propertyRepository.findAllActive();
 
         properties.forEach(property -> {
             PropertyImage image = property.getPropertyImagesSet().iterator().next();

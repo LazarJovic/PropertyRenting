@@ -6,6 +6,8 @@ service PropertyService {
     rpc RegisterProperty (PropertyMessage) returns (RegisterPropertyResponse) {}
 
     rpc GetMyProperties (EmptyMessage) returns (stream PropertyMessage) {}
+
+    rpc DeleteProperty (PropertyIdMessage) returns (DeletePropertyResponse) {}
 }
 
 message PropertyMessage {
@@ -33,4 +35,12 @@ message PropertyImageMessage {
 message RegisterPropertyResponse {
     PropertyMessage property = 1;
     string return_message = 2;
+}
+
+message PropertyIdMessage {
+    int64 id = 1;
+}
+
+message DeletePropertyResponse {
+    string return_message = 1;
 }
