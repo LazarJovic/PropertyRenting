@@ -3,9 +3,16 @@ package propertyrenting.property.mapper;
 import propertyrenting.property.model.Property;
 import proto.property.PropertyImageMessage;
 import proto.property.PropertyMessage;
+import proto.property.PropertyStatsMessage;
 import proto.propertyInfo.PropertyInfoMessage;
 
 public class PropertyMapper {
+
+    private PropertyImageMapper propertyImageMapper;
+
+    public PropertyMapper() {
+        this.propertyImageMapper = new PropertyImageMapper();
+    }
 
     public Property toProperty(PropertyMessage propertyMessage) {
         return new Property(propertyMessage.getCountry(), propertyMessage.getCity(), propertyMessage.getAddress(),
@@ -49,4 +56,18 @@ public class PropertyMapper {
                 .build();
     }
 
+    public PropertyStatsMessage toPropertyStatsMessage(Property property, int position, int numberOfBookings) {
+        return PropertyStatsMessage.newBuilder()
+                .setId(property.getId())
+                .setPosition(position)
+                .setCountry(property.getCountry())
+                .setCity(property.getCity())
+                .setAddress(property.getAddress())
+                .setType(property.getPropertyType().getName())
+                .setNumberOfBookings(numberOfBookings)
+                .setAverageRating(property.getAverageRating())
+                .setImage(this.propertyImageMapper.toPropertyImageMessage(property.getPropertyImagesSet()
+                            .iterator().next()))
+                .build();
+    }
 }

@@ -170,3 +170,57 @@ export namespace DeletePropertyResponse {
   }
 }
 
+export class PropertyStatsMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  getPosition(): number;
+  setPosition(value: number): void;
+
+  getCountry(): string;
+  setCountry(value: string): void;
+
+  getCity(): string;
+  setCity(value: string): void;
+
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getType(): string;
+  setType(value: string): void;
+
+  getNumberOfBookings(): number;
+  setNumberOfBookings(value: number): void;
+
+  getAverageRating(): number;
+  setAverageRating(value: number): void;
+
+  hasImage(): boolean;
+  clearImage(): void;
+  getImage(): PropertyImageMessage | undefined;
+  setImage(value?: PropertyImageMessage): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PropertyStatsMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: PropertyStatsMessage): PropertyStatsMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PropertyStatsMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PropertyStatsMessage;
+  static deserializeBinaryFromReader(message: PropertyStatsMessage, reader: jspb.BinaryReader): PropertyStatsMessage;
+}
+
+export namespace PropertyStatsMessage {
+  export type AsObject = {
+    id: number,
+    position: number,
+    country: string,
+    city: string,
+    address: string,
+    type: string,
+    numberOfBookings: number,
+    averageRating: number,
+    image?: PropertyImageMessage.AsObject,
+  }
+}
+

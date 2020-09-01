@@ -32,11 +32,31 @@ type PropertyServiceDeleteProperty = {
   readonly responseType: typeof property_pb.DeletePropertyResponse;
 };
 
+type PropertyServiceGetByNumberOfBookings = {
+  readonly methodName: string;
+  readonly service: typeof PropertyService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof property_pb.PropertyStatsMessage;
+};
+
+type PropertyServiceGetByAverageRating = {
+  readonly methodName: string;
+  readonly service: typeof PropertyService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof property_pb.PropertyStatsMessage;
+};
+
 export class PropertyService {
   static readonly serviceName: string;
   static readonly RegisterProperty: PropertyServiceRegisterProperty;
   static readonly GetMyProperties: PropertyServiceGetMyProperties;
   static readonly DeleteProperty: PropertyServiceDeleteProperty;
+  static readonly GetByNumberOfBookings: PropertyServiceGetByNumberOfBookings;
+  static readonly GetByAverageRating: PropertyServiceGetByAverageRating;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -90,5 +110,7 @@ export class PropertyServiceClient {
     requestMessage: property_pb.PropertyIdMessage,
     callback: (error: ServiceError|null, responseMessage: property_pb.DeletePropertyResponse|null) => void
   ): UnaryResponse;
+  getByNumberOfBookings(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<property_pb.PropertyStatsMessage>;
+  getByAverageRating(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<property_pb.PropertyStatsMessage>;
 }
 

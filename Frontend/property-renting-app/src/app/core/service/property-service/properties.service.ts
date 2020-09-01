@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Property } from '@core/model/property';
 import { ToastrService } from 'ngx-toastr';
 import { PropertyService } from 'src/proto/property/property_pb_service';
-import { PropertyImageMessage, PropertyMessage, PropertyIdMessage } from 'src/proto/property/property_pb';
+import { PropertyImageMessage, PropertyMessage, PropertyIdMessage, PropertyStatsMessage } from 'src/proto/property/property_pb';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
 import { ChooseProperty } from '@core/model/choose-property';
@@ -10,6 +10,7 @@ import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
 import { PropertyImage } from '@core/model/property-image';
 import { MatTableDataSource } from '@angular/material/table';
 import { MyProperty } from '@core/model/my-property';
+import { PropertyStats } from '@core/model/property-stats';
 
 @Injectable({
   providedIn: 'root'
@@ -152,6 +153,37 @@ export class PropertiesService {
         }
       },
     });
+  }
+
+  getByRating() {
+
+    const array: MatTableDataSource<PropertyStats> = new MatTableDataSource<PropertyStats>();
+
+    const promise = new Promise<MatTableDataSource<PropertyStats>>((resolve, reject) => {
+      grpc.invoke(PropertyService.GetByAverageRating, {
+              request: new EmptyMessage(),
+              host: environment.property,
+              onMessage: (message: PropertyStatsMessage) => {
+
+                const propertyImage: string = 'data:image/jpeg;base64,' + message.getImage().getPicByte_asB64();
+
+                const property: PropertyStats = new PropertyStats(message.getId(), message.getPosition(), message.getCountry(),
+                 message.getCity(), message.getAddress(), message.getType(), message.getNumberOfBookings(), message.getAverageRating(),
+                 propertyImage);
+
+                array.data.push(property);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting properties by rating');
+                }
+              }
+            });
+    });
+
+    return promise;
   }
 
 }

@@ -38,6 +38,24 @@ PropertyService.DeleteProperty = {
   responseType: property_pb.DeletePropertyResponse
 };
 
+PropertyService.GetByNumberOfBookings = {
+  methodName: "GetByNumberOfBookings",
+  service: PropertyService,
+  requestStream: false,
+  responseStream: true,
+  requestType: property_type_pb.EmptyMessage,
+  responseType: property_pb.PropertyStatsMessage
+};
+
+PropertyService.GetByAverageRating = {
+  methodName: "GetByAverageRating",
+  service: PropertyService,
+  requestStream: false,
+  responseStream: true,
+  requestType: property_type_pb.EmptyMessage,
+  responseType: property_pb.PropertyStatsMessage
+};
+
 exports.PropertyService = PropertyService;
 
 function PropertyServiceClient(serviceHost, options) {
@@ -141,6 +159,84 @@ PropertyServiceClient.prototype.deleteProperty = function deleteProperty(request
   return {
     cancel: function () {
       callback = null;
+      client.close();
+    }
+  };
+};
+
+PropertyServiceClient.prototype.getByNumberOfBookings = function getByNumberOfBookings(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(PropertyService.GetByNumberOfBookings, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+PropertyServiceClient.prototype.getByAverageRating = function getByAverageRating(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(PropertyService.GetByAverageRating, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
       client.close();
     }
   };

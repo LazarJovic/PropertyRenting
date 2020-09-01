@@ -141,6 +141,22 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
         responseObserver.onCompleted();
     }
 
+    public void getByAverageRating(EmptyMessage request, StreamObserver<PropertyStatsMessage> responseObserver) {
+        //TODO: Get properties of logged-in landlord
+        List<Property> properties = this.propertyRepository.findTopFiveByRating();
+        int i = 1;
+        for (Property property : properties) {
+            responseObserver.onNext(this.propertyMapper.toPropertyStatsMessage(property, i, 0));
+            i++;
+        }
+
+        responseObserver.onCompleted();
+    }
+
+    public void getByNumberOfBookings(EmptyMessage request, StreamObserver<PropertyStatsMessage> responseObserver) {
+
+    }
+
     private String validateProperty(PropertyMessage propertyMessage) {
         PropertyType propertyType = this.propertyTypeRepository.findById(propertyMessage.getTypeId())
                 .orElseGet(null);

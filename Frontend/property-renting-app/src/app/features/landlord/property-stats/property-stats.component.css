@@ -43,10 +43,27 @@ table th {
     text-align: left;
     width: 8vw;
     padding: 5px;
+    background-color: white;
+    color: #4d014b;
+    border-top: 1px solid #4d014b;
 }
 
 table td {
     text-align: left;
     width: 8vw;
     padding: 5px;
+    background-color: #4d014b;
+}
+
+img {
+    width: 80px;
+    height: 60px;
+}
+
+.position-th {
+    border-left: 1px solid #4d014b;
+}
+
+.last-th {
+    border-right: 1px solid #4d014b;
 }

@@ -8,6 +8,10 @@ service PropertyService {
     rpc GetMyProperties (EmptyMessage) returns (stream PropertyMessage) {}
 
     rpc DeleteProperty (PropertyIdMessage) returns (DeletePropertyResponse) {}
+
+    rpc GetByNumberOfBookings (EmptyMessage) returns (stream PropertyStatsMessage) {}
+
+    rpc GetByAverageRating (EmptyMessage) returns (stream PropertyStatsMessage) {}
 }
 
 message PropertyMessage {
@@ -43,4 +47,16 @@ message PropertyIdMessage {
 
 message DeletePropertyResponse {
     string return_message = 1;
+}
+
+message PropertyStatsMessage {
+    int64 id = 1;
+    int32 position = 2;
+    string country = 3;
+    string city = 4;
+    string address = 5;
+    string type = 6;
+    int32 number_of_bookings = 7;
+    double average_rating = 8;
+    PropertyImageMessage image = 9;
 }
