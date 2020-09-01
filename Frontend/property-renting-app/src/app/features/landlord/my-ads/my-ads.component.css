@@ -46,15 +46,39 @@ table th {
     text-align: left;
     width: 8vw;
     padding: 5px;
+    background-color: white;
+    color: #4d014b;
+    border-top: 1px solid #4d014b;
 }
 
 table td {
     text-align: left;
     width: 8vw;
     padding: 5px;
+    background-color: #4d014b;
 }
 
 img {
     width: 80px;
     height: 60px;
+}
+
+button {
+    background-color: #424242;
+}
+
+button:hover {
+    background-color: #4d014b;
+}
+
+.image-th {
+    border-left: 1px solid #4d014b;
+}
+
+#delete-th {
+    border-right: 1px solid #4d014b;
+}
+
+#details-th {
+    border-right: 1px solid #4d014b;
 }

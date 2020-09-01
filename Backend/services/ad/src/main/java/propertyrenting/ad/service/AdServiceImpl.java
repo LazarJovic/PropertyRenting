@@ -200,6 +200,13 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
 
     public void getMyInactiveAds(EmptyMessage request, StreamObserver<MyAdMessage> responseObserver) {
         //TODO: Get inactive ads of logged-in user
+        List<Ad> inactiveAds = this.adRepository.findAll();
+        inactiveAds.forEach(ad -> {
+            if(ad.isDurationLimited() && ad.getEndDate().isBefore(LocalDate.now()) || ad.isDeleted()) {
+                responseObserver.onNext(this.adMapper.toMyAdMessage(ad));
+            }
+        });
+        responseObserver.onCompleted();
     }
 
     public void deleteAd(AdIdMessage request, StreamObserver<DeleteAdResponse> responseObserver) {

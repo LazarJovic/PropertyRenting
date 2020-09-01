@@ -215,4 +215,36 @@ export class AdsService {
     return promise;
   }
 
+  getMyInactiveAds() {
+    const array: MatTableDataSource<MyAd> = new MatTableDataSource<MyAd>();
+
+    const promise = new Promise<MatTableDataSource<MyAd>>((resolve, reject) => {
+      grpc.invoke(AdService.GetMyInactiveAds, {
+              request: new EmptyMessage(),
+              host: environment.ad,
+              onMessage: (message: MyAdMessage) => {
+
+                const adImage: string = 'data:image/jpeg;base64,' + message.getImage().getPicByte_asB64();
+
+                const postingDateTime = message.getPostingDate().split('T')[0] + ' '
+                                        + message.getPostingDate().split('T')[1].substring(0, 5);
+
+                const myAd: MyAd = new MyAd(message.getId(), message.getCountry(), message.getCity(), message.getAddress(),
+                              postingDateTime, message.getStartDate(), message.getEndDate(), message.getPrice(), adImage);
+
+                array.data.push(myAd);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting active ads');
+                }
+              }
+            });
+    });
+
+    return promise;
+  }
+
 }
