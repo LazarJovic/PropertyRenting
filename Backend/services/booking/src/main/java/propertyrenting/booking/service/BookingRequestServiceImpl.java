@@ -204,6 +204,27 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         return false;
     }
 
+    @Scheduled(fixedDelay = 300000)
+    public void checkBookingRequests() {
 
+        //Zahtev koji nije obrađen 24h automatski prelazi u stanje CANCELED
+        List<BookingRequest> candidates = this.bookingRequestRepository.findByStatus(BookingRequestStatus.PENDING.ordinal());
+        candidates.forEach(request -> {
+            if (request.getPendingTime().plusHours(24).isBefore(LocalDateTime.now())) {
+                request.setBookingRequestStatus(BookingRequestStatus.CANCELED);
+                this.bookingRequestRepository.save(request);
+            }
+        });
+
+        //Onaj koji je prihvaćen, prelazi u stanje RESERVED pri čemu korisnik ima 2 dana da izvrši online plaćanje
+        candidates = this.bookingRequestRepository.findByStatus(BookingRequestStatus.RESERVED.ordinal());
+
+        candidates.forEach(request -> {
+            if (request.getAcceptanceTime().plusDays(2).isBefore(LocalDateTime.now())) {
+                request.setBookingRequestStatus(BookingRequestStatus.CANCELED);
+                this.bookingRequestRepository.save(request);
+            }
+        });
+    }
 
 }
