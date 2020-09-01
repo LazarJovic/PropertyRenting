@@ -12,6 +12,7 @@ import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
 import proto.ad.*;
 import proto.property.PropertyIdMessage;
+import proto.propertyType.EmptyMessage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
             responseObserver.onCompleted();
         }
         else {
-            List<Ad> ads = this.adRepository.findAllActive();
+            List<Ad> ads = this.adRepository.findAllNonDeleted();
             Iterator i = ads.iterator();
             while(i.hasNext()) {
                 Ad ad = (Ad) i.next();
@@ -184,6 +185,25 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
         });
 
         responseObserver.onCompleted();
+    }
+
+    public void getMyActiveAds(EmptyMessage request, StreamObserver<MyAdMessage> responseObserver) {
+        //TODO: Get active ads of logged-in user
+        List<Ad> activeAds = this.adRepository.findAllNonDeleted();
+        activeAds.forEach(ad -> {
+            if(!ad.isDurationLimited() || ad.getEndDate().isAfter(LocalDate.now())) {
+                responseObserver.onNext(this.adMapper.toMyAdMessage(ad));
+            }
+        });
+        responseObserver.onCompleted();
+    }
+
+    public void getMyInactiveAds(EmptyMessage request, StreamObserver<MyAdMessage> responseObserver) {
+        //TODO: Get inactive ads of logged-in user
+    }
+
+    public void deleteAd(AdIdMessage request, StreamObserver<DeleteAdResponse> responseObserver) {
+
     }
 
     public void checkDeleteProperty(PropertyIdMessage request, StreamObserver<CheckDeletePropertyResponse> responseObserver) {

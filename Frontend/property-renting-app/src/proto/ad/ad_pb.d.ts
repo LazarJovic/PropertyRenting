@@ -2,6 +2,7 @@
 // file: ad.proto
 
 import * as jspb from "google-protobuf";
+import * as property_type_pb from "../property-type/property_type_pb";
 
 export class AdMessage extends jspb.Message {
   getId(): number;
@@ -372,6 +373,80 @@ export namespace AdDetailsMessage {
     internetIncluded: boolean,
     airConditionIncluded: boolean,
     averageRating: number,
+  }
+}
+
+export class MyAdMessage extends jspb.Message {
+  getId(): number;
+  setId(value: number): void;
+
+  getCountry(): string;
+  setCountry(value: string): void;
+
+  getCity(): string;
+  setCity(value: string): void;
+
+  getAddress(): string;
+  setAddress(value: string): void;
+
+  getPostingDate(): string;
+  setPostingDate(value: string): void;
+
+  getStartDate(): string;
+  setStartDate(value: string): void;
+
+  getEndDate(): string;
+  setEndDate(value: string): void;
+
+  getPrice(): number;
+  setPrice(value: number): void;
+
+  hasImage(): boolean;
+  clearImage(): void;
+  getImage(): AdImageMessage | undefined;
+  setImage(value?: AdImageMessage): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MyAdMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: MyAdMessage): MyAdMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: MyAdMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MyAdMessage;
+  static deserializeBinaryFromReader(message: MyAdMessage, reader: jspb.BinaryReader): MyAdMessage;
+}
+
+export namespace MyAdMessage {
+  export type AsObject = {
+    id: number,
+    country: string,
+    city: string,
+    address: string,
+    postingDate: string,
+    startDate: string,
+    endDate: string,
+    price: number,
+    image?: AdImageMessage.AsObject,
+  }
+}
+
+export class DeleteAdResponse extends jspb.Message {
+  getReturnMessage(): string;
+  setReturnMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DeleteAdResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DeleteAdResponse): DeleteAdResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DeleteAdResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DeleteAdResponse;
+  static deserializeBinaryFromReader(message: DeleteAdResponse, reader: jspb.BinaryReader): DeleteAdResponse;
+}
+
+export namespace DeleteAdResponse {
+  export type AsObject = {
+    returnMessage: string,
   }
 }
 

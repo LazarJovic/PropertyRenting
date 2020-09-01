@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdRepository extends JpaRepository<Ad, Long> {
 
     @Query(value = "select * from ad a where a.deleted = false", nativeQuery = true)
-    List<Ad> findAllActive();
+    List<Ad> findAllNonDeleted();
 
     @Query(value = "select * from ad a where a.property_info = ?1", nativeQuery = true)
     List<Ad> findByPropertyInfo(long propertyInfoId);

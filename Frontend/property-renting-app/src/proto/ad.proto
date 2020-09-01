@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "property_type.proto";
+
 service AdService {
     rpc CreateAd (AdMessage) returns (CreateAdResponse) {}
 
@@ -8,6 +10,12 @@ service AdService {
     rpc GetAdDetails (AdIdMessage) returns (AdDetailsMessage) {}
 
     rpc GetAdImages (AdIdMessage) returns (stream AdImageMessage) {}
+
+    rpc GetMyActiveAds (EmptyMessage) returns (stream MyAdMessage) {}
+
+    rpc GetMyInactiveAds (EmptyMessage) returns (stream MyAdMessage) {}
+
+    rpc DeleteAd (AdIdMessage) returns (DeleteAdResponse) {}
 }
 
 message AdMessage {
@@ -92,4 +100,20 @@ message AdDetailsMessage {
     bool internet_included = 17;
     bool air_condition_included = 18;
     double average_rating = 19;
+}
+
+message MyAdMessage {
+    int64 id = 1;
+    string country = 2;
+    string city = 3;
+    string address = 4;
+    string posting_date = 5;
+    string start_date = 6;
+    string end_date = 7;
+    double price = 8;
+    AdImageMessage image = 9;
+}
+
+message DeleteAdResponse {
+    string return_message = 1;
 }

@@ -2,6 +2,7 @@
 // file: ad.proto
 
 import * as ad_pb from "./ad_pb";
+import * as property_type_pb from "../property-type/property_type_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
 type AdServiceCreateAd = {
@@ -40,12 +41,42 @@ type AdServiceGetAdImages = {
   readonly responseType: typeof ad_pb.AdImageMessage;
 };
 
+type AdServiceGetMyActiveAds = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof ad_pb.MyAdMessage;
+};
+
+type AdServiceGetMyInactiveAds = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof property_type_pb.EmptyMessage;
+  readonly responseType: typeof ad_pb.MyAdMessage;
+};
+
+type AdServiceDeleteAd = {
+  readonly methodName: string;
+  readonly service: typeof AdService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof ad_pb.AdIdMessage;
+  readonly responseType: typeof ad_pb.DeleteAdResponse;
+};
+
 export class AdService {
   static readonly serviceName: string;
   static readonly CreateAd: AdServiceCreateAd;
   static readonly SearchAds: AdServiceSearchAds;
   static readonly GetAdDetails: AdServiceGetAdDetails;
   static readonly GetAdImages: AdServiceGetAdImages;
+  static readonly GetMyActiveAds: AdServiceGetMyActiveAds;
+  static readonly GetMyInactiveAds: AdServiceGetMyInactiveAds;
+  static readonly DeleteAd: AdServiceDeleteAd;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -100,5 +131,16 @@ export class AdServiceClient {
     callback: (error: ServiceError|null, responseMessage: ad_pb.AdDetailsMessage|null) => void
   ): UnaryResponse;
   getAdImages(requestMessage: ad_pb.AdIdMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.AdImageMessage>;
+  getMyActiveAds(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.MyAdMessage>;
+  getMyInactiveAds(requestMessage: property_type_pb.EmptyMessage, metadata?: grpc.Metadata): ResponseStream<ad_pb.MyAdMessage>;
+  deleteAd(
+    requestMessage: ad_pb.AdIdMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: ad_pb.DeleteAdResponse|null) => void
+  ): UnaryResponse;
+  deleteAd(
+    requestMessage: ad_pb.AdIdMessage,
+    callback: (error: ServiceError|null, responseMessage: ad_pb.DeleteAdResponse|null) => void
+  ): UnaryResponse;
 }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ad } from '@core/model/ad';
-import { AdMessage, AdImageMessage, SearchAdMessage, SearchAdResultMessage, AdIdMessage, AdDetailsMessage } from 'src/proto/ad/ad_pb';
+import { AdMessage, AdImageMessage, SearchAdMessage, SearchAdResultMessage, AdIdMessage, AdDetailsMessage,
+   MyAdMessage } from 'src/proto/ad/ad_pb';
 import { AdService } from 'src/proto/ad/ad_pb_service';
 import { ToastrService } from 'ngx-toastr';
 import { grpc } from '@improbable-eng/grpc-web';
@@ -10,6 +11,9 @@ import { SearchAd } from '@core/model/search-ad';
 import { SearchAdResult } from '@core/model/search-ad-result';
 import { AdDetails } from '@core/model/ad-details';
 import { AdImage } from '@core/model/ad-image';
+import { MatTableDataSource } from '@angular/material/table';
+import { MyAd } from '@core/model/my-ad';
+import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
 
 @Injectable({
   providedIn: 'root'
@@ -171,6 +175,38 @@ export class AdsService {
                   resolve(array);
                 } else {
                   this.toastr.error('An error occurred while getting ad\'s images');
+                }
+              }
+            });
+    });
+
+    return promise;
+  }
+
+  getMyActiveAds() {
+    const array: MatTableDataSource<MyAd> = new MatTableDataSource<MyAd>();
+
+    const promise = new Promise<MatTableDataSource<MyAd>>((resolve, reject) => {
+      grpc.invoke(AdService.GetMyActiveAds, {
+              request: new EmptyMessage(),
+              host: environment.ad,
+              onMessage: (message: MyAdMessage) => {
+
+                const adImage: string = 'data:image/jpeg;base64,' + message.getImage().getPicByte_asB64();
+
+                const postingDateTime = message.getPostingDate().split('T')[0] + ' '
+                                        + message.getPostingDate().split('T')[1].substring(0, 5);
+
+                const myAd: MyAd = new MyAd(message.getId(), message.getCountry(), message.getCity(), message.getAddress(),
+                              postingDateTime, message.getStartDate(), message.getEndDate(), message.getPrice(), adImage);
+
+                array.data.push(myAd);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting active ads');
                 }
               }
             });

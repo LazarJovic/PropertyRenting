@@ -2,10 +2,7 @@ package propertyrenting.ad.mapper;
 
 import propertyrenting.ad.enumeration.GuestPreference;
 import propertyrenting.ad.model.Ad;
-import proto.ad.AdDetailsMessage;
-import proto.ad.AdImageMessage;
-import proto.ad.AdMessage;
-import proto.ad.SearchAdResultMessage;
+import proto.ad.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -103,5 +100,20 @@ public class AdMapper {
                 .setAirConditionIncluded(ad.getPropertyInfo().isAirConditionIncluded())
                 .setAverageRating(ad.getPropertyInfo().getAverageRating())
                 .build();
+    }
+
+    public MyAdMessage toMyAdMessage(Ad ad) {
+
+        return MyAdMessage.newBuilder()
+            .setId(ad.getId())
+            .setCountry(ad.getPropertyInfo().getCountry())
+            .setCity(ad.getPropertyInfo().getCity())
+            .setAddress(ad.getPropertyInfo().getAddress())
+            .setPostingDate(ad.getPostingDate().toString())
+            .setStartDate(ad.getStartDate().toString())
+            .setEndDate(ad.getEndDate().toString())
+            .setPrice(ad.getPricePerNight())
+            .setImage(this.adImageMapper.toAdImageMessage(ad.getAdImageSet().iterator().next()))
+            .build();
     }
 }
