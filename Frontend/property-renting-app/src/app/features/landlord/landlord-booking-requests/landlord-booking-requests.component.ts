@@ -16,7 +16,7 @@ export class LandlordBookingRequestsComponent implements OnInit {
                                       'btnAccept', 'btnDeny'];
   displayedColumnsPaid: string[] = ['location', 'bookingStart', 'bookingEnd', 'pricePerNight', 'clientEmail', 'btnDetails', 'btnFinish'];
   displayedColumnsReserved: string[] = ['location', 'acceptanceDateTime', 'bookingStart', 'bookingEnd', 'pricePerNight', 'securityDeposit',
-                                        'clientEmail', 'btnDetails', 'btnMessages', 'btnCancel'];
+                                        'clientEmail', 'btnDetails', 'btnMessages'];
   displayedColumnsFinished: string[] = ['location', 'bookingStart', 'bookingEnd', 'clientEmail', 'btnDetails'];
   displayedColumnsCanceled: string[] = ['location', 'bookingStart', 'bookingEnd', 'clientEmail', 'btnDetails'];
 

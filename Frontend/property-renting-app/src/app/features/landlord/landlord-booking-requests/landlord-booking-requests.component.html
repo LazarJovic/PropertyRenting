@@ -176,7 +176,7 @@
                     matTooltip="Details"
                     (click)="requestDetails(request)"
                   >
-                    Details
+                  <i class="fas fa-info-circle"></i>
                   </button>
                 </td>
               </ng-container>
@@ -190,25 +190,10 @@
                     matTooltip="Open message chat"
                     (click)="messages(request)"
                   >
-                    Messages
+                  <i class="fas fa-envelope"></i>
                   </button>
                 </td>
               </ng-container>
-
-              <ng-container matColumnDef="btnCancel">
-                <th mat-header-cell *matHeaderCellDef class="button-th last-th"></th>
-                <td mat-cell *matCellDef="let request" class="button-td">
-                  <button
-                    mat-stroked-button
-                    class="cancel-btn"
-                    matTooltip="Cancel booking request"
-                    (click)="cancel(request)"
-                  >
-                    Cancel
-                  </button>
-                </td>
-              </ng-container>
-
               <tr
                 mat-header-row
                 *matHeaderRowDef="displayedColumnsReserved"
@@ -278,7 +263,7 @@
                     matTooltip="Details"
                     (click)="requestDetails(request)"
                   >
-                    Details
+                  <i class="fas fa-info-circle"></i>
                   </button>
                 </td>
                 <td mat-cell>
@@ -287,7 +272,7 @@
                     class="details-btn"
                     matTooltip="Details"
                   >
-                    Details
+                  <i class="fas fa-info-circle"></i>
                   </button>
                 </td>
               </ng-container>
@@ -301,7 +286,7 @@
                     matTooltip="Finish renting"
                     (click)="finish(request)"
                   >
-                    Finish renting
+                  <i class="fas fa-hourglass-end"></i>
                   </button>
                 </td>
                 <td mat-cell>
@@ -372,7 +357,7 @@
                     matTooltip="Details"
                     (click)="requestDetails(request)"
                   >
-                    Details
+                  <i class="fas fa-info-circle"></i>
                   </button>
                 </td>
               </ng-container>
@@ -423,7 +408,7 @@
                 <td mat-cell *matCellDef="let request">
                                     <button mat-stroked-button class="details-btn" matTooltip="Details"
                                     (click)="requestDetails(request)">
-                                        Details
+                                    <i class="fas fa-info-circle"></i>
                                     </button>
                                 </td>
               </ng-container>
