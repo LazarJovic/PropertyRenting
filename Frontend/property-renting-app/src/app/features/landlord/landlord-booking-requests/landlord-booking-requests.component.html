@@ -289,15 +289,6 @@
                   <i class="fas fa-hourglass-end"></i>
                   </button>
                 </td>
-                <td mat-cell>
-                  <button
-                    mat-stroked-button
-                    class="finish-btn"
-                    matTooltip="Finish renting"
-                  >
-                    Finish renting
-                  </button>
-                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumnsPaid"></tr>
@@ -398,7 +389,7 @@
 
               <ng-container matColumnDef="clientEmail">
                 <th mat-header-cell *matHeaderCellDef>
-                  {{ isLandlord == true ? "Tenant" : "Landlord" }}
+                  Tenant
                 </th>
                 <td mat-cell *matCellDef="let request"> {{request.clientEmail}} </td>
               </ng-container>

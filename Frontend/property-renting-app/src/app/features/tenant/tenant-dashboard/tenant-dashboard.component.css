@@ -29,6 +29,11 @@
          `<body>` to be our scrolling element for mobile layouts. */
     flex: 1 0 auto;
   }
+
+  mat-toolbar {
+    background-color: #4d014b;
+    color: white;
+  }
   
   mat-nav-list .link-btn {
     color: rgb(179, 195, 196);
@@ -55,7 +60,7 @@
     font-weight: 400;
     line-height: 1.5;
     text-align: left;
-    background-color: #7b1fa2;
+    background-color: #4d014b;
   }
   
   .dashoard-toolbar {
@@ -138,12 +143,12 @@
   .toolbar-btn {
       width: 6vw;
       background-color: white;
-      color: #7b1fa2;
+      color: #4d014b;
       border: 0.5px solid white;
   }
   
   .toolbar-btn:hover {
-      background-color: #7b1fa2;
+      background-color: #4d014b;
       color: white;
   }
   

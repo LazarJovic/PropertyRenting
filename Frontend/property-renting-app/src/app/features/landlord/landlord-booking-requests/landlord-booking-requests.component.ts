@@ -96,10 +96,6 @@ export class LandlordBookingRequestsComponent implements OnInit {
 
   messages(request) {}
 
-  pay(request) {}
-
-  cancel(request) {}
-
   finish(request) {
     this.bookingRequestService.finishBookingRequest(request.id);
     setTimeout(() => {
