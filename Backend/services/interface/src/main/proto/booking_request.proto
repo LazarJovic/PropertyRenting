@@ -4,6 +4,8 @@ option java_multiple_files = true;
 option java_package = "proto.bookingRequest";
 option java_outer_classname = "BookingRequestProto";
 
+import "ad.proto";
+
 service BookingRequestService {
     rpc CheckAvailability (CheckAvailabilityMessage) returns (CheckAvailabilityResponse) {}
 
@@ -18,6 +20,8 @@ service BookingRequestService {
     rpc FinishBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
 
     rpc CancelBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc CheckDeleteAd (AdIdMessage) returns (CheckDeleteAdResponse) {}
 }
 
 message CheckAvailabilityMessage {
@@ -56,4 +60,8 @@ message BookingRequestIdMessage {
 
 message ChangeRequestStatusResponse {
     string return_message = 1;
+}
+
+message CheckDeleteAdResponse {
+    bool canBeDeleted = 1;
 }

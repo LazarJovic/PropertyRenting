@@ -1,6 +1,7 @@
 package propertyrenting.ad.service;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import propertyrenting.ad.mapper.AdImageMapper;
@@ -11,6 +12,8 @@ import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
 import proto.ad.*;
+import proto.bookingRequest.BookingRequestServiceGrpc;
+import proto.bookingRequest.CheckDeleteAdResponse;
 import proto.property.PropertyIdMessage;
 import proto.propertyType.EmptyMessage;
 
@@ -33,6 +36,9 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
     private AdMapper adMapper;
 
     private AdImageMapper adImageMapper;
+
+    @GrpcClient("booking-server")
+    private BookingRequestServiceGrpc.BookingRequestServiceBlockingStub bookingRequestServiceBlockingStub;
 
     @Autowired
     public AdServiceImpl(AdRepository adRepository, PropertyInfoRepository propertyInfoRepository,
@@ -210,7 +216,35 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
     }
 
     public void deleteAd(AdIdMessage request, StreamObserver<DeleteAdResponse> responseObserver) {
-
+        DeleteAdResponse response;
+        Ad ad = this.adRepository.findById(request.getId()).orElseGet(null);
+        if (ad == null) {
+            response = DeleteAdResponse.newBuilder()
+                    .setReturnMessage("Selected property does not exist")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            CheckDeleteAdResponse checkResponse = this.bookingRequestServiceBlockingStub.checkDeleteAd(request);
+            if (checkResponse.getCanBeDeleted()) {
+                ad.setDeleted(true);
+                this.adRepository.save(ad);
+                response = DeleteAdResponse.newBuilder()
+                        .setReturnMessage("OK")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
+            else {
+                response = DeleteAdResponse.newBuilder()
+                        .setReturnMessage("This ad cannot be deleted. There are reserved and paid booking requests" +
+                                " of this ad.")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
+        }
     }
 
     public void checkDeleteProperty(PropertyIdMessage request, StreamObserver<CheckDeletePropertyResponse> responseObserver) {

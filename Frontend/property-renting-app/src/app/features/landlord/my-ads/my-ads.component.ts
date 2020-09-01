@@ -44,4 +44,12 @@ export class MyAdsComponent implements OnInit {
     this.router.navigate([`landlord/ad/${ad.id}`]);
   }
 
+  delete(ad) {
+    this.adService.deleteAd(ad.id);
+    setTimeout(() => {
+      this.getActiveAds();
+      this.getInactiveAds();
+    }, 300);
+  }
+
 }

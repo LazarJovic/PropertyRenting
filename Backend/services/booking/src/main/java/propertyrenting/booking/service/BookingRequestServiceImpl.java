@@ -11,6 +11,7 @@ import propertyrenting.booking.model.BookingAd;
 import propertyrenting.booking.model.BookingRequest;
 import propertyrenting.booking.repository.BookingAdRepository;
 import propertyrenting.booking.repository.BookingRequestRepository;
+import proto.ad.AdIdMessage;
 import proto.bookingRequest.*;
 
 import java.time.LocalDate;
@@ -209,6 +210,29 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
             this.bookingRequestRepository.save(bookingRequest);
             response = ChangeRequestStatusResponse.newBuilder()
                     .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    public void checkDeleteAd(AdIdMessage request, StreamObserver<CheckDeleteAdResponse> responseObserver) {
+        CheckDeleteAdResponse response;
+        if(this.bookingRequestRepository.findAdReservedAndPaid(request.getId()).size() != 0) {
+            response = CheckDeleteAdResponse.newBuilder()
+                    .setCanBeDeleted(false)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            List<BookingRequest> adPendingRequests = this.bookingRequestRepository.findAdPending(request.getId());
+            adPendingRequests.forEach(bookingRequest -> {
+                bookingRequest.setBookingRequestStatus(BookingRequestStatus.CANCELED);
+                this.bookingRequestRepository.save(bookingRequest);
+            });
+            response = CheckDeleteAdResponse.newBuilder()
+                    .setCanBeDeleted(true)
                     .build();
             responseObserver.onNext(response);
             responseObserver.onCompleted();

@@ -247,4 +247,30 @@ export class AdsService {
     return promise;
   }
 
+  deleteAd(adId: number) {
+
+    const adIdMessage: AdIdMessage = new AdIdMessage();
+    adIdMessage.setId(adId);
+
+    grpc.unary(AdService.DeleteAd, {
+      request: adIdMessage,
+      host: environment.ad,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Ad deleted')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while deleting ad');
+        }
+      },
+    });
+  }
+
 }
