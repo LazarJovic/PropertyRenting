@@ -182,7 +182,7 @@
               </ng-container>
 
               <ng-container matColumnDef="btnMessages">
-                <th mat-header-cell *matHeaderCellDef class="button-th"></th>
+                <th mat-header-cell *matHeaderCellDef class="button-th last-th"></th>
                 <td mat-cell *matCellDef="let request" class="button-td">
                   <button
                     mat-stroked-button
@@ -255,8 +255,8 @@
               </ng-container>
 
               <ng-container matColumnDef="btnDetails">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let request">
+                <th mat-header-cell *matHeaderCellDef class="button-th"></th>
+                <td mat-cell *matCellDef="let request" class="button-td">
                   <button
                     mat-stroked-button
                     class="details-btn"
@@ -266,20 +266,11 @@
                   <i class="fas fa-info-circle"></i>
                   </button>
                 </td>
-                <td mat-cell>
-                  <button
-                    mat-stroked-button
-                    class="details-btn"
-                    matTooltip="Details"
-                  >
-                  <i class="fas fa-info-circle"></i>
-                  </button>
-                </td>
               </ng-container>
 
               <ng-container matColumnDef="btnFinish">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let request">
+                <th mat-header-cell *matHeaderCellDef class="button-th last-th"></th>
+                <td mat-cell *matCellDef="let request" class="button-td">
                   <button
                     mat-stroked-button
                     class="finish-btn"
@@ -340,8 +331,8 @@
               </ng-container>
 
               <ng-container matColumnDef="btnDetails">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let request">
+                <th mat-header-cell *matHeaderCellDef class="button-th last-th"></th>
+                <td mat-cell *matCellDef="let request" class="button-td">
                   <button
                     mat-stroked-button
                     class="details-btn"
@@ -395,13 +386,17 @@
               </ng-container>
 
               <ng-container matColumnDef="btnDetails">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let request">
-                                    <button mat-stroked-button class="details-btn" matTooltip="Details"
-                                    (click)="requestDetails(request)">
-                                    <i class="fas fa-info-circle"></i>
-                                    </button>
-                                </td>
+                <th mat-header-cell *matHeaderCellDef class="button-th last-th"></th>
+                <td mat-cell *matCellDef="let request" class="button-td">
+                  <button
+                    mat-stroked-button
+                    class="details-btn"
+                    matTooltip="Details"
+                    (click)="requestDetails(request)"
+                  >
+                  <i class="fas fa-info-circle"></i>
+                  </button>
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumnsCanceled"></tr>

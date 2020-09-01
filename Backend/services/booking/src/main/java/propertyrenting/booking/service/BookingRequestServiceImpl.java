@@ -115,9 +115,9 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
                     "Booking request accepted",
                     "Booking request for property on location " + bookingRequest.getBookingAd().getAddress() + ", "
                             + bookingRequest.getBookingAd().getCity() + ", " + bookingRequest.getBookingAd().getCountry()
-                            + " is accepted. You have now 2 day to pay security deposit in value of " +
+                            + " is accepted. You have now 2 days to pay security deposit in value of " +
                             bookingRequest.getBookingAd().getSecurityDeposit() + " euros, otherwise, request will be" +
-                            "canceled. So, please, check you booking requests list."
+                            " canceled. So, please, check your booking requests list."
             );
             response = ChangeRequestStatusResponse.newBuilder()
                     .setReturnMessage("OK")
@@ -140,6 +140,28 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         }
         else {
             bookingRequest.setBookingRequestStatus(BookingRequestStatus.CANCELED);
+            this.bookingRequestRepository.save(bookingRequest);
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    public void payBookingRequest(BookingRequestIdMessage request,
+                                  StreamObserver<ChangeRequestStatusResponse> responseObserver) {
+        ChangeRequestStatusResponse response;
+        BookingRequest bookingRequest = this.bookingRequestRepository.findById(request.getId()).orElseGet(null);
+        if(bookingRequest == null || bookingRequest.getBookingRequestStatus() != BookingRequestStatus.RESERVED) {
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("Request does not exist or it's status is not RESERVED")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            bookingRequest.setBookingRequestStatus(BookingRequestStatus.PAID);
             this.bookingRequestRepository.save(bookingRequest);
             response = ChangeRequestStatusResponse.newBuilder()
                     .setReturnMessage("OK")

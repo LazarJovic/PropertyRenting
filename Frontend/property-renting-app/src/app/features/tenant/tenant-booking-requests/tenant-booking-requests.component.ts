@@ -14,7 +14,7 @@ export class TenantBookingRequestsComponent implements OnInit {
   displayedColumnsPending: string[] = ['location', 'pendingDateTime', 'bookingStart', 'bookingEnd', 'clientEmail', 'btnDetails',
                                         'btnCancel'];
   displayedColumnsReserved: string[] = ['location', 'acceptanceDateTime', 'bookingStart', 'bookingEnd', 'pricePerNight', 'securityDeposit',
-                                        'clientEmail', 'btnDetails', 'btnMessages'];
+                                        'clientEmail', 'btnDetails', 'btnPay', 'btnMessages'];
   displayedColumnsPaid: string[] = ['location', 'bookingStart', 'bookingEnd', 'pricePerNight', 'clientEmail', 'btnDetails'];
 
   displayedColumnsFinished: string[] = ['location', 'bookingStart', 'bookingEnd', 'clientEmail', 'btnDetails'];
@@ -77,7 +77,13 @@ export class TenantBookingRequestsComponent implements OnInit {
     this.router.navigate([`tenant/ad/${request.adId}`]);
   }
 
-  pay(request) {}
+  pay(request) {
+    this.bookingRequestService.payBookingRequest(request.id);
+    setTimeout(() => {
+      this.getAllReserved();
+      this.getAllPaid();
+    }, 500);
+  }
 
   cancel(request) {
     this.bookingRequestService.cancelBookingRequest(request.id);
