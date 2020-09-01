@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 import { ChooseProperty } from '@core/model/choose-property';
 import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
 import { PropertyImage } from '@core/model/property-image';
+import { MatTableDataSource } from '@angular/material/table';
+import { MyProperty } from '@core/model/my-property';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +83,37 @@ export class PropertiesService {
 
                 property.image = image;
                 array.push(property);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting properties');
+                }
+              }
+            });
+    });
+
+    return promise;
+  }
+
+  myProperties() {
+
+    const array: MatTableDataSource<MyProperty> = new MatTableDataSource<MyProperty>();
+
+    const promise = new Promise<MatTableDataSource<MyProperty>>((resolve, reject) => {
+      grpc.invoke(PropertyService.GetMyProperties, {
+              request: new EmptyMessage(),
+              host: environment.property,
+              onMessage: (message: PropertyMessage) => {
+
+                const propertyImage: string = 'data:image/jpeg;base64,' + message.getImage().getPicByte_asB64();
+
+                const property: MyProperty = new MyProperty(message.getId(), message.getCountry(), message.getCity(),
+                  message.getAddress(), message.getSize(), message.getFurnished(), message.getInternetIncluded(),
+                  message.getAirConditionIncluded(), propertyImage);
+
+                array.data.push(property);
               },
               onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
                 if (code === grpc.Code.OK) {
