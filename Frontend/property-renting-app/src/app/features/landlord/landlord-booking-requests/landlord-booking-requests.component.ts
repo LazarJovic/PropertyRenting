@@ -75,7 +75,7 @@ export class LandlordBookingRequestsComponent implements OnInit {
   }
 
   requestDetails(request) {
-    this.router.navigate([`/ad/${request.adId}`]);
+    this.router.navigate([`landlord/ad/${request.adId}`]);
   }
 
   accept(request) {

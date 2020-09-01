@@ -5,6 +5,7 @@ import { TenantRoutingModule } from './tenant-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { TenantDashboardComponent } from './tenant-dashboard/tenant-dashboard.component';
 import { TenantBookingRequestsComponent } from './tenant-booking-requests/tenant-booking-requests.component';
+import { AuthModule } from '@features/auth/auth.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { TenantBookingRequestsComponent } from './tenant-booking-requests/tenant
   imports: [
     CommonModule,
     TenantRoutingModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ]
 })
 export class TenantModule { }

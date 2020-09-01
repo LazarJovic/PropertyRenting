@@ -74,11 +74,17 @@ export class TenantBookingRequestsComponent implements OnInit {
   }
 
   requestDetails(request) {
-    this.router.navigate([`/ad/${request.adId}`]);
+    this.router.navigate([`tenant/ad/${request.adId}`]);
   }
 
   pay(request) {}
 
-  cancel(request) {}
+  cancel(request) {
+    this.bookingRequestService.cancelBookingRequest(request.id);
+    setTimeout(() => {
+      this.getAllPending();
+      this.getAllCanceled();
+    }, 500);
+  }
 
 }

@@ -4,6 +4,7 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import propertyrenting.booking.enumeration.BookingRequestStatus;
 import propertyrenting.booking.mapper.BookingRequestMapper;
 import propertyrenting.booking.model.BookingAd;
@@ -29,12 +30,15 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
     private BookingRequestMapper bookingRequestMapper;
 
+    private EmailService emailService;
+
     @Autowired
     public BookingRequestServiceImpl(BookingRequestRepository bookingRequestRepository, ValidationService validationService,
-                                     BookingAdRepository bookingAdRepository) {
+                                     BookingAdRepository bookingAdRepository, EmailService emailService) {
         this.bookingRequestRepository = bookingRequestRepository;
         this.validationService = validationService;
         this.bookingAdRepository = bookingAdRepository;
+        this.emailService = emailService;
         this.bookingRequestMapper = new BookingRequestMapper();
     }
 
@@ -106,6 +110,15 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
             bookingRequest.setAcceptanceTime(LocalDateTime.now());
             this.bookingRequestRepository.save(bookingRequest);
             //TODO: Create Booking object in CommunicationService (asynchronous)
+            emailService.sendSimpleMessage(
+                    bookingRequest.getBookingClient().getEmail(),
+                    "Booking request accepted",
+                    "Booking request for property on location " + bookingRequest.getBookingAd().getAddress() + ", "
+                            + bookingRequest.getBookingAd().getCity() + ", " + bookingRequest.getBookingAd().getCountry()
+                            + " is accepted. You have now 2 day to pay security deposit in value of " +
+                            bookingRequest.getBookingAd().getSecurityDeposit() + " euros, otherwise, request will be" +
+                            "canceled. So, please, check you booking requests list."
+            );
             response = ChangeRequestStatusResponse.newBuilder()
                     .setReturnMessage("OK")
                     .build();
@@ -158,6 +171,28 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         }
     }
 
+    public void cancelBookingRequest(BookingRequestIdMessage request,
+                                     StreamObserver<ChangeRequestStatusResponse> responseObserver) {
+        ChangeRequestStatusResponse response;
+        BookingRequest bookingRequest = this.bookingRequestRepository.findById(request.getId()).orElseGet(null);
+        if(bookingRequest == null) {
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("Request does not exist")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            bookingRequest.setBookingRequestStatus(BookingRequestStatus.CANCELED);
+            this.bookingRequestRepository.save(bookingRequest);
+            response = ChangeRequestStatusResponse.newBuilder()
+                    .setReturnMessage("OK")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
     private boolean checkForAvailabilityConflicts(List<BookingRequest> requests, LocalDate requestStart, LocalDate requestEnd) {
         for(BookingRequest bookingRequest : requests) {
             if(this.validationService.isThereConflictBetweenTheseTwoDateTimes(bookingRequest.getBookingStart(),
@@ -168,5 +203,7 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
         return false;
     }
+
+
 
 }
