@@ -108,6 +108,7 @@ message AdDetailsMessage {
     bool internet_included = 17;
     bool air_condition_included = 18;
     double average_rating = 19;
+    int64 property_id = 20;
 }
 
 message CheckDeletePropertyResponse {

@@ -143,7 +143,9 @@ export class AdsService {
               // tslint:disable-next-line: no-string-literal
               returnValue['size'], returnValue['numberOfRooms'], returnValue['distanceFromCenter'], returnValue['furnished'],
               // tslint:disable-next-line: no-string-literal
-               returnValue['internetIncluded'], returnValue['airConditionIncluded'], returnValue['averageRating']);
+              returnValue['internetIncluded'], returnValue['airConditionIncluded'], returnValue['averageRating'],
+              // tslint:disable-next-line: no-string-literal
+              returnValue['propertyId']);
 
             resolve(adDetails);
           } else {

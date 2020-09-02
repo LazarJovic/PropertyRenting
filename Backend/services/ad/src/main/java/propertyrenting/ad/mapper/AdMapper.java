@@ -99,6 +99,7 @@ public class AdMapper {
                 .setInternetIncluded(ad.getPropertyInfo().isInternetIncluded())
                 .setAirConditionIncluded(ad.getPropertyInfo().isAirConditionIncluded())
                 .setAverageRating(ad.getPropertyInfo().getAverageRating())
+                .setPropertyId(ad.getPropertyInfo().getId())
                 .build();
     }
 

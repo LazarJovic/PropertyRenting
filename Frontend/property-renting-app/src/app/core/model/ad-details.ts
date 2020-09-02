@@ -21,11 +21,12 @@ export class AdDetails {
     public internetIncluded: boolean;
     public airConditionIncluded: boolean;
     public averageRating: number;
+    public propertyId: number;
 
     constructor(id: number, startDate: string, endDate: string, postingDate: string, price: number, securityDeposit: number,
                 guestPreference: string, additionalInfo: string, type: string, country: string, city: string, address: string,
                 size: number, numberOfRooms: number, distanceFromCenter: number, furnished: boolean, internetIncluded: boolean,
-                airConditionIncluded: boolean, averageRating: number) {
+                airConditionIncluded: boolean, averageRating: number, propertyId: number) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -45,6 +46,7 @@ export class AdDetails {
         this.internetIncluded = internetIncluded;
         this.airConditionIncluded = airConditionIncluded;
         this.averageRating = averageRating;
+        this.propertyId = propertyId;
     }
 
 

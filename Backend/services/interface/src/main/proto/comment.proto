@@ -5,6 +5,7 @@ option java_package = "proto.comment";
 option java_outer_classname = "CommentProto";
 
 import "property_type.proto";
+import "property.proto";
 
 service CommentService {
     rpc GetAllPendingComments (EmptyMessage) returns (stream CommentMessage) {}
@@ -12,6 +13,8 @@ service CommentService {
     rpc AcceptComment (CommentIdMessage) returns (CommentMessage) {}
 
     rpc DenyComment (CommentIdMessage) returns (CommentMessage) {}
+
+    rpc GetAllPropertyComments (PropertyIdMessage) returns (stream CommentMessage) {}
 }
 
 message CommentMessage {
