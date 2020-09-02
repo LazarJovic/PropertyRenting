@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentsListDialogComponent } from '@shared/comments-list-dialog/comments-list-dialog.component';
 import { AdDetails } from '@core/model/ad-details';
+import { CommentsService } from '@core/service/comment-service/comments.service';
 
 export interface DialogData {
   propertyId: number;
@@ -20,12 +21,13 @@ export class CreateCommentComponent implements OnInit {
   @Input() ad: AdDetails;
 
   constructor(
-    private commentsDialog: MatDialog
+    private commentsDialog: MatDialog,
+    private commentService: CommentsService
   ) { }
 
   ngOnInit() {
     this.commentForm = new FormGroup({
-      comment: new FormControl(null)
+      content: new FormControl(null)
     });
   }
 
@@ -37,6 +39,10 @@ export class CreateCommentComponent implements OnInit {
         propertyId: this.ad.propertyId
       }
     });
+  }
+
+  leaveComment() {
+    this.commentService.createComment(this.ad.id, this.ad.propertyId, 3, this.commentForm.value.content);
   }
 
 }

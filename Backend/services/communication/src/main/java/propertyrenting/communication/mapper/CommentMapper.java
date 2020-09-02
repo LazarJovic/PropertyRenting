@@ -1,8 +1,12 @@
 package propertyrenting.communication.mapper;
 
+import propertyrenting.communication.enumeration.CommentStatus;
 import propertyrenting.communication.model.Client;
 import propertyrenting.communication.model.Comment;
 import proto.comment.CommentMessage;
+import proto.comment.CreateCommentMessage;
+
+import java.time.LocalDateTime;
 
 public class CommentMapper {
 
@@ -32,4 +36,7 @@ public class CommentMapper {
 
     }
 
+    public Comment toComment(CreateCommentMessage request, boolean isTenant) {
+        return new Comment(request.getContent(), LocalDateTime.now(), CommentStatus.PENDING, isTenant);
+    }
 }

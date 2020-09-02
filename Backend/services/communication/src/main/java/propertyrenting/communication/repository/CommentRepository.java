@@ -14,4 +14,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "select * from comment c, booking b where c.booking = b.id and b.property_id = ?1" +
             " and c.status='ACCEPTED'", nativeQuery = true)
     List<Comment> findPropertyAccepted(long id);
+
+    @Query(value = "select * from comment c, booking b where c.booking = b.id and b.tenant = ?1" +
+            " and b.ad_id = ?2 and c.status='ACCEPTED'", nativeQuery = true)
+    List<Comment> findUsersCommentsForAd(Long tenantId, Long adId);
 }

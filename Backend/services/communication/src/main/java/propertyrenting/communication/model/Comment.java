@@ -40,4 +40,10 @@ public class Comment {
     @JoinColumn(name = "booking", referencedColumnName = "id")
     private Booking booking;
 
+    public Comment(String content, LocalDateTime timestamp, CommentStatus status, boolean isTenantSender) {
+        this.content = content;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.isTenantSender = isTenantSender;
+    }
 }

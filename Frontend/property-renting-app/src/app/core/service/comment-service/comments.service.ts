@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { grpc } from '@improbable-eng/grpc-web';
 import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
 import { environment } from 'src/environments/environment';
-import { CommentMessage, CommentIdMessage, PropertyIdCommentsMessage } from 'src/proto/comment/comment_pb';
+import { CommentMessage, CommentIdMessage, PropertyIdCommentsMessage, CreateCommentMessage } from 'src/proto/comment/comment_pb';
 import { Comment } from '@core/model/comment';
 import { ToastrService } from 'ngx-toastr';
 import { PropertyIdMessage } from 'src/proto/property/property_pb';
@@ -121,6 +121,35 @@ export class CommentsService {
     });
 
     return promise;
+  }
+
+  createComment(adId: number, propertyId: number, requestId: number, content: string) {
+
+    const createCommentMessage: CreateCommentMessage = new CreateCommentMessage();
+    createCommentMessage.setAdId(adId);
+    createCommentMessage.setPropertyId(propertyId);
+    createCommentMessage.setRequestId(requestId);
+    createCommentMessage.setContent(content);
+
+    grpc.unary(CommentService.CreateComment, {
+      request: createCommentMessage,
+      host: environment.communication,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Comment created')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while creating comment');
+        }
+      },
+    });
   }
 
 }
