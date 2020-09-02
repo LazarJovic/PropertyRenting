@@ -1,0 +1,33 @@
+<div id="content-div" class="row">
+  <div id="comments-div" class="col-sm-12">
+    <div id="leave-comment-div" class="row">
+      <div class="col-12">
+        <div class="row">
+          <form [formGroup]="commentForm" class="col-11">
+            <mat-form-field id="comment-field">
+              <textarea
+                matInput
+                id="comment-textarea"
+                placeholder="Leave your comment"
+                formControlName="comment"
+              >
+              </textarea>
+            </mat-form-field>
+          </form>
+          <div class="col-1">
+            <button
+              mat-icon-button
+              id="submit-comment-btn"
+              type="submit"
+              class="submit-button"
+              (click)="leaveComment()"
+            >
+              <mat-icon>send </mat-icon>
+            </button>
+          </div>
+        </div>
+        <button mat-flat-button class="comments-btn" (click)="showComments()">Show comments</button>
+      </div>
+    </div>
+  </div>
+</div>

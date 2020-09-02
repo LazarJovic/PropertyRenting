@@ -1,0 +1,36 @@
+.table-div {
+    width: 80vw;
+    margin: 0 auto;
+    text-align: center;
+}
+
+p {
+    color: #4d014b;
+}
+
+h5 {
+    margin-top: 4vh;
+}
+
+table {
+    background-color: #4d014b;
+    width: 75vw;
+    margin-left: 2vw;
+    margin-top: 2vw;
+}
+
+table th {
+    text-align: left;
+    width: 10vw;
+    padding: 5px;
+    background-color: white;
+    color: #4d014b;
+    border-top: 1px solid #4d014b;
+}
+
+table td {
+    text-align: left;
+    width: 10vw;
+    padding: 5px;
+    background-color: #4d014b;
+}

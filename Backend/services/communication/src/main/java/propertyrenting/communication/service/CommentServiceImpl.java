@@ -7,22 +7,21 @@ import propertyrenting.communication.enumeration.CommentStatus;
 import propertyrenting.communication.mapper.CommentMapper;
 import propertyrenting.communication.model.Comment;
 import propertyrenting.communication.repository.CommentRepository;
-import proto.comment.CommentIdMessage;
-import proto.comment.CommentMessage;
-import proto.comment.CommentServiceGrpc;
+import proto.comment.*;
+import proto.property.PropertyIdMessage;
 import proto.propertyType.EmptyMessage;
 
 import java.util.List;
 
 @GrpcService
-public class CommentService extends CommentServiceGrpc.CommentServiceImplBase {
+public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBase {
 
     private CommentRepository commentRepository;
 
     private CommentMapper commentMapper;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
         this.commentMapper = new CommentMapper();
     }
@@ -48,6 +47,20 @@ public class CommentService extends CommentServiceGrpc.CommentServiceImplBase {
         comment.setStatus(CommentStatus.DENIED);
         responseObserver.onNext(this.commentMapper.toCommentMessage(this.commentRepository.save(comment)));
         responseObserver.onCompleted();
+    }
+
+    public void getAllPropertyComments(PropertyIdMessage request, StreamObserver<CommentMessage> responseObserver) {
+        List<Comment> propertyComments = this.commentRepository.findPropertyAccepted(request.getId());
+        propertyComments.forEach(comment -> {
+            responseObserver.onNext(this.commentMapper.toCommentMessage(comment));
+        });
+
+        responseObserver.onCompleted();
+    }
+
+    public void createComment(CreateCommentMessage request,
+                              StreamObserver<CreateCommentMessageResponse> responseObserver) {
+
     }
 
 }

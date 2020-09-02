@@ -76,7 +76,6 @@ export class CreateAdComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result) {
-        console.log(result);
         this.choosenProperty = result.property;
         this.adForm.patchValue({
           property: this.choosenProperty.address + ', ' + this.choosenProperty.city + ', ' + this.choosenProperty.country
