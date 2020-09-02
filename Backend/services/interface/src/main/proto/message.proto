@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "proto.message";
+option java_outer_classname = "MessageProto";
+
+service MessageService {
+    rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse) {}
+
+    rpc GetAllRequestMessages (GetRequestMessages) returns (stream MessageMessage) {}
+}
+
+message CreateMessageRequest {
+    int64 request_id = 1;
+    string content = 2;
+}
+
+message MessageMessage {
+    int64 id = 1;
+    string content = 2;
+    string sender_name = 3;
+    string sender_surname = 4;
+    string sender_email = 5;
+    bool is_tenant_sender = 6;
+    string timestamp = 7;
+    int64 booking_id = 8;
+
+}
+
+message CreateMessageResponse {
+    MessageMessage message = 1;
+    string return_message = 2;
+}
+
+message GetRequestMessages {
+    int64 booking_id = 1;
+}

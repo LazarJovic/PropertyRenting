@@ -4,6 +4,12 @@ import { BookingRequest } from '@core/model/booking-request';
 import { BookingRequestService } from 'src/proto/booking-request/booking_request_pb_service';
 import { BookingRequestsService } from '@core/service/booking-request-service/booking-requests.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MessagesDialogComponent } from '@shared/messages-dialog/messages-dialog.component';
+
+export interface MessagesDialogData {
+  bookingId: number;
+}
 
 @Component({
   selector: 'app-landlord-booking-requests',
@@ -28,6 +34,7 @@ export class LandlordBookingRequestsComponent implements OnInit {
 
   isLandlord: boolean;
   constructor(
+    private messagesDialog: MatDialog,
     private router: Router,
     private bookingRequestService: BookingRequestsService
   ) { }
@@ -94,7 +101,15 @@ export class LandlordBookingRequestsComponent implements OnInit {
     }, 500);
   }
 
-  messages(request) {}
+  messages(request) {
+    const dialogRef = this.messagesDialog.open(MessagesDialogComponent, {
+      width: '80vw',
+      height: '90vh',
+      data: {
+        bookingId: request.id
+      }
+    });
+  }
 
   finish(request) {
     this.bookingRequestService.finishBookingRequest(request.id);
