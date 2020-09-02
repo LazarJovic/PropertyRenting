@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Comment } from '@angular/compiler';
+import { CommentsService } from '@core/service/comment-service/comments.service';
+import { DialogData } from '@shared/create-comment/create-comment.component';
+import { Comment } from '@core/model/comment';
 
 @Component({
   selector: 'app-comments-list-dialog',
@@ -15,10 +17,15 @@ export class CommentsListDialogComponent implements OnInit {
   displayedColumns: string[] = ['person', 'email', 'timestamp', 'content'];
 
   constructor(
-    public dialogRef: MatDialogRef<CommentsListDialogComponent>
+    public dialogRef: MatDialogRef<CommentsListDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private commentService: CommentsService
   ) { }
 
   ngOnInit() {
+    this.commentService.getPropertyComments(this.data.propertyId).then(value => {
+      this.dataSource = value;
+    });
   }
 
   onNoClick(): void {

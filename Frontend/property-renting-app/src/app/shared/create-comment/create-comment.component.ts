@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentsListDialogComponent } from '@shared/comments-list-dialog/comments-list-dialog.component';
+import { AdDetails } from '@core/model/ad-details';
+
+export interface DialogData {
+  propertyId: number;
+}
 
 @Component({
   selector: 'app-create-comment',
@@ -11,6 +16,8 @@ import { CommentsListDialogComponent } from '@shared/comments-list-dialog/commen
 export class CreateCommentComponent implements OnInit {
 
   commentForm: FormGroup;
+
+  @Input() ad: AdDetails;
 
   constructor(
     private commentsDialog: MatDialog
@@ -25,7 +32,10 @@ export class CreateCommentComponent implements OnInit {
   showComments() {
     const dialogRef = this.commentsDialog.open(CommentsListDialogComponent, {
       width: '80vw',
-      height: '90vh'
+      height: '90vh',
+      data: {
+        propertyId: this.ad.propertyId
+      }
     });
   }
 

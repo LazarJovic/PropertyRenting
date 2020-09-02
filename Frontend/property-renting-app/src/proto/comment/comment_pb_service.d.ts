@@ -32,11 +32,31 @@ type CommentServiceDenyComment = {
   readonly responseType: typeof comment_pb.CommentMessage;
 };
 
+type CommentServiceGetAllPropertyComments = {
+  readonly methodName: string;
+  readonly service: typeof CommentService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof comment_pb.PropertyIdCommentsMessage;
+  readonly responseType: typeof comment_pb.CommentMessage;
+};
+
+type CommentServiceCreateComment = {
+  readonly methodName: string;
+  readonly service: typeof CommentService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof comment_pb.CreateCommentMessage;
+  readonly responseType: typeof comment_pb.CreateCommentMessageResponse;
+};
+
 export class CommentService {
   static readonly serviceName: string;
   static readonly GetAllPendingComments: CommentServiceGetAllPendingComments;
   static readonly AcceptComment: CommentServiceAcceptComment;
   static readonly DenyComment: CommentServiceDenyComment;
+  static readonly GetAllPropertyComments: CommentServiceGetAllPropertyComments;
+  static readonly CreateComment: CommentServiceCreateComment;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -89,6 +109,16 @@ export class CommentServiceClient {
   denyComment(
     requestMessage: comment_pb.CommentIdMessage,
     callback: (error: ServiceError|null, responseMessage: comment_pb.CommentMessage|null) => void
+  ): UnaryResponse;
+  getAllPropertyComments(requestMessage: comment_pb.PropertyIdCommentsMessage, metadata?: grpc.Metadata): ResponseStream<comment_pb.CommentMessage>;
+  createComment(
+    requestMessage: comment_pb.CreateCommentMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: comment_pb.CreateCommentMessageResponse|null) => void
+  ): UnaryResponse;
+  createComment(
+    requestMessage: comment_pb.CreateCommentMessage,
+    callback: (error: ServiceError|null, responseMessage: comment_pb.CreateCommentMessageResponse|null) => void
   ): UnaryResponse;
 }
 

@@ -2278,7 +2278,8 @@ proto.AdDetailsMessage.toObject = function(includeInstance, msg) {
     furnished: jspb.Message.getBooleanFieldWithDefault(msg, 16, false),
     internetIncluded: jspb.Message.getBooleanFieldWithDefault(msg, 17, false),
     airConditionIncluded: jspb.Message.getBooleanFieldWithDefault(msg, 18, false),
-    averageRating: jspb.Message.getFloatingPointFieldWithDefault(msg, 19, 0.0)
+    averageRating: jspb.Message.getFloatingPointFieldWithDefault(msg, 19, 0.0),
+    propertyId: jspb.Message.getFieldWithDefault(msg, 20, 0)
   };
 
   if (includeInstance) {
@@ -2390,6 +2391,10 @@ proto.AdDetailsMessage.deserializeBinaryFromReader = function(msg, reader) {
     case 19:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setAverageRating(value);
+      break;
+    case 20:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setPropertyId(value);
       break;
     default:
       reader.skipField();
@@ -2550,6 +2555,13 @@ proto.AdDetailsMessage.serializeBinaryToWriter = function(message, writer) {
   if (f !== 0.0) {
     writer.writeDouble(
       19,
+      f
+    );
+  }
+  f = message.getPropertyId();
+  if (f !== 0) {
+    writer.writeInt64(
+      20,
       f
     );
   }
@@ -2895,6 +2907,24 @@ proto.AdDetailsMessage.prototype.getAverageRating = function() {
  */
 proto.AdDetailsMessage.prototype.setAverageRating = function(value) {
   return jspb.Message.setProto3FloatField(this, 19, value);
+};
+
+
+/**
+ * optional int64 property_id = 20;
+ * @return {number}
+ */
+proto.AdDetailsMessage.prototype.getPropertyId = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 20, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.AdDetailsMessage} returns this
+ */
+proto.AdDetailsMessage.prototype.setPropertyId = function(value) {
+  return jspb.Message.setProto3IntField(this, 20, value);
 };
 
 

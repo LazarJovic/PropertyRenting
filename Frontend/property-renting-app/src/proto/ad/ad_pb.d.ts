@@ -342,6 +342,9 @@ export class AdDetailsMessage extends jspb.Message {
   getAverageRating(): number;
   setAverageRating(value: number): void;
 
+  getPropertyId(): number;
+  setPropertyId(value: number): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AdDetailsMessage.AsObject;
   static toObject(includeInstance: boolean, msg: AdDetailsMessage): AdDetailsMessage.AsObject;
@@ -373,6 +376,7 @@ export namespace AdDetailsMessage {
     internetIncluded: boolean,
     airConditionIncluded: boolean,
     averageRating: number,
+    propertyId: number,
   }
 }
 

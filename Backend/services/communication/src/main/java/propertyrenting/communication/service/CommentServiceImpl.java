@@ -49,8 +49,8 @@ public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBas
         responseObserver.onCompleted();
     }
 
-    public void getAllPropertyComments(PropertyIdMessage request, StreamObserver<CommentMessage> responseObserver) {
-        List<Comment> propertyComments = this.commentRepository.findPropertyAccepted(request.getId());
+    public void getAllPropertyComments(PropertyIdCommentsMessage request, StreamObserver<CommentMessage> responseObserver) {
+        List<Comment> propertyComments = this.commentRepository.findPropertyAccepted(request.getPropertyId());
         propertyComments.forEach(comment -> {
             responseObserver.onNext(this.commentMapper.toCommentMessage(comment));
         });

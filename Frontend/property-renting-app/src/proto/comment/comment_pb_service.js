@@ -38,6 +38,24 @@ CommentService.DenyComment = {
   responseType: comment_pb.CommentMessage
 };
 
+CommentService.GetAllPropertyComments = {
+  methodName: "GetAllPropertyComments",
+  service: CommentService,
+  requestStream: false,
+  responseStream: true,
+  requestType: comment_pb.PropertyIdCommentsMessage,
+  responseType: comment_pb.CommentMessage
+};
+
+CommentService.CreateComment = {
+  methodName: "CreateComment",
+  service: CommentService,
+  requestStream: false,
+  responseStream: false,
+  requestType: comment_pb.CreateCommentMessage,
+  responseType: comment_pb.CreateCommentMessageResponse
+};
+
 exports.CommentService = CommentService;
 
 function CommentServiceClient(serviceHost, options) {
@@ -120,6 +138,76 @@ CommentServiceClient.prototype.denyComment = function denyComment(requestMessage
     callback = arguments[1];
   }
   var client = grpc.unary(CommentService.DenyComment, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+CommentServiceClient.prototype.getAllPropertyComments = function getAllPropertyComments(requestMessage, metadata) {
+  var listeners = {
+    data: [],
+    end: [],
+    status: []
+  };
+  var client = grpc.invoke(CommentService.GetAllPropertyComments, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onMessage: function (responseMessage) {
+      listeners.data.forEach(function (handler) {
+        handler(responseMessage);
+      });
+    },
+    onEnd: function (status, statusMessage, trailers) {
+      listeners.status.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners.end.forEach(function (handler) {
+        handler({ code: status, details: statusMessage, metadata: trailers });
+      });
+      listeners = null;
+    }
+  });
+  return {
+    on: function (type, handler) {
+      listeners[type].push(handler);
+      return this;
+    },
+    cancel: function () {
+      listeners = null;
+      client.close();
+    }
+  };
+};
+
+CommentServiceClient.prototype.createComment = function createComment(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(CommentService.CreateComment, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

@@ -64,3 +64,81 @@ export namespace CommentIdMessage {
   }
 }
 
+export class CreateCommentMessage extends jspb.Message {
+  getContent(): string;
+  setContent(value: string): void;
+
+  getRequestId(): number;
+  setRequestId(value: number): void;
+
+  getAdId(): number;
+  setAdId(value: number): void;
+
+  getPropertyId(): number;
+  setPropertyId(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateCommentMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateCommentMessage): CreateCommentMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateCommentMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateCommentMessage;
+  static deserializeBinaryFromReader(message: CreateCommentMessage, reader: jspb.BinaryReader): CreateCommentMessage;
+}
+
+export namespace CreateCommentMessage {
+  export type AsObject = {
+    content: string,
+    requestId: number,
+    adId: number,
+    propertyId: number,
+  }
+}
+
+export class PropertyIdCommentsMessage extends jspb.Message {
+  getPropertyId(): number;
+  setPropertyId(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PropertyIdCommentsMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: PropertyIdCommentsMessage): PropertyIdCommentsMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: PropertyIdCommentsMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PropertyIdCommentsMessage;
+  static deserializeBinaryFromReader(message: PropertyIdCommentsMessage, reader: jspb.BinaryReader): PropertyIdCommentsMessage;
+}
+
+export namespace PropertyIdCommentsMessage {
+  export type AsObject = {
+    propertyId: number,
+  }
+}
+
+export class CreateCommentMessageResponse extends jspb.Message {
+  hasComment(): boolean;
+  clearComment(): void;
+  getComment(): CommentMessage | undefined;
+  setComment(value?: CommentMessage): void;
+
+  getReturnMessage(): string;
+  setReturnMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateCommentMessageResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateCommentMessageResponse): CreateCommentMessageResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateCommentMessageResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateCommentMessageResponse;
+  static deserializeBinaryFromReader(message: CreateCommentMessageResponse, reader: jspb.BinaryReader): CreateCommentMessageResponse;
+}
+
+export namespace CreateCommentMessageResponse {
+  export type AsObject = {
+    comment?: CommentMessage.AsObject,
+    returnMessage: string,
+  }
+}
+

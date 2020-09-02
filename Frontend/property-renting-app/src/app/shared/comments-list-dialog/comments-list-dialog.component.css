@@ -10,6 +10,7 @@ p {
 
 h5 {
     margin-top: 4vh;
+    text-align: center;
 }
 
 table {
@@ -33,4 +34,28 @@ table td {
     width: 10vw;
     padding: 5px;
     background-color: #4d014b;
+}
+
+button {
+    background-color: #424242;
+    color: white;
+    border: 1px solid white;
+}
+
+button:hover {
+    background-color: #4d014b;
+    color: white;
+}
+
+#back-button {
+    margin-left: 10px;
+    position: fixed;
+    margin-bottom: -3vw;
+    background-color: #4d014b;
+    color: white;
+}
+
+#back-button:hover {
+    background-color: #424242;
+    color: white;
 }

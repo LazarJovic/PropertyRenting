@@ -79,7 +79,7 @@ public class AdMapper {
 
     public AdDetailsMessage toAdDetailsMessage(Ad ad) {
 
-        return AdDetailsMessage.newBuilder()
+        AdDetailsMessage reposnse =  AdDetailsMessage.newBuilder()
                 .setId(ad.getId())
                 .setStartDate(ad.getStartDate().toString())
                 .setEndDate(ad.getEndDate().toString())
@@ -101,6 +101,9 @@ public class AdMapper {
                 .setAverageRating(ad.getPropertyInfo().getAverageRating())
                 .setPropertyId(ad.getPropertyInfo().getId())
                 .build();
+
+        System.out.println(reposnse.getPropertyId());
+        return reposnse;
     }
 
     public MyAdMessage toMyAdMessage(Ad ad) {

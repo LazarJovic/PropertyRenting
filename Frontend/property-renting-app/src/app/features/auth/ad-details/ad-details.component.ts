@@ -72,7 +72,6 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     this.adService.getAdImages(this.id).then(value => {
       this.adImages = value;
       this.loadImages();
-      console.log(this.imageObject);
     });
 
     this.minDate = new Date(Date.now()).toISOString().split('T')[0];

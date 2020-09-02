@@ -133,7 +133,6 @@ export class AdsService {
 
           if (status === grpc.Code.OK && message) {
             const returnValue = message.toObject();
-
             // tslint:disable-next-line: no-string-literal
             const adDetails: AdDetails = new AdDetails(returnValue['id'], returnValue['startDate'], returnValue['endDate'],
             // tslint:disable-next-line: no-string-literal
