@@ -13,6 +13,9 @@ import propertyrenting.property.repository.PropertyRepository;
 import propertyrenting.property.repository.PropertyTypeRepository;
 import proto.ad.AdServiceGrpc;
 import proto.ad.CheckDeletePropertyResponse;
+import proto.bookingRequest.BookingRequestServiceGrpc;
+import proto.bookingRequest.MostRentedPropertiesMessage;
+import proto.bookingRequest.RentedPropertyMessage;
 import proto.property.*;
 import proto.propertyInfo.PropertyInfoServiceGrpc;
 import proto.propertyType.EmptyMessage;
@@ -39,6 +42,9 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
 
     @GrpcClient("ad-server")
     private AdServiceGrpc.AdServiceBlockingStub adServiceBlockingStub;
+
+    @GrpcClient("booking-server")
+    private BookingRequestServiceGrpc.BookingRequestServiceBlockingStub bookingRequestServiceBlockingStub;
 
     @Autowired
     public PropertyServiceImpl(PropertyRepository propertyRepository, PropertyTypeRepository propertyTypeRepository,
@@ -154,6 +160,22 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
     }
 
     public void getByNumberOfBookings(EmptyMessage request, StreamObserver<PropertyStatsMessage> responseObserver) {
+        MostRentedPropertiesMessage response = this.bookingRequestServiceBlockingStub.getMostRentedProperties(
+                EmptyMessage.newBuilder().build()
+        );
+
+        int i = 1;
+        for (RentedPropertyMessage message : response.getIdsList()) {
+            Property property = this.propertyRepository.findById(message.getId()).orElseGet(null);
+            responseObserver.onNext(this.propertyMapper.toPropertyStatsMessage(
+                    property, i, message.getRents()
+            ));
+            i++;
+            if (i == 6)
+                break;
+        }
+
+        responseObserver.onCompleted();
 
     }
 

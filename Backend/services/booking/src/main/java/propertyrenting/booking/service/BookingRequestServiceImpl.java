@@ -1,5 +1,6 @@
 package propertyrenting.booking.service;
 
+import com.google.common.collect.Ordering;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.tomcat.jni.Local;
@@ -13,12 +14,13 @@ import propertyrenting.booking.repository.BookingAdRepository;
 import propertyrenting.booking.repository.BookingRequestRepository;
 import proto.ad.AdIdMessage;
 import proto.bookingRequest.*;
+import proto.propertyType.EmptyMessage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @GrpcService
 public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.BookingRequestServiceImplBase {
@@ -237,6 +239,39 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+    }
+
+    public void getMostRentedProperties(EmptyMessage request,
+                                        StreamObserver<MostRentedPropertiesMessage> responseObserver) {
+        List<Long> propertyIds = this.bookingRequestRepository.findAllRentedProperties();
+        HashMap<Long, Integer> mostRented = new HashMap<>();
+        for (Long propertyId: propertyIds) {
+            List<BookingRequest> propertyRentals = this.bookingRequestRepository.findPropertyPaidAndFinished(propertyId);
+            mostRented.put(propertyId, propertyRentals.size());
+        }
+
+        HashMap<Long, Integer> sortedMap =
+                mostRented.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue())
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                (e1, e2) -> e1, LinkedHashMap::new));
+
+        List<RentedPropertyMessage> rentedPropertyMessages = new ArrayList<>();
+        for (Map.Entry<Long, Integer> entry : sortedMap.entrySet()) {
+            RentedPropertyMessage rentedPropertyMessage = RentedPropertyMessage.newBuilder()
+                    .setId(entry.getKey()).setRents(entry.getValue()).build();
+            rentedPropertyMessages.add(rentedPropertyMessage);
+        }
+
+        MostRentedPropertiesMessage response = MostRentedPropertiesMessage.newBuilder()
+                .addIds(rentedPropertyMessages.get(4))
+                .addIds(rentedPropertyMessages.get(3))
+                .addIds(rentedPropertyMessages.get(2))
+                .addIds(rentedPropertyMessages.get(1))
+                .addIds(rentedPropertyMessages.get(0))
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     private boolean checkForAvailabilityConflicts(List<BookingRequest> requests, LocalDate requestStart, LocalDate requestEnd) {

@@ -186,4 +186,36 @@ export class PropertiesService {
     return promise;
   }
 
+  getByBookings() {
+
+    const array: MatTableDataSource<PropertyStats> = new MatTableDataSource<PropertyStats>();
+
+    const promise = new Promise<MatTableDataSource<PropertyStats>>((resolve, reject) => {
+      grpc.invoke(PropertyService.GetByNumberOfBookings, {
+              request: new EmptyMessage(),
+              host: environment.property,
+              onMessage: (message: PropertyStatsMessage) => {
+
+                const propertyImage: string = 'data:image/jpeg;base64,' + message.getImage().getPicByte_asB64();
+
+                const property: PropertyStats = new PropertyStats(message.getId(), message.getPosition(), message.getCountry(),
+                 message.getCity(), message.getAddress(), message.getType(), message.getNumberOfBookings(), message.getAverageRating(),
+                 propertyImage);
+
+                array.data.push(property);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting properties by number of bookings');
+                }
+              }
+            });
+    });
+
+    return promise;
+  }
+
+
 }

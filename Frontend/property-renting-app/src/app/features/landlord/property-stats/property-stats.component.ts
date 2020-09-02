@@ -15,6 +15,7 @@ export class PropertyStatsComponent implements OnInit {
   displayedColumnsBestRated: string[] = ['position', 'image', 'location', 'type', 'averageRating'];
 
   dataSourceBestRated: MatTableDataSource<PropertyStats> = new MatTableDataSource<PropertyStats>();
+  dataSourceNumberOfBookings: MatTableDataSource<PropertyStats> = new MatTableDataSource<PropertyStats>();
 
   constructor(
     private propertyService: PropertiesService
@@ -23,6 +24,9 @@ export class PropertyStatsComponent implements OnInit {
   ngOnInit() {
     this.propertyService.getByRating().then(value => {
       this.dataSourceBestRated = value;
+    });
+    this.propertyService.getByBookings().then(value => {
+      this.dataSourceNumberOfBookings = value;
     });
   }
 
