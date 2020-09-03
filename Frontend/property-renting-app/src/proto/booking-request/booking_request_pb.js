@@ -667,7 +667,8 @@ proto.BookingRequestMessage.toObject = function(includeInstance, msg) {
     bookingStart: jspb.Message.getFieldWithDefault(msg, 9, ""),
     bookingEnd: jspb.Message.getFieldWithDefault(msg, 10, ""),
     clientEmail: jspb.Message.getFieldWithDefault(msg, 11, ""),
-    adId: jspb.Message.getFieldWithDefault(msg, 12, 0)
+    adId: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    status: jspb.Message.getFieldWithDefault(msg, 13, "")
   };
 
   if (includeInstance) {
@@ -751,6 +752,10 @@ proto.BookingRequestMessage.deserializeBinaryFromReader = function(msg, reader) 
     case 12:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setAdId(value);
+      break;
+    case 13:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStatus(value);
       break;
     default:
       reader.skipField();
@@ -862,6 +867,13 @@ proto.BookingRequestMessage.serializeBinaryToWriter = function(message, writer) 
   if (f !== 0) {
     writer.writeInt64(
       12,
+      f
+    );
+  }
+  f = message.getStatus();
+  if (f.length > 0) {
+    writer.writeString(
+      13,
       f
     );
   }
@@ -1081,6 +1093,24 @@ proto.BookingRequestMessage.prototype.getAdId = function() {
  */
 proto.BookingRequestMessage.prototype.setAdId = function(value) {
   return jspb.Message.setProto3IntField(this, 12, value);
+};
+
+
+/**
+ * optional string status = 13;
+ * @return {string}
+ */
+proto.BookingRequestMessage.prototype.getStatus = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 13, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.BookingRequestMessage} returns this
+ */
+proto.BookingRequestMessage.prototype.setStatus = function(value) {
+  return jspb.Message.setProto3StringField(this, 13, value);
 };
 
 

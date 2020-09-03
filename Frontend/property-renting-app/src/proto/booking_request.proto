@@ -44,6 +44,7 @@ message BookingRequestMessage {
     string booking_end = 10;
     string client_email = 11;
     int64 ad_id = 12;
+    string status = 13;
 }
 
 message BookingRequestIdMessage {

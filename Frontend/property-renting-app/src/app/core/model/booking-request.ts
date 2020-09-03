@@ -12,10 +12,12 @@ export class BookingRequest {
     public bookingStart: string;
     public bookingEnd: string;
     public clientEmail: string;
+    public status: string;
 
 
     constructor(id: number, adId: number, country: string, city: string, address: string, price: number, securityDeposit: number,
-                pendingDateTime: string, acceptanceDateTime: string, bookingStart: string, bookingEnd: string, clientEmail: string) {
+                pendingDateTime: string, acceptanceDateTime: string, bookingStart: string, bookingEnd: string, clientEmail: string,
+                status: string) {
             this.id = id;
             this.adId = adId;
             this.country = country;
@@ -28,5 +30,6 @@ export class BookingRequest {
             this.bookingStart = bookingStart;
             this.bookingEnd = bookingEnd;
             this.clientEmail = clientEmail;
+            this.status = status;
         }
 }

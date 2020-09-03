@@ -75,7 +75,7 @@ export class BookingRequestsService {
                 const request: BookingRequest = new BookingRequest(message.getId(), message.getAdId(), message.getCountry(),
                                     message.getCity(), message.getAddress(), message.getPrice(), message.getSecurityDeposit(),
                                     pendingDateTime, acceptanceDateTime, message.getBookingStart(),
-                                    message.getBookingEnd(), message.getClientEmail());
+                                    message.getBookingEnd(), message.getClientEmail(), message.getStatus());
                 array.data.push(request);
               },
               onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {

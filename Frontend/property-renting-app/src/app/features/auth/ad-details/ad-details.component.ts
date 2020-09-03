@@ -60,6 +60,7 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
   isAvailable: boolean;
   checkedAvailability: boolean;
   minDate: string;
+  isFinished: boolean;
 
   fromRequestList: boolean;
   request: BookingRequest;
@@ -80,7 +81,6 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
         this.id = id;
       }
     });
-
   }
 
   ngOnInit() {
@@ -102,6 +102,8 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     if (this.request !== undefined) {
       this.fromRequestList = true;
     }
+
+    this.request.status === 'FINISHED' ? this.isFinished = true : this.isFinished = false;
   }
 
   ngAfterViewInit(): void {

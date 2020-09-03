@@ -19,6 +19,7 @@ public class BookingRequestMapper {
                 .setBookingStart(bookingRequest.getBookingStart().toString())
                 .setBookingEnd(bookingRequest.getBookingEnd().toString())
                 .setClientEmail(bookingRequest.getBookingClient().getEmail())
+                .setStatus(bookingRequest.getBookingRequestStatus().toString())
                 .build();
     }
 

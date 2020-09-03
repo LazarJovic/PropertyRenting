@@ -112,6 +112,9 @@ export class BookingRequestMessage extends jspb.Message {
   getAdId(): number;
   setAdId(value: number): void;
 
+  getStatus(): string;
+  setStatus(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): BookingRequestMessage.AsObject;
   static toObject(includeInstance: boolean, msg: BookingRequestMessage): BookingRequestMessage.AsObject;
@@ -136,6 +139,7 @@ export namespace BookingRequestMessage {
     bookingEnd: string,
     clientEmail: string,
     adId: number,
+    status: string,
   }
 }
 
