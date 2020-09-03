@@ -49,6 +49,10 @@
                             available for the selected time</h6>
                         <h6 *ngIf="startDate && endDate && !isAvailable && checkedAvailability">Vehicle is
                             not available for the selected time</h6>
+                        <button mat-flat-button class="rent-button"
+                                *ngIf="startDate && endDate && isAvailable && checkedAvailability" (click)="rent()">
+                            Rent
+                        </button>
                     </div>
                 </div>
                 <div class="col-lg">

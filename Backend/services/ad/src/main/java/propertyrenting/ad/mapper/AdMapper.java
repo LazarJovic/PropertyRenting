@@ -3,6 +3,7 @@ package propertyrenting.ad.mapper;
 import propertyrenting.ad.enumeration.GuestPreference;
 import propertyrenting.ad.model.Ad;
 import proto.ad.*;
+import proto.bookingAd.BookingAdDataMessage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -119,5 +120,20 @@ public class AdMapper {
             .setPrice(ad.getPricePerNight())
             .setImage(this.adImageMapper.toAdImageMessage(ad.getAdImageSet().iterator().next()))
             .build();
+    }
+
+    public BookingAdDataMessage toBookingAdDataMessage(Ad ad) {
+        return BookingAdDataMessage.newBuilder()
+                .setId(ad.getId())
+                .setCountry(ad.getPropertyInfo().getCountry())
+                .setCity(ad.getPropertyInfo().getCity())
+                .setAddress(ad.getPropertyInfo().getAddress())
+                .setPricePerNight(ad.getPricePerNight())
+                .setSecurityDeposit(ad.getSecurityDeposit())
+                .setStartDate(ad.getStartDate().toString())
+                .setEndDate(ad.getEndDate().toString())
+                .setPropertyId(ad.getPropertyInfo().getId())
+                .setLandlord(ad.getPropertyInfo().getLandlord().getId())
+                .build();
     }
 }

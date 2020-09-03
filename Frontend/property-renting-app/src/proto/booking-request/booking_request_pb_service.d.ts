@@ -67,6 +67,15 @@ type BookingRequestServiceCancelBookingRequest = {
   readonly responseType: typeof booking_request_pb.ChangeRequestStatusResponse;
 };
 
+type BookingRequestServiceCreateBookingRequest = {
+  readonly methodName: string;
+  readonly service: typeof BookingRequestService;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof booking_request_pb.CreateBookingRequestMessage;
+  readonly responseType: typeof booking_request_pb.CreateBookingRequestResponse;
+};
+
 export class BookingRequestService {
   static readonly serviceName: string;
   static readonly CheckAvailability: BookingRequestServiceCheckAvailability;
@@ -76,6 +85,7 @@ export class BookingRequestService {
   static readonly PayBookingRequest: BookingRequestServicePayBookingRequest;
   static readonly FinishBookingRequest: BookingRequestServiceFinishBookingRequest;
   static readonly CancelBookingRequest: BookingRequestServiceCancelBookingRequest;
+  static readonly CreateBookingRequest: BookingRequestServiceCreateBookingRequest;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -164,6 +174,15 @@ export class BookingRequestServiceClient {
   cancelBookingRequest(
     requestMessage: booking_request_pb.BookingRequestIdMessage,
     callback: (error: ServiceError|null, responseMessage: booking_request_pb.ChangeRequestStatusResponse|null) => void
+  ): UnaryResponse;
+  createBookingRequest(
+    requestMessage: booking_request_pb.CreateBookingRequestMessage,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: booking_request_pb.CreateBookingRequestResponse|null) => void
+  ): UnaryResponse;
+  createBookingRequest(
+    requestMessage: booking_request_pb.CreateBookingRequestMessage,
+    callback: (error: ServiceError|null, responseMessage: booking_request_pb.CreateBookingRequestResponse|null) => void
   ): UnaryResponse;
 }
 

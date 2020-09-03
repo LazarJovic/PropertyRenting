@@ -2,15 +2,19 @@ package propertyrenting.booking.service;
 
 import com.google.common.collect.Ordering;
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import propertyrenting.booking.enumeration.BookingRequestStatus;
+import propertyrenting.booking.mapper.BookingAdMapper;
 import propertyrenting.booking.mapper.BookingRequestMapper;
 import propertyrenting.booking.model.BookingAd;
+import propertyrenting.booking.model.BookingClient;
 import propertyrenting.booking.model.BookingRequest;
 import propertyrenting.booking.repository.BookingAdRepository;
+import propertyrenting.booking.repository.BookingClientRepository;
 import propertyrenting.booking.repository.BookingRequestRepository;
 import proto.ad.AdIdMessage;
 import proto.bookingRequest.*;
@@ -19,7 +23,6 @@ import proto.propertyType.EmptyMessage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @GrpcService
@@ -31,18 +34,61 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
     private BookingAdRepository bookingAdRepository;
 
+    private BookingClientRepository bookingClientRepository;
+
     private BookingRequestMapper bookingRequestMapper;
+
+    private BookingAdMapper bookingAdMapper;
 
     private EmailService emailService;
 
     @Autowired
     public BookingRequestServiceImpl(BookingRequestRepository bookingRequestRepository, ValidationService validationService,
-                                     BookingAdRepository bookingAdRepository, EmailService emailService) {
+                                     BookingAdRepository bookingAdRepository,
+                                     BookingClientRepository bookingClientRepository, EmailService emailService) {
         this.bookingRequestRepository = bookingRequestRepository;
         this.validationService = validationService;
         this.bookingAdRepository = bookingAdRepository;
         this.emailService = emailService;
+        this.bookingClientRepository = bookingClientRepository;
         this.bookingRequestMapper = new BookingRequestMapper();
+        this.bookingAdMapper = new BookingAdMapper();
+    }
+
+    public void createBookingRequest(CreateBookingRequestMessage request,
+                                     StreamObserver<CreateBookingRequestResponse> responseObserver) {
+        //TODO: Get logged-in booking client and set it in booking request
+        BookingClient tenant = this.bookingClientRepository.getOne((long)1);
+        CreateBookingRequestResponse response;
+        String validationMessage = this.validationService.validateCreateBookingRequestMessage(request);
+        if(!validationMessage.equals("OK")) {
+            response = CreateBookingRequestResponse.newBuilder()
+                    .setReturnMessage(validationMessage)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            BookingAd bookingAd = this.bookingAdRepository.findById(request.getAdId()).orElseGet(null);
+            BookingAd savedBookingAd = null;
+
+            BookingRequest bookingRequest = this.bookingRequestMapper.toBookingRequest(request);
+            bookingRequest.setBookingRequestStatus(BookingRequestStatus.PENDING);
+            bookingRequest.setBookingClient(tenant);
+            bookingRequest.setPendingTime(LocalDateTime.now());
+            bookingRequest.setBookingAd(bookingAd);
+
+            response = CreateBookingRequestResponse.newBuilder()
+                    .setBookingRequest(this.bookingRequestMapper.toBookingRequestMessage(
+                            this.bookingRequestRepository.save(bookingRequest)
+                    ))
+                    .setReturnMessage(validationMessage)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+
+        }
     }
 
     public void checkAvailability(CheckAvailabilityMessage request,

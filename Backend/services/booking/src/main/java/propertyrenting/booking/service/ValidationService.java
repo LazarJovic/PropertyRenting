@@ -3,6 +3,7 @@ package propertyrenting.booking.service;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import proto.bookingRequest.CheckAvailabilityMessage;
+import proto.bookingRequest.CreateBookingRequestMessage;
 
 import java.time.LocalDate;
 
@@ -29,6 +30,24 @@ public class ValidationService {
         }
         else if(endDate != null && endCheckDate.isAfter(endDate)) {
             return "Ad is not active in chosen time";
+        }
+
+        return "OK";
+    }
+
+    public String validateCreateBookingRequestMessage(CreateBookingRequestMessage request) {
+        String result = this.validateDate(request.getBookingStart());
+        if(!result.equals("OK")) {
+            return result;
+        }
+        result = this.validateDate(request.getBookingEnd());
+        if(!result.equals("OK")) {
+            return result;
+        }
+        LocalDate startBookingDate = LocalDate.parse(request.getBookingStart());
+        LocalDate endBookingDate = LocalDate.parse(request.getBookingEnd());
+        if(startBookingDate.isAfter(endBookingDate)) {
+            return "Booking start time cannot be after booking end time";
         }
 
         return "OK";

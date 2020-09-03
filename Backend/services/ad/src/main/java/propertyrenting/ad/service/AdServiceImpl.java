@@ -12,6 +12,7 @@ import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
 import proto.ad.*;
+import proto.bookingAd.BookingAdServiceGrpc;
 import proto.bookingRequest.BookingRequestServiceGrpc;
 import proto.bookingRequest.CheckDeleteAdResponse;
 import proto.property.PropertyIdMessage;
@@ -39,6 +40,9 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
 
     @GrpcClient("booking-server")
     private BookingRequestServiceGrpc.BookingRequestServiceBlockingStub bookingRequestServiceBlockingStub;
+
+    @GrpcClient("booking-server")
+    private BookingAdServiceGrpc.BookingAdServiceBlockingStub bookingAdServiceBlockingStub;
 
     @Autowired
     public AdServiceImpl(AdRepository adRepository, PropertyInfoRepository propertyInfoRepository,
@@ -69,6 +73,8 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
             ad.setPropertyInfo(propertyInfo);
 
             Ad savedAd = this.adRepository.save(ad);
+
+            this.bookingAdServiceBlockingStub.createBookingAd(this.adMapper.toBookingAdDataMessage(savedAd));
 
             List<AdImageMessage> images = this.adImageService.createAdImages(request.getImagesList(), savedAd.getId());
 

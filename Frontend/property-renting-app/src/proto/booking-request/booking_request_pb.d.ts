@@ -183,3 +183,57 @@ export namespace ChangeRequestStatusResponse {
   }
 }
 
+export class CreateBookingRequestMessage extends jspb.Message {
+  getBookingStart(): string;
+  setBookingStart(value: string): void;
+
+  getBookingEnd(): string;
+  setBookingEnd(value: string): void;
+
+  getAdId(): number;
+  setAdId(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBookingRequestMessage.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBookingRequestMessage): CreateBookingRequestMessage.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateBookingRequestMessage, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBookingRequestMessage;
+  static deserializeBinaryFromReader(message: CreateBookingRequestMessage, reader: jspb.BinaryReader): CreateBookingRequestMessage;
+}
+
+export namespace CreateBookingRequestMessage {
+  export type AsObject = {
+    bookingStart: string,
+    bookingEnd: string,
+    adId: number,
+  }
+}
+
+export class CreateBookingRequestResponse extends jspb.Message {
+  hasBookingRequest(): boolean;
+  clearBookingRequest(): void;
+  getBookingRequest(): BookingRequestMessage | undefined;
+  setBookingRequest(value?: BookingRequestMessage): void;
+
+  getReturnMessage(): string;
+  setReturnMessage(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBookingRequestResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBookingRequestResponse): CreateBookingRequestResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateBookingRequestResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBookingRequestResponse;
+  static deserializeBinaryFromReader(message: CreateBookingRequestResponse, reader: jspb.BinaryReader): CreateBookingRequestResponse;
+}
+
+export namespace CreateBookingRequestResponse {
+  export type AsObject = {
+    bookingRequest?: BookingRequestMessage.AsObject,
+    returnMessage: string,
+  }
+}
+

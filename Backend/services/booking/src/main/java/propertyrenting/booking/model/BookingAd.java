@@ -56,4 +56,17 @@ public class BookingAd {
     @OneToMany(mappedBy = "bookingAd", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<BookingRequest> bookingRequestSet;
 
+    public BookingAd(Long id, String country, String city, String address, double pricePerNight,
+                     double securityDeposit, LocalDate startDate, LocalDate endDate, Long propertyId, Long landlordId) {
+        this.id = id;
+        this.country = country;
+        this.city = city;
+        this.address = address;
+        this.pricePerNight = pricePerNight;
+        this.securityDeposit = securityDeposit;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.propertyId = propertyId;
+        this.landlordId = landlordId;
+    }
 }

@@ -14,6 +14,8 @@ service BookingRequestService {
     rpc FinishBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
 
     rpc CancelBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
+
+    rpc CreateBookingRequest (CreateBookingRequestMessage) returns (CreateBookingRequestResponse) {}
 }
 
 message CheckAvailabilityMessage {
@@ -53,4 +55,15 @@ message BookingRequestIdMessage {
 
 message ChangeRequestStatusResponse {
     string return_message = 1;
+}
+
+message CreateBookingRequestMessage {
+    string booking_start = 1;
+    string booking_end = 2;
+    int64 ad_id = 3;
+}
+
+message CreateBookingRequestResponse {
+    BookingRequestMessage booking_request = 1;
+    string return_message = 2;
 }

@@ -49,4 +49,8 @@ public class BookingRequest {
     @JoinColumn(name = "booking_ad", referencedColumnName = "id")
     private BookingAd bookingAd;
 
+    public BookingRequest(LocalDate bookingStart, LocalDate bookingEnd) {
+        this.bookingStart = bookingStart;
+        this.bookingEnd = bookingEnd;
+    }
 }

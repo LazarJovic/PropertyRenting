@@ -170,6 +170,10 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     });
   }
 
+  rent() {
+    this.bookingRequestService.createBookingRequest(this.startDate, this.endDate, this.id);
+  }
+
   datesChanged() {
     console.log(this.startDate + ' ' + this.endDate);
     this.isAvailable = false;

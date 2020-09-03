@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "proto.bookingAd";
+option java_outer_classname = "BookingAdProto";
+
+service BookingAdService {
+    rpc CreateBookingAd (BookingAdDataMessage) returns (CrateBookingAdResponse) {}
+}
+
+message BookingAdDataMessage {
+    int64 id = 1;
+    string country = 2;
+    string city = 3;
+    string address = 4;
+    double price_per_night = 5;
+    double security_deposit = 6;
+    string start_date = 7;
+    string end_date = 8;
+    int64 property_id = 9;
+    int64 landlord = 10;
+}
+
+message CrateBookingAdResponse {
+    string return_message = 1;
+}

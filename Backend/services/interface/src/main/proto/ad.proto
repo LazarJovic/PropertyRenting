@@ -24,6 +24,7 @@ service AdService {
     rpc GetMyInactiveAds (EmptyMessage) returns (stream MyAdMessage) {}
 
     rpc DeleteAd (AdIdMessage) returns (DeleteAdResponse) {}
+
 }
 
 message AdMessage {

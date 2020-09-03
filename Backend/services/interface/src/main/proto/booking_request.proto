@@ -26,6 +26,8 @@ service BookingRequestService {
     rpc CheckDeleteAd (AdIdMessage) returns (CheckDeleteAdResponse) {}
 
     rpc GetMostRentedProperties (EmptyMessage) returns (MostRentedPropertiesMessage) {}
+
+    rpc CreateBookingRequest (CreateBookingRequestMessage) returns (CreateBookingRequestResponse) {}
 }
 
 message CheckAvailabilityMessage {
@@ -78,4 +80,15 @@ message RentedPropertyMessage {
 
 message MostRentedPropertiesMessage {
     repeated RentedPropertyMessage ids = 1;
+}
+
+message CreateBookingRequestMessage {
+    string booking_start = 1;
+    string booking_end = 2;
+    int64 ad_id = 3;
+}
+
+message CreateBookingRequestResponse {
+    BookingRequestMessage booking_request = 1;
+    string return_message = 2;
 }

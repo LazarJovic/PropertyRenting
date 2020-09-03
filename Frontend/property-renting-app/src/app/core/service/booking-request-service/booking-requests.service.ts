@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CheckAvailability } from '@core/model/check-availability';
 import { CheckAvailabilityMessage, BookingRequestStatusMessage, BookingRequestMessage,
-   BookingRequestIdMessage } from 'src/proto/booking-request/booking_request_pb';
+   BookingRequestIdMessage,
+   CreateBookingRequestMessage} from 'src/proto/booking-request/booking_request_pb';
 import { BookingRequestService } from 'src/proto/booking-request/booking_request_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
@@ -55,6 +56,34 @@ export class BookingRequestsService {
     return promise;
   }
 
+  createBookingRequest(startDate: string, endDate: string, adId: number) {
+
+    const createBookingRequestMessage: CreateBookingRequestMessage = new CreateBookingRequestMessage();
+    createBookingRequestMessage.setBookingStart(startDate);
+    createBookingRequestMessage.setBookingEnd(endDate);
+    createBookingRequestMessage.setAdId(adId);
+
+    grpc.unary(BookingRequestService.CreateBookingRequest, {
+      request: createBookingRequestMessage,
+      host: environment.booking,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Booking request successfully created')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while creating booking request');
+        }
+      },
+    });
+  }
+
   getRequestsByStatus(status: string) {
     const array: MatTableDataSource<BookingRequest> = new MatTableDataSource();
 
@@ -69,8 +98,12 @@ export class BookingRequestsService {
 
                 const pendingDateTime = message.getPendingDateTime().split('T')[0] + ' '
                                         + message.getPendingDateTime().split('T')[1].substring(0, 5);
-                const acceptanceDateTime = message.getAcceptanceDateTime().split('T')[0] + ' '
-                                        + message.getAcceptanceDateTime().split('T')[1].substring(0, 5);
+                let acceptanceDateTime = '';
+
+                if(status !== 'PENDING') {
+                  acceptanceDateTime = message.getAcceptanceDateTime().split('T')[0] + ' '
+                  + message.getAcceptanceDateTime().split('T')[1].substring(0, 5);
+                }
 
                 const request: BookingRequest = new BookingRequest(message.getId(), message.getAdId(), message.getCountry(),
                                     message.getCity(), message.getAddress(), message.getPrice(), message.getSecurityDeposit(),
