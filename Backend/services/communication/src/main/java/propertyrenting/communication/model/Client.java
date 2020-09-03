@@ -30,10 +30,6 @@ public class Client {
     @Column
     private String email;
 
-    @Setter
-    @Column
-    private boolean commentingBlocked;
-
     @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Booking> ownerBookingSet;
 
@@ -45,7 +41,6 @@ public class Client {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
-        this.commentingBlocked = false;
         this.ownerBookingSet = new HashSet<>();
         this.rentedBookingSet = new HashSet<>();
     }

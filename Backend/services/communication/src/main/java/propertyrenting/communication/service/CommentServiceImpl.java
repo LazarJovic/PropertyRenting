@@ -81,12 +81,6 @@ public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBas
             validationMessage = "You have already left comment for this ad";
         }
 
-        //TODO: Get by logged-in
-        Client client = this.clientRepository.findById((long)1).orElseGet(null);
-        if(client.isCommentingBlocked()) {
-            validationMessage = "Administrator has blocked you for commenting";
-        }
-
         if(!validationMessage.equals("OK")) {
             response = CreateCommentMessageResponse.newBuilder()
                     .setReturnMessage(validationMessage)
