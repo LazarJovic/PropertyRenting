@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RateDialogData } from '@features/auth/ad-details/ad-details.component';
 import { Rating } from '@core/model/rating';
+import { RatingsService } from '@core/service/rating-service/ratings.service';
 
 @Component({
   selector: 'app-rate-dialog',
@@ -14,7 +15,8 @@ export class RateDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<RateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RateDialogData
+    @Inject(MAT_DIALOG_DATA) public data: RateDialogData,
+    private ratingService: RatingsService
   ) { }
 
   ngOnInit() {
@@ -25,9 +27,10 @@ export class RateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  rateAd() {
-    const rate: Rating = new Rating(0, this.propertyRating, this.data.requestId, this.data.adId, this.data.propertyId,
+  rate() {
+    const rating: Rating = new Rating(0, this.propertyRating, this.data.requestId, this.data.adId, this.data.propertyId,
        this.data.averageRating);
+    this.ratingService.rateAd(rating);
   }
 
 }

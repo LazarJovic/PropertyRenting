@@ -20,6 +20,7 @@ public class AdRating {
     @Column
     private int rating;
 
+    @Setter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "booking", referencedColumnName = "id")
     private Booking booking;
