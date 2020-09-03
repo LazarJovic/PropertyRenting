@@ -22,7 +22,7 @@
                     </div>
                     <div class="row">
                         <h5><i class="fas fa-star icon"></i>{{ad?.averageRating}}</h5>
-                        <button mat-flat-button class="rate-button">
+                        <button mat-flat-button class="rate-button" (click)="rate(this.ad, this.request)">
                             <i class="fas fa-star button-icon"></i>Rate</button>
                     </div>
                     

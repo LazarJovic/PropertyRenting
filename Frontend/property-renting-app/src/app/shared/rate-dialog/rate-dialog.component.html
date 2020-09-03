@@ -1,0 +1,13 @@
+<h5 mat-dilaog-title>Rate this ad</h5>
+<mat-dialog-content>
+    <h5>Property: {{data.address}}, {{data.city}}, {{data.country}}</h5>
+    <ngb-rating [(rate)]="propertyRating" max="5" (rateChange)="rateAd()">
+        <ng-template let-fill="fill">
+            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+        </ng-template>   
+    </ngb-rating>
+    <pre>Property rating: <b>{{propertyRating}}</b></pre>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

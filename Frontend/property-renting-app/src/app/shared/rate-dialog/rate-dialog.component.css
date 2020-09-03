@@ -1,0 +1,29 @@
+.star {
+    font-size: 3vw;
+    color: #b0c4de;
+    
+}
+
+.filled {
+    color: #ffd700;
+}
+
+h5 {
+    margin-top: 3px;
+}
+
+pre {
+    color: white;
+}
+
+button {
+    background-color: #424242;
+    color: white;
+    border: 1px solid white;
+}
+
+button:hover {
+    background-color: #4d014b;
+    color: white;
+}
+

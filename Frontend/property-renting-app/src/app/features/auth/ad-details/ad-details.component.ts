@@ -11,6 +11,21 @@ import * as L from 'leaflet';
 import * as esriGeo from 'esri-leaflet-geocoder';
 import { CheckAvailability } from '@core/model/check-availability';
 import { BookingRequestsService } from '@core/service/booking-request-service/booking-requests.service';
+import { BookingRequest } from '@core/model/booking-request';
+import { MatDialog } from '@angular/material/dialog';
+import { RateDialogComponent } from '@shared/rate-dialog/rate-dialog.component';
+
+export interface RateDialogData {
+  ratingId: number;
+  rating: number;
+  adId: number;
+  requestId: number;
+  propertyId: number;
+  country: string;
+  city: string;
+  address: string;
+  averageRating: number;
+}
 
 const iconRetinaUrl = 'leaflet/marker-icon-2x.png';
 const iconUrl = 'leaflet/marker-icon.png';
@@ -46,6 +61,9 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
   checkedAvailability: boolean;
   minDate: string;
 
+  fromRequestList: boolean;
+  request: BookingRequest;
+
   map: any;
 
   @ViewChild('slider', { static: false }) private slider: NgImageSliderComponent;
@@ -54,6 +72,7 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
   constructor(
     private route: ActivatedRoute,
     private adService: AdsService,
+    private rateDialog: MatDialog,
     private bookingRequestService: BookingRequestsService) {
     const temp: Observable<number> = route.params.pipe(map(p => p.id));
     temp.subscribe(id => {
@@ -78,6 +97,11 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     window.dispatchEvent(new Event('resize'));
 
     geoCodeResult = new Array<any>();
+
+    this.request = history.state.data;
+    if (this.request !== undefined) {
+      this.fromRequestList = true;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -148,6 +172,27 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     console.log(this.startDate + ' ' + this.endDate);
     this.isAvailable = false;
     this.checkedAvailability = false;
+  }
+
+  rate(ad, request) {
+
+    console.log(ad);
+    console.log(request);
+    const dialogRef = this.rateDialog.open(RateDialogComponent, {
+      width: '30vw',
+      height: '40vh',
+      data: {
+        ratingId: 0,
+        rating: 0,
+        adId: ad.id,
+        requestId: request.id,
+        propertyId: ad.propertyId,
+        country: ad.country,
+        city: ad.city,
+        address: ad.address,
+        averageRating: ad.averageRating
+      }
+    });
   }
 
 }

@@ -16,12 +16,14 @@ import { SearchAdResultCardComponent } from './search-ad-result-card/search-ad-r
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { CommentsListDialogComponent } from './comments-list-dialog/comments-list-dialog.component';
 import { MessagesDialogComponent } from './messages-dialog/messages-dialog.component';
+import { RateDialogComponent } from './rate-dialog/rate-dialog.component';
 
 
 @NgModule({
   declarations: [PendingBookingRequestsComponent, ReservedBookingRequestsComponent,
      PaidBookingRequestsComponent, FinishedBookingRequestsComponent, CanceledBookingRequestsComponent,
-      SearchAdsComponent, SearchAdResultCardComponent, CreateCommentComponent, CommentsListDialogComponent, MessagesDialogComponent],
+      SearchAdsComponent, SearchAdResultCardComponent, CreateCommentComponent, CommentsListDialogComponent,
+       MessagesDialogComponent, RateDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -45,7 +47,8 @@ import { MessagesDialogComponent } from './messages-dialog/messages-dialog.compo
   ],
   entryComponents: [
     CommentsListDialogComponent,
-    MessagesDialogComponent
+    MessagesDialogComponent,
+    RateDialogComponent
   ]
 })
 export class SharedModule { }
