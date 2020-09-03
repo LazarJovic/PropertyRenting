@@ -179,6 +179,19 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
 
     }
 
+    public void updateRatingProperty(UpdatePropertyRatingRequestMessage request,
+                                     StreamObserver<UpdatePropertyRatingResponseMessage> responseObserver) {
+        Property property = this.propertyRepository.findById(request.getPropertyId()).orElseGet(null);
+        property.setAverageRating(request.getAverageRating());
+        Property savedPropertyInfo = this.propertyRepository.save(property);
+        UpdatePropertyRatingResponseMessage response = UpdatePropertyRatingResponseMessage.newBuilder()
+                .setAverageRating(savedPropertyInfo.getAverageRating())
+                .setReturnMessage("OK")
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
     private String validateProperty(PropertyMessage propertyMessage) {
         PropertyType propertyType = this.propertyTypeRepository.findById(propertyMessage.getTypeId())
                 .orElseGet(null);

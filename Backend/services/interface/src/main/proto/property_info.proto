@@ -8,6 +8,8 @@ import "property_type.proto";
 
 service PropertyInfoService {
     rpc CreatePropertyInfo (PropertyInfoMessage) returns (EmptyMessage) {}
+
+    rpc UpdateRatingPropertyInfo (UpdateRatingRequestMessage) returns (UpdateRatingResponseMessage) {}
 }
 
 message PropertyInfoMessage {
@@ -23,5 +25,15 @@ message PropertyInfoMessage {
     bool internet_included = 10;
     bool air_condition_included = 11;
     double average_rating = 12;
+}
+
+message UpdateRatingRequestMessage {
+    int64 property_id = 1;
+    double average_rating = 2;
+}
+
+message UpdateRatingResponseMessage {
+    double average_rating = 1;
+    string return_message = 2;
 }
 

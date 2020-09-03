@@ -16,6 +16,8 @@ service PropertyService {
     rpc GetByNumberOfBookings (EmptyMessage) returns (stream PropertyStatsMessage) {}
 
     rpc GetByAverageRating (EmptyMessage) returns (stream PropertyStatsMessage) {}
+
+    rpc UpdateRatingProperty (UpdatePropertyRatingRequestMessage) returns (UpdatePropertyRatingResponseMessage) {}
 }
 
 message PropertyMessage {
@@ -63,4 +65,14 @@ message PropertyStatsMessage {
     int32 number_of_bookings = 7;
     double average_rating = 8;
     PropertyImageMessage image = 9;
+}
+
+message UpdatePropertyRatingRequestMessage {
+    int64 property_id = 1;
+    double average_rating = 2;
+}
+
+message UpdatePropertyRatingResponseMessage {
+    double average_rating = 1;
+    string return_message = 2;
 }

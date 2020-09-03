@@ -1,6 +1,7 @@
 package propertyrenting.communication.service;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import propertyrenting.communication.mapper.AdRatingMapper;
@@ -11,6 +12,11 @@ import propertyrenting.communication.repository.BookingRepository;
 import proto.adRating.AdRatingMessage;
 import proto.adRating.AdRatingServiceGrpc;
 import proto.adRating.RateAdResponseMessage;
+import proto.property.PropertyServiceGrpc;
+import proto.property.UpdatePropertyRatingRequestMessage;
+import proto.propertyInfo.PropertyInfoServiceGrpc;
+import proto.propertyInfo.UpdateRatingRequestMessage;
+import proto.propertyInfo.UpdateRatingResponseMessage;
 
 @GrpcService
 public class AdRatingServiceImpl extends AdRatingServiceGrpc.AdRatingServiceImplBase {
@@ -20,6 +26,12 @@ public class AdRatingServiceImpl extends AdRatingServiceGrpc.AdRatingServiceImpl
     private BookingRepository bookingRepository;
 
     private AdRatingMapper adRatingMapper;
+
+    @GrpcClient("ad-server")
+    private PropertyInfoServiceGrpc.PropertyInfoServiceBlockingStub propertyInfoServiceBlockingStub;
+
+    @GrpcClient("property-server")
+    private PropertyServiceGrpc.PropertyServiceBlockingStub propertyServiceBlockingStub;
 
     @Autowired
     public AdRatingServiceImpl(AdRatingRepository adRatingRepository, BookingRepository bookingRepository) {
@@ -31,7 +43,7 @@ public class AdRatingServiceImpl extends AdRatingServiceGrpc.AdRatingServiceImpl
     public void rateAd(AdRatingMessage request, StreamObserver<RateAdResponseMessage> responseObserver) {
         RateAdResponseMessage response;
         //TODO: Get logged-in user
-        if(this.alreadyRated((long) 1, request.getAdId())) {
+        if(this.alreadyRated((long) 2, request.getAdId())) {
             response = RateAdResponseMessage.newBuilder()
                     .setReturnMessage("Ad can be rated only once. You have already rated this ad")
                     .build();
@@ -45,7 +57,19 @@ public class AdRatingServiceImpl extends AdRatingServiceGrpc.AdRatingServiceImpl
             adRating.setBooking(booking);
             AdRating savedRating = this.adRatingRepository.save(adRating);
             double avg = this.adRatingRepository.vehicleRatingAverage(request.getPropertyId());
-            //TODO: Update u Ad i Vehicle service
+
+            UpdateRatingRequestMessage updateMessageAd = UpdateRatingRequestMessage.newBuilder()
+                    .setPropertyId(request.getPropertyId())
+                    .setAverageRating(avg)
+                    .build();
+            this.propertyInfoServiceBlockingStub.updateRatingPropertyInfo(updateMessageAd);
+
+            UpdatePropertyRatingRequestMessage updateMessageProperty = UpdatePropertyRatingRequestMessage.newBuilder()
+                    .setPropertyId(request.getPropertyId())
+                    .setAverageRating(avg)
+                    .build();
+            this.propertyServiceBlockingStub.updateRatingProperty(updateMessageProperty);
+
             response = RateAdResponseMessage.newBuilder()
                     .setRatingMessage(this.adRatingMapper.toAdRatingMessage(savedRating, avg))
                     .setReturnMessage("OK")
