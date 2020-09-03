@@ -54,4 +54,12 @@ export class MessagesDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
+  sendMessage() {
+    this.messageService.createMessage(this.data.bookingId, this.messageForm.value.message);
+    this.messageForm.reset();
+    setTimeout(() => {
+      this.getMessages();
+    }, 200);
+  }
+
 }

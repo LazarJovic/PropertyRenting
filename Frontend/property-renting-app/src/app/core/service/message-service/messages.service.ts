@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Message } from '@core/model/message';
-import { GetRequestMessages, MessageMessage } from 'src/proto/message/message_pb';
+import { GetRequestMessages, MessageMessage, CreateMessageRequest } from 'src/proto/message/message_pb';
 import { MessageService } from 'src/proto/message/message_pb_service';
 import { MatTableDataSource } from '@angular/material/table';
 import { grpc } from '@improbable-eng/grpc-web';
@@ -51,6 +51,33 @@ export class MessagesService {
 
     return promise;
 
+  }
+
+  createMessage(bookingId: number, content: string) {
+
+    const createMessageRequest: CreateMessageRequest = new CreateMessageRequest();
+    createMessageRequest.setRequestId(bookingId);
+    createMessageRequest.setContent(content);
+
+    grpc.unary(MessageService.CreateMessage, {
+      request: createMessageRequest,
+      host: environment.communication,
+      onEnd: (res) => {
+        const { status, statusMessage, headers, message, trailers } = res;
+
+        if (status === grpc.Code.OK && message) {
+          const returnValue = message.toObject();
+          // tslint:disable-next-line: no-string-literal
+          const returnMessage = returnValue['returnMessage'];
+
+          returnMessage === 'OK'
+            ? this.toastr.success('Message created')
+            : this.toastr.error(returnMessage);
+        } else {
+          this.toastr.error('An error occurred while creating message');
+        }
+      },
+    });
   }
 
 }

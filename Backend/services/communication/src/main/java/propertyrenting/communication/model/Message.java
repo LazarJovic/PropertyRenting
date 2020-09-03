@@ -34,4 +34,9 @@ public class Message {
     @JoinColumn(name = "booking", referencedColumnName = "id")
     private Booking booking;
 
+    public Message(String content, LocalDateTime timestamp, boolean isRenterSender) {
+        this.content = content;
+        this.timestamp = timestamp;
+        this.isRenterSender = isRenterSender;
+    }
 }

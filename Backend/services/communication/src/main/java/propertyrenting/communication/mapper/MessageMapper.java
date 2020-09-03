@@ -1,7 +1,11 @@
 package propertyrenting.communication.mapper;
 
+import propertyrenting.communication.model.Booking;
 import propertyrenting.communication.model.Message;
+import proto.message.CreateMessageRequest;
 import proto.message.MessageMessage;
+
+import java.time.LocalDateTime;
 
 public class MessageMapper {
 
@@ -33,4 +37,7 @@ public class MessageMapper {
                 .build();
     }
 
+    public Message toMessage(CreateMessageRequest request, boolean isTenantSender) {
+        return new Message(request.getContent(), LocalDateTime.now(), isTenantSender);
+    }
 }
