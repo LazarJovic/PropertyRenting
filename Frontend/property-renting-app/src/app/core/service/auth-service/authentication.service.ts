@@ -46,7 +46,14 @@ export class AuthenticationService {
                           returnValue['userId'], returnValue['role']);
 
             this.authTokenService.handleAuthentication(userToken);
-            console.log(localStorage.getItem('loggedUser'));
+            console.log(userToken);
+            if (userToken.role === 'ROLE_ADMIN') {
+              this.router.navigate(['/admin']);
+            } else if (userToken.role === 'ROLE_LANDLORD') {
+              this.router.navigate(['/landlord']);
+            } else {
+              this.router.navigate(['/tenant']);
+            }
 
           }
         } else {

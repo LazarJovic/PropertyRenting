@@ -43,6 +43,18 @@ const routes: Routes = [
         path: 'ad/:id',
         component: AdDetailsComponent,
         pathMatch: 'full'
+      },
+      {
+        path: 'landlord',
+        loadChildren: () => import('@features/landlord/landlord.module').then(m => m.LandlordModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('@features/admin/admin.module').then(m => m.AdminModule)
+      },
+      {
+        path: 'tenant',
+        loadChildren: () => import('@features/tenant/tenant.module').then(m => m.TenantModule)
       }
 
     ]
