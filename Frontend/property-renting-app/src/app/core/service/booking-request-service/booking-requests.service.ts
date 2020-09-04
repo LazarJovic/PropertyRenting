@@ -100,7 +100,7 @@ export class BookingRequestsService {
                                         + message.getPendingDateTime().split('T')[1].substring(0, 5);
                 let acceptanceDateTime = '';
 
-                if(status !== 'PENDING') {
+                if (status !== 'PENDING') {
                   acceptanceDateTime = message.getAcceptanceDateTime().split('T')[0] + ' '
                   + message.getAcceptanceDateTime().split('T')[1].substring(0, 5);
                 }

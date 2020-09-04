@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+service AuthService {
+    rpc Login (LoginMessage) returns (UserWithTokenMessage) {}
+}
+
+message LoginMessage {
+    string username = 2;
+    string password = 3;
+}
+
+message UserWithTokenMessage {
+    string access_token = 1;
+    int64 expires_in = 2;
+    int64 user_id = 3;
+    string role = 4;
+    bool valid = 5;
+    string return_message = 6;
+}
