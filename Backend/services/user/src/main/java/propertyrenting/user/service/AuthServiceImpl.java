@@ -11,13 +11,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.user.enumeration.RoleType;
 import propertyrenting.user.model.Client;
-import propertyrenting.user.model.Landlord;
+import propertyrenting.user.model.User;
 import propertyrenting.user.security.TokenUtils;
 import proto.auth.AuthServiceGrpc;
 import proto.auth.LoginMessage;
 import proto.auth.UserWithTokenMessage;
-
-import propertyrenting.user.model.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,27 +49,36 @@ public class AuthServiceImpl extends AuthServiceGrpc.AuthServiceImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
+            if (user.isAccountBlocked()) {
+                response = UserWithTokenMessage.newBuilder()
+                        .setReturnMessage("Admin has blocked your account")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
+            else {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+                List<String> permissions = this.getPermissions(authorities);
+                RoleType roleType = user.getRoleSet().iterator().next().getRoleType();
+                String jwt = tokenUtils.generateToken(user.getUsername(), permissions, roleType.toString());
+                int expiresIn = tokenUtils.getExpiredIn();
 
-            Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-            List<String> permissions = this.getPermissions(authorities);
-            RoleType roleType = user.getRoleSet().iterator().next().getRoleType();
-            String jwt = tokenUtils.generateToken(user.getUsername(), permissions, roleType.toString());
-            int expiresIn = tokenUtils.getExpiredIn();
-
-            response = UserWithTokenMessage.newBuilder()
-                    .setAccessToken(jwt)
-                    .setExpiresIn(expiresIn)
-                    .setUserId(user.getId())
-                    .setRole(roleType.toString())
-                    .setValid(true)
-                    .setReturnMessage("OK")
-                    .build();
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
+                response = UserWithTokenMessage.newBuilder()
+                        .setAccessToken(jwt)
+                        .setExpiresIn(expiresIn)
+                        .setUserId(user.getId())
+                        .setRole(roleType.toString())
+                        .setValid(true)
+                        .setReturnMessage("OK")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+            }
         }
     }
 

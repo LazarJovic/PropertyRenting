@@ -44,9 +44,7 @@ export class AuthenticationService {
             const userToken: UserWithToken = new UserWithToken(returnValue['accessToken'], returnValue['expiresIn'],
                           // tslint:disable-next-line: no-string-literal
                           returnValue['userId'], returnValue['role']);
-
             this.authTokenService.handleAuthentication(userToken);
-            console.log(userToken);
             if (userToken.role === 'ROLE_ADMIN') {
               this.router.navigate(['/admin']);
             } else if (userToken.role === 'ROLE_LANDLORD') {
@@ -57,11 +55,10 @@ export class AuthenticationService {
 
           }
         } else {
-          this.toastr.error('An error occurred while creating property type');
+          this.toastr.error('An error occurred while logging in');
         }
       },
     });
-
 
   }
 

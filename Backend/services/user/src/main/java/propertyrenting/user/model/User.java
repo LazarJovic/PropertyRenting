@@ -42,6 +42,9 @@ public class User implements UserDetails {
     private String phone;
 
     @Column
+    private boolean accountBlocked;
+
+    @Column
     private Timestamp lastPasswordResetDate;
 
     @ManyToMany

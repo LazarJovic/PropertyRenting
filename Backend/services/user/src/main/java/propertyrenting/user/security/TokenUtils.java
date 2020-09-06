@@ -1,21 +1,19 @@
 package propertyrenting.user.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import io.jsonwebtoken.Claims;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.Jwts;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-
 import propertyrenting.user.common.TimeProvider;
 import propertyrenting.user.model.User;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Component
 public class TokenUtils {
@@ -42,7 +40,6 @@ public class TokenUtils {
 
     private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-    // Funkcija za generisanje JWT token
     public String generateToken(String username, List<String> permissions, String role) {
         return Jwts.builder()
                 .setIssuer(APP_NAME)
@@ -50,22 +47,12 @@ public class TokenUtils {
                 .setAudience(generateAudience())
                 .setIssuedAt(timeProvider.now())
                 .setExpiration(generateExpirationDate())
-                .claim("role", role) //postavljanje proizvoljnih podataka u telo JWT tokena
+                .claim("role", role)
                 .claim("permissions", permissions)
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
     }
 
     private String generateAudience() {
-//		Moze se iskoristiti org.springframework.mobile.device.Device objekat za odredjivanje tipa uredjaja sa kojeg je zahtev stigao.
-
-//		String audience = AUDIENCE_UNKNOWN;
-//		if (device.isNormal()) {
-//			audience = AUDIENCE_WEB;
-//		} else if (device.isTablet()) {
-//			audience = AUDIENCE_TABLET;
-//		} else if (device.isMobile()) {
-//			audience = AUDIENCE_MOBILE;
-//		}
         return AUDIENCE_WEB;
     }
 
@@ -202,5 +189,14 @@ public class TokenUtils {
             claims = null;
         }
         return claims;
+    }
+
+    public Set<GrantedAuthority> getAuthoritiesFromToken(String token) {
+        List<String> tokenAuthorities = (ArrayList<String>) this.getAllClaimsFromToken(token).get("permissions");
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for(String s: tokenAuthorities) {
+            authorities.add(new SimpleGrantedAuthority(s));
+        }
+        return authorities;
     }
 }

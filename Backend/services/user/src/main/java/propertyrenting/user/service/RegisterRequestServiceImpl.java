@@ -1,15 +1,14 @@
 package propertyrenting.user.service;
 
-import propertyrenting.user.enumeration.RoleType;
-import propertyrenting.user.mapper.UserMapper;
-import propertyrenting.user.model.Landlord;
-import propertyrenting.user.model.Tenant;
-import propertyrenting.user.model.User;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import propertyrenting.user.enumeration.RoleType;
 import propertyrenting.user.mapper.RegisterRequestMapper;
+import propertyrenting.user.mapper.UserMapper;
+import propertyrenting.user.model.Landlord;
 import propertyrenting.user.model.RegisterRequest;
+import propertyrenting.user.model.Tenant;
 import propertyrenting.user.repository.RegisterRequestRepository;
 import propertyrenting.user.repository.UserRepository;
 import proto.registerRequest.*;

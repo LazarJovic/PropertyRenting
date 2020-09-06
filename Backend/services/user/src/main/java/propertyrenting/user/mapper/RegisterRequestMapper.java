@@ -1,8 +1,8 @@
 package propertyrenting.user.mapper;
 
 import propertyrenting.user.model.RegisterRequest;
-import proto.registerRequest.RegisterRequestMessage;
 import propertyrenting.user.model.User;
+import proto.registerRequest.RegisterRequestMessage;
 import proto.user.CreateClientMessage;
 
 public class RegisterRequestMapper {

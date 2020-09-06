@@ -6,6 +6,7 @@ import { Client } from '@core/model/client';
 import { MatTableDataSource } from '@angular/material/table';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import { environment } from 'src/environments/environment';
 export class UsersService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   getUsersByType(role: string) {
@@ -24,6 +26,7 @@ export class UsersService {
 
     const promise = new Promise<MatTableDataSource<Client>>((resolve, reject) => {
       grpc.invoke(UserService.GetUsersByRole, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: getByRoleMessage,
               host: environment.user,
               onMessage: (message: UserMessage) => {
@@ -35,7 +38,7 @@ export class UsersService {
                 if (code === grpc.Code.OK) {
                   resolve(dataSource);
                 } else {
-                  this.toastr.error('An error occurred while getting users');
+                  this.toastr.error(msg);
                 }
               }
             });
@@ -49,6 +52,7 @@ export class UsersService {
     userIdMessage.setId(userId);
 
     grpc.unary(UserService.BlockUser, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: userIdMessage,
       host: environment.user,
       onEnd: (res) => {
@@ -68,6 +72,7 @@ export class UsersService {
     userIdMessage.setId(userId);
 
     grpc.unary(UserService.UnblockUser, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: userIdMessage,
       host: environment.user,
       onEnd: (res) => {

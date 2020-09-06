@@ -26,6 +26,19 @@ export class AuthTokenService {
     localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
+  getAccessToken(): string {
+    const user: {
+      accessToken: string;
+      expiresIn: number;
+      userId: number;
+      userType: string;
+      passwordChanged: boolean;
+      numLogin: number;
+    } = JSON.parse(localStorage.getItem('loggedUser'));
+
+    return user.accessToken;
+  }
+
   logout() {
     this.loggedUser.next(null);
     this.router.navigate(['']);

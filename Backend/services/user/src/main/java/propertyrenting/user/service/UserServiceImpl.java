@@ -2,21 +2,22 @@ package propertyrenting.user.service;
 
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.user.enumeration.RoleType;
 import propertyrenting.user.mapper.UserMapper;
 import propertyrenting.user.model.Admin;
 import propertyrenting.user.model.Client;
-import propertyrenting.user.model.Role;
 import propertyrenting.user.model.User;
-import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import propertyrenting.user.repository.UserRepository;
 import proto.propertyType.EmptyMessage;
 import proto.user.*;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
                 "123123123");
         admin.setPassword(this.userDetailsService.encodePassword(admin.getPassword()));
         admin.setRoleSet(this.roleService.findByType(RoleType.ROLE_ADMIN));
-        //user.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
+        admin.setLastPasswordResetDate(new Timestamp(System.currentTimeMillis()));
 
         this.userRepository.save(admin);
     }

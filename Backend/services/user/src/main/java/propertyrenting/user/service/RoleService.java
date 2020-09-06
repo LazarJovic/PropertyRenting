@@ -8,7 +8,6 @@ import propertyrenting.user.model.Permission;
 import propertyrenting.user.model.Role;
 import propertyrenting.user.repository.RoleRepository;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +41,10 @@ public class RoleService {
         Set<Permission> landlordPermissions = new HashSet<>();
 
         for(Permission p : permissions) {
-            if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_CREATE)) {
+            if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.USER_OVERVIEW) ||
+                    p.getPermissionType().equals(PermissionType.USER_BLOCK) ||
+                    p.getPermissionType().equals(PermissionType.USER_UNBLOCK)) {
                 adminPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_CREATE)

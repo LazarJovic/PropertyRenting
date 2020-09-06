@@ -1,6 +1,9 @@
 package propertyrenting.user.mapper;
 
-import propertyrenting.user.model.*;
+import propertyrenting.user.model.Client;
+import propertyrenting.user.model.Landlord;
+import propertyrenting.user.model.RegisterRequest;
+import propertyrenting.user.model.Tenant;
 import proto.user.UserMessage;
 
 public class UserMapper {
