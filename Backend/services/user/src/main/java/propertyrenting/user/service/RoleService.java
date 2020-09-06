@@ -52,10 +52,16 @@ public class RoleService {
                     p.getPermissionType().equals(PermissionType.PROPERTY_DELETE) ||
                     p.getPermissionType().equals(PermissionType.PROPERTY_GET_BY_RATING) ||
                     p.getPermissionType().equals(PermissionType.PROPERTY_GET_BY_BOOKINGS) ||
-                    p.getPermissionType().equals(PermissionType.AD_CREATE)) {
+                    p.getPermissionType().equals(PermissionType.AD_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.AD_DELETE) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_DELETE_CHECK) ||
+                    p.getPermissionType().equals(PermissionType.AD_GET_ACTIVE) ||
+                    p.getPermissionType().equals(PermissionType.AD_GET_INACTIVE) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_CREATE)) {
                 landlordPermissions.add(p);
             }
-            else if(p.getPermissionType().equals(PermissionType.PROPERTY_RATING_UPDATE)) {
+            else if(p.getPermissionType().equals(PermissionType.PROPERTY_RATING_UPDATE) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_UPDATE_RATING)) {
                 tenantPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_OVERVIEW)) {
