@@ -44,7 +44,11 @@ public class RoleService {
             if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_CREATE) ||
                     p.getPermissionType().equals(PermissionType.USER_OVERVIEW) ||
                     p.getPermissionType().equals(PermissionType.USER_BLOCK) ||
-                    p.getPermissionType().equals(PermissionType.USER_UNBLOCK)) {
+                    p.getPermissionType().equals(PermissionType.USER_UNBLOCK) ||
+                    p.getPermissionType().equals(PermissionType.COMMENT_ACCEPT) ||
+                    p.getPermissionType().equals(PermissionType.COMMENT_DENY) ||
+                    p.getPermissionType().equals(PermissionType.COMMENT_GET_PENDING)
+            ) {
                 adminPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_REGISTER) ||
@@ -61,12 +65,19 @@ public class RoleService {
                 landlordPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_RATING_UPDATE) ||
-                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_UPDATE_RATING)) {
+                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_UPDATE_RATING) ||
+                    p.getPermissionType().equals(PermissionType.AD_RATE)) {
                 tenantPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_OVERVIEW)) {
                 adminPermissions.add(p);
                 landlordPermissions.add(p);
+            }else if(p.getPermissionType().equals(PermissionType.COMMENT_CREATE) ||
+                     p.getPermissionType().equals(PermissionType.COMMENT_GET_ACCEPTED) ||
+                    p.getPermissionType().equals(PermissionType.MESSAGE_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.MESSAGE_GET_BY_REQUEST)) {
+                landlordPermissions.add(p);
+                tenantPermissions.add(p);
             }
             else {
                 adminPermissions.add(p);

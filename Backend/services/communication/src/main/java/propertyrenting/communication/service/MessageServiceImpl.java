@@ -13,7 +13,7 @@ import proto.message.*;
 import java.util.List;
 
 @GrpcService
-public class MessageService extends MessageServiceGrpc.MessageServiceImplBase {
+public class MessageServiceImpl extends MessageServiceGrpc.MessageServiceImplBase {
 
     private MessageRepository messageRepository;
 
@@ -22,7 +22,7 @@ public class MessageService extends MessageServiceGrpc.MessageServiceImplBase {
     private MessageMapper messageMapper;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository, BookingRepository bookingRepository) {
+    public MessageServiceImpl(MessageRepository messageRepository, BookingRepository bookingRepository) {
         this.messageRepository = messageRepository;
         this.bookingRepository = bookingRepository;
         this.messageMapper = new MessageMapper();
