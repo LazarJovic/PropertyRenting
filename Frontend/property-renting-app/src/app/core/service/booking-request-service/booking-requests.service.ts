@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { BookingRequest } from '@core/model/booking-request';
 import { MatTableDataSource } from '@angular/material/table';
 import { PropertyType } from '@core/model/property-type';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ import { PropertyType } from '@core/model/property-type';
 export class BookingRequestsService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   checkAdAvailability(checkAvailability: CheckAvailability) {
@@ -29,6 +31,7 @@ export class BookingRequestsService {
 
     const promise = new Promise<boolean>((resolve, reject) => {
       grpc.unary(BookingRequestService.CheckAvailability, {
+        metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
         request: checkAvailabilityMessage,
         host: environment.booking,
         onEnd: (res) => {
@@ -64,6 +67,7 @@ export class BookingRequestsService {
     createBookingRequestMessage.setAdId(adId);
 
     grpc.unary(BookingRequestService.CreateBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: createBookingRequestMessage,
       host: environment.booking,
       onEnd: (res) => {
@@ -92,6 +96,7 @@ export class BookingRequestsService {
 
     const promise = new Promise<MatTableDataSource<BookingRequest>>((resolve, reject) => {
       grpc.invoke(BookingRequestService.GetRequestsByStatus, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: statusMessage,
               host: environment.booking,
               onMessage: (message: BookingRequestMessage) => {
@@ -130,6 +135,7 @@ export class BookingRequestsService {
     requestIdMessage.setId(requestId);
 
     grpc.unary(BookingRequestService.AcceptBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: requestIdMessage,
       host: environment.booking,
       onEnd: (res) => {
@@ -156,6 +162,7 @@ export class BookingRequestsService {
     requestIdMessage.setId(requestId);
 
     grpc.unary(BookingRequestService.DenyBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: requestIdMessage,
       host: environment.booking,
       onEnd: (res) => {
@@ -182,6 +189,7 @@ export class BookingRequestsService {
     requestIdMessage.setId(requestId);
 
     grpc.unary(BookingRequestService.PayBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: requestIdMessage,
       host: environment.booking,
       onEnd: (res) => {
@@ -208,6 +216,7 @@ export class BookingRequestsService {
     requestIdMessage.setId(requestId);
 
     grpc.unary(BookingRequestService.FinishBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: requestIdMessage,
       host: environment.booking,
       onEnd: (res) => {
@@ -234,6 +243,7 @@ export class BookingRequestsService {
     requestIdMessage.setId(requestId);
 
     grpc.unary(BookingRequestService.CancelBookingRequest, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: requestIdMessage,
       host: environment.booking,
       onEnd: (res) => {

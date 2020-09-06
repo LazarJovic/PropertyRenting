@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
 import { CommentMessage } from 'src/proto/comment/comment_pb';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ import { CommentMessage } from 'src/proto/comment/comment_pb';
 export class MessagesService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
 
@@ -27,6 +29,7 @@ export class MessagesService {
 
     const promise = new Promise<MatTableDataSource<Message>>((resolve, reject) => {
       grpc.invoke(MessageService.GetAllRequestMessages, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: getMessagesRequest,
               host: environment.communication,
               onMessage: (message: MessageMessage) => {
@@ -60,6 +63,7 @@ export class MessagesService {
     createMessageRequest.setContent(content);
 
     grpc.unary(MessageService.CreateMessage, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: createMessageRequest,
       host: environment.communication,
       onEnd: (res) => {

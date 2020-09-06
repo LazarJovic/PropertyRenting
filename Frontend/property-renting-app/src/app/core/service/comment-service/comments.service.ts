@@ -8,6 +8,7 @@ import { CommentMessage, CommentIdMessage, PropertyIdCommentsMessage, CreateComm
 import { Comment } from '@core/model/comment';
 import { ToastrService } from 'ngx-toastr';
 import { PropertyIdMessage } from 'src/proto/property/property_pb';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ import { PropertyIdMessage } from 'src/proto/property/property_pb';
 export class CommentsService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   getPendingComments() {
@@ -24,6 +26,7 @@ export class CommentsService {
 
     const promise = new Promise<MatTableDataSource<Comment>>((resolve, reject) => {
       grpc.invoke(CommentService.GetAllPendingComments, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.communication,
               onMessage: (message: CommentMessage) => {
@@ -51,6 +54,7 @@ export class CommentsService {
     commentIdMessage.setId(id);
 
     grpc.unary(CommentService.AcceptComment, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: commentIdMessage,
       host: environment.communication,
       onEnd: (res) => {
@@ -75,6 +79,7 @@ export class CommentsService {
     commentIdMessage.setId(id);
 
     grpc.unary(CommentService.DenyComment, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: commentIdMessage,
       host: environment.communication,
       onEnd: (res) => {
@@ -101,6 +106,7 @@ export class CommentsService {
 
     const promise = new Promise<MatTableDataSource<Comment>>((resolve, reject) => {
       grpc.invoke(CommentService.GetAllPropertyComments, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: propertyIdCommentsMessage,
               host: environment.communication,
               onMessage: (message: CommentMessage) => {
@@ -132,6 +138,7 @@ export class CommentsService {
     createCommentMessage.setContent(content);
 
     grpc.unary(CommentService.CreateComment, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: createCommentMessage,
       host: environment.communication,
       onEnd: (res) => {

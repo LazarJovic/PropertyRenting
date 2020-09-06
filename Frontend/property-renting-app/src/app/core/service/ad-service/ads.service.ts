@@ -14,6 +14,7 @@ import { AdImage } from '@core/model/ad-image';
 import { MatTableDataSource } from '@angular/material/table';
 import { MyAd } from '@core/model/my-ad';
 import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ import { EmptyMessage } from 'src/proto/property-type/property_type_pb';
 export class AdsService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   createAd(ad: Ad, images: Array<any>) {
@@ -36,7 +38,6 @@ export class AdsService {
       imageMessage.setPicByte(imageMessage.getPicByte().toString().substring(23));
       adImages.push(imageMessage);
     });
-    console.log(adImages);
     const adMessage: AdMessage = new AdMessage();
     adMessage.setId(ad.id);
     adMessage.setPropertyId(ad.propertyId);
@@ -50,6 +51,7 @@ export class AdsService {
     adMessage.setImagesList(adImages);
 
     grpc.unary(AdService.CreateAd, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: adMessage,
       host: environment.ad,
       onEnd: (res) => {
@@ -95,6 +97,7 @@ export class AdsService {
 
     const promise = new Promise<Array<SearchAdResult>>((resolve, reject) => {
       grpc.invoke(AdService.SearchAds, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: searchAdMessage,
               host: environment.ad,
               onMessage: (message: SearchAdResultMessage) => {
@@ -126,6 +129,7 @@ export class AdsService {
 
     const promise = new Promise<AdDetails>((resolve, reject) => {
     grpc.unary(AdService.GetAdDetails, {
+        metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
         request: adIdMessage,
         host: environment.ad,
         onEnd: (res) => {
@@ -165,6 +169,7 @@ export class AdsService {
 
     const promise = new Promise<Array<AdImage>>((resolve, reject) => {
       grpc.invoke(AdService.GetAdImages, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: adIdMessage,
               host: environment.ad,
               onMessage: (message: AdImageMessage) => {
@@ -189,6 +194,7 @@ export class AdsService {
 
     const promise = new Promise<MatTableDataSource<MyAd>>((resolve, reject) => {
       grpc.invoke(AdService.GetMyActiveAds, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.ad,
               onMessage: (message: MyAdMessage) => {
@@ -221,6 +227,7 @@ export class AdsService {
 
     const promise = new Promise<MatTableDataSource<MyAd>>((resolve, reject) => {
       grpc.invoke(AdService.GetMyInactiveAds, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.ad,
               onMessage: (message: MyAdMessage) => {
@@ -254,6 +261,7 @@ export class AdsService {
     adIdMessage.setId(adId);
 
     grpc.unary(AdService.DeleteAd, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: adIdMessage,
       host: environment.ad,
       onEnd: (res) => {

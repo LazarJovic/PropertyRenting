@@ -5,6 +5,7 @@ import { AdRatingMessage } from 'src/proto/rating/rating_pb';
 import { AdRatingService } from 'src/proto/rating/rating_pb_service';
 import { grpc } from '@improbable-eng/grpc-web';
 import { environment } from 'src/environments/environment';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ import { environment } from 'src/environments/environment';
 export class RatingsService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   rateAd(rating: Rating) {
@@ -25,6 +27,7 @@ export class RatingsService {
     adRatingMessage.setAverageRating(rating.averageRating);
 
     grpc.unary(AdRatingService.RateAd, {
+        metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
         request: adRatingMessage,
         host: environment.communication,
         onEnd: (res) => {
