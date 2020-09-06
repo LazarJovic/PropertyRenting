@@ -73,7 +73,7 @@ public class Property {
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "landlord", referencedColumnName = "id")
-    private Landlord landlord;
+    private Client landlord;
 
     public Property(String country, String city, String address, double size, boolean furnished, int numberOfRooms,
                     double distanceFromCenter, boolean internetIncluded, boolean airConditionIncluded) {

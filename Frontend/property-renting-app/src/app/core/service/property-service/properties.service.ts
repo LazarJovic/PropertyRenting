@@ -11,6 +11,7 @@ import { PropertyImage } from '@core/model/property-image';
 import { MatTableDataSource } from '@angular/material/table';
 import { MyProperty } from '@core/model/my-property';
 import { PropertyStats } from '@core/model/property-stats';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ import { PropertyStats } from '@core/model/property-stats';
 export class PropertiesService {
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) { }
 
   registerProperty(property: Property, propertyImage: File, imageObject: any) {
@@ -45,6 +47,7 @@ export class PropertiesService {
     propertyMessage.setImage(propertyImageMessage);
 
     grpc.unary(PropertyService.RegisterProperty, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: propertyMessage,
       host: environment.property,
       onEnd: (res) => {
@@ -71,6 +74,7 @@ export class PropertiesService {
 
     const promise = new Promise<Array<ChooseProperty>>((resolve, reject) => {
       grpc.invoke(PropertyService.GetMyProperties, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyMessage) => {
@@ -104,6 +108,7 @@ export class PropertiesService {
 
     const promise = new Promise<MatTableDataSource<MyProperty>>((resolve, reject) => {
       grpc.invoke(PropertyService.GetMyProperties, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyMessage) => {
@@ -135,6 +140,7 @@ export class PropertiesService {
     propertyIdMessage.setId(propertyId);
 
     grpc.unary(PropertyService.DeleteProperty, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: propertyIdMessage,
       host: environment.property,
       onEnd: (res) => {
@@ -161,6 +167,7 @@ export class PropertiesService {
 
     const promise = new Promise<MatTableDataSource<PropertyStats>>((resolve, reject) => {
       grpc.invoke(PropertyService.GetByAverageRating, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyStatsMessage) => {
@@ -192,6 +199,7 @@ export class PropertiesService {
 
     const promise = new Promise<MatTableDataSource<PropertyStats>>((resolve, reject) => {
       grpc.invoke(PropertyService.GetByNumberOfBookings, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyStatsMessage) => {

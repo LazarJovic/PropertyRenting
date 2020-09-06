@@ -18,7 +18,7 @@ message BookingAdDataMessage {
     string start_date = 7;
     string end_date = 8;
     int64 property_id = 9;
-    int64 landlord = 10;
+    int64 client = 10;
 }
 
 message CrateBookingAdResponse {

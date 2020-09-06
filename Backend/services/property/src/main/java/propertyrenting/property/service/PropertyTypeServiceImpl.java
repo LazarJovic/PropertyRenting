@@ -3,6 +3,9 @@ package propertyrenting.property.service;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import propertyrenting.property.model.Client;
 import propertyrenting.property.model.PropertyType;
 import propertyrenting.property.repository.PropertyTypeRepository;
 import proto.propertyType.CreatePropertyTypeResponse;
@@ -52,6 +55,7 @@ public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTyp
     }
 
     public void getAllPropertyTypes(EmptyMessage request, StreamObserver<PropertyTypeMessage> responseObserver) {
+        Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<PropertyType> propertyTypes = this.propertyTypeRepository.findAll();
         propertyTypes.forEach(type -> {
             responseObserver.onNext(this.propertyTypeMapper.toPropertyTypeMessage(type));

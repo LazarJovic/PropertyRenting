@@ -13,4 +13,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query(value = "select * from property p where p.deleted = false order by average_rating DESC limit 5;", nativeQuery = true)
     List<Property> findTopFiveByRating();
+
+    @Query(value = "select * from property p where p.landlord = ?1 and p.deleted = false", nativeQuery = true)
+    List<Property> findActiveByLandlord(Long id);
 }

@@ -47,10 +47,16 @@ public class RoleService {
                     p.getPermissionType().equals(PermissionType.USER_UNBLOCK)) {
                 adminPermissions.add(p);
             }
-            else if(p.getPermissionType().equals(PermissionType.PROPERTY_CREATE)
-                    || p.getPermissionType().equals(PermissionType.MY_PROPERTY_OVERVIEW)
-                    || p.getPermissionType().equals(PermissionType.AD_CREATE)) {
+            else if(p.getPermissionType().equals(PermissionType.PROPERTY_REGISTER) ||
+                    p.getPermissionType().equals(PermissionType.MY_PROPERTY_OVERVIEW) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_DELETE) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_GET_BY_RATING) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_GET_BY_BOOKINGS) ||
+                    p.getPermissionType().equals(PermissionType.AD_CREATE)) {
                 landlordPermissions.add(p);
+            }
+            else if(p.getPermissionType().equals(PermissionType.PROPERTY_RATING_UPDATE)) {
+                tenantPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_OVERVIEW)) {
                 adminPermissions.add(p);

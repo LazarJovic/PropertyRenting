@@ -4,8 +4,10 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.property.mapper.PropertyImageMapper;
 import propertyrenting.property.mapper.PropertyMapper;
+import propertyrenting.property.model.Client;
 import propertyrenting.property.model.Property;
 import propertyrenting.property.model.PropertyImage;
 import propertyrenting.property.model.PropertyType;
@@ -71,10 +73,11 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
         else {
             PropertyType propertyType = this.propertyTypeRepository.getOne(request.getTypeId());
 
-            // TODO: Get logged-in user and set it as a property landlord
+            Client landlord = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             Property property = this.propertyMapper.toProperty(request);
             property.setPropertyType(propertyType);
+            property.setLandlord(landlord);
 
             Property savedProperty = this.propertyRepository.save(property);
 
@@ -134,8 +137,8 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
     }
 
     public void getMyProperties(EmptyMessage request, StreamObserver<PropertyMessage> responseObserver) {
-        // TODO: Get only properties of logged-in user
-        List<Property> properties = this.propertyRepository.findAllActive();
+        Client landlord = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Property> properties = this.propertyRepository.findActiveByLandlord(landlord.getId());
 
         properties.forEach(property -> {
             PropertyImage image = property.getPropertyImagesSet().iterator().next();

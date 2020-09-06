@@ -8,13 +8,15 @@ import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 import { Observable } from 'rxjs';
 import { PropertyType } from '@core/model/property-type';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthTokenService } from '../auth-token-service/auth-token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PropertyTypesService {
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authTokenService: AuthTokenService
   ) {}
 
   createPropertyType(name: string, description: string) {
@@ -24,6 +26,7 @@ export class PropertyTypesService {
     propertyTypeMessage.setDescription(description);
 
     grpc.unary(PropertyTypeService.CreatePropertyType, {
+      metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
       request: propertyTypeMessage,
       host: environment.property,
       onEnd: (res) => {
@@ -50,6 +53,7 @@ export class PropertyTypesService {
 
     const promise = new Promise<MatTableDataSource<PropertyType>>((resolve, reject) => {
       grpc.invoke(PropertyTypeService.GetAllPropertyTypes, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyTypeMessage) => {
