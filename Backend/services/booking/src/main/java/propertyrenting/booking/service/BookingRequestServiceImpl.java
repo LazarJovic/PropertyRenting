@@ -337,8 +337,8 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
     public void getMostRentedProperties(EmptyMessage request,
                                         StreamObserver<MostRentedPropertiesMessage> responseObserver) {
-        //TODO: Get properties of logged-in landlord
-        List<Long> propertyIds = this.bookingRequestRepository.findAllRentedProperties();
+        BookingClient landlord = (BookingClient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Long> propertyIds = this.bookingRequestRepository.findAllRentedProperties(landlord.getId());
         HashMap<Long, Integer> mostRented = new HashMap<>();
         for (Long propertyId: propertyIds) {
             List<BookingRequest> propertyRentals = this.bookingRequestRepository.findPropertyPaidAndFinished(propertyId);

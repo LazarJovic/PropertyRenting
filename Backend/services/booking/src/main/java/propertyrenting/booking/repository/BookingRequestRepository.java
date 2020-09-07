@@ -30,9 +30,10 @@ public interface BookingRequestRepository extends JpaRepository<BookingRequest, 
             "and r.booking_request_status = 0", nativeQuery = true)
     List<BookingRequest> findAdPending(Long adId);
 
-    @Query(value = "select distinct property_id from booking_request r, booking_ad a where r.booking_ad = a.id",
+    @Query(value = "select distinct property_id from booking_request r, booking_ad a where r.booking_ad = a.id" +
+            " and a.landlord_id = ?1",
             nativeQuery = true)
-    List<Long> findAllRentedProperties();
+    List<Long> findAllRentedProperties(Long landlordId);
 
     @Query(value = "select * from booking_request r, booking_ad a where r.booking_ad = a.id and a.property_id = ?1 " +
             "and r.booking_request_status in (2,3)", nativeQuery = true)

@@ -151,8 +151,8 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
     }
 
     public void getByAverageRating(EmptyMessage request, StreamObserver<PropertyStatsMessage> responseObserver) {
-        //TODO: Get properties of logged-in landlord
-        List<Property> properties = this.propertyRepository.findTopFiveByRating();
+        Client landlord = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Property> properties = this.propertyRepository.findTopFiveByRating(landlord.getId());
         int i = 1;
         for (Property property : properties) {
             responseObserver.onNext(this.propertyMapper.toPropertyStatsMessage(property, i, 0));
