@@ -88,14 +88,55 @@ export class BookingRequestsService {
     });
   }
 
-  getRequestsByStatus(status: string) {
+  getRequestsByStatusTenant(status: string) {
     const array: MatTableDataSource<BookingRequest> = new MatTableDataSource();
 
     const statusMessage: BookingRequestStatusMessage = new BookingRequestStatusMessage();
     statusMessage.setStatus(status);
 
     const promise = new Promise<MatTableDataSource<BookingRequest>>((resolve, reject) => {
-      grpc.invoke(BookingRequestService.GetRequestsByStatus, {
+      grpc.invoke(BookingRequestService.GetRequestsByStatusTenant, {
+              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
+              request: statusMessage,
+              host: environment.booking,
+              onMessage: (message: BookingRequestMessage) => {
+
+                const pendingDateTime = message.getPendingDateTime().split('T')[0] + ' '
+                                        + message.getPendingDateTime().split('T')[1].substring(0, 5);
+                let acceptanceDateTime = '';
+
+                if (status !== 'PENDING') {
+                  acceptanceDateTime = message.getAcceptanceDateTime().split('T')[0] + ' '
+                  + message.getAcceptanceDateTime().split('T')[1].substring(0, 5);
+                }
+
+                const request: BookingRequest = new BookingRequest(message.getId(), message.getAdId(), message.getCountry(),
+                                    message.getCity(), message.getAddress(), message.getPrice(), message.getSecurityDeposit(),
+                                    pendingDateTime, acceptanceDateTime, message.getBookingStart(),
+                                    message.getBookingEnd(), message.getClientEmail(), message.getStatus());
+                array.data.push(request);
+              },
+              onEnd: (code: grpc.Code, msg: string | undefined, trailers: grpc.Metadata) => {
+                if (code === grpc.Code.OK) {
+                  resolve(array);
+                } else {
+                  this.toastr.error('An error occurred while getting booking reqests');
+                }
+              }
+            });
+    });
+
+    return promise;
+  }
+
+  getRequestsByStatusLandlord(status: string) {
+    const array: MatTableDataSource<BookingRequest> = new MatTableDataSource();
+
+    const statusMessage: BookingRequestStatusMessage = new BookingRequestStatusMessage();
+    statusMessage.setStatus(status);
+
+    const promise = new Promise<MatTableDataSource<BookingRequest>>((resolve, reject) => {
+      grpc.invoke(BookingRequestService.GetRequestsByStatusLandlord, {
               metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
               request: statusMessage,
               host: environment.booking,

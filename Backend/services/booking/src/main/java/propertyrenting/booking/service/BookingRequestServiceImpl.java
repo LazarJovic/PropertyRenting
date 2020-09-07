@@ -119,19 +119,53 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         }
     }
 
-    public void getRequestsByStatus(BookingRequestStatusMessage request, StreamObserver<BookingRequestMessage> responseObserver) {
-        //TODO: Get requests by logged-in user (landlord or tenant)
+    public void getRequestsByStatusLandlord(BookingRequestStatusMessage request, StreamObserver<BookingRequestMessage> responseObserver) {
+        BookingClient landlord = (BookingClient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<BookingRequest> requests = new ArrayList<>();
         switch (request.getStatus()) {
-            case "PENDING": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.PENDING.ordinal());
+            case "PENDING": requests = this.bookingRequestRepository.findByStatusLandlord(BookingRequestStatus.PENDING.ordinal(),
+                    landlord.getId());
                 break;
-            case "RESERVED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.RESERVED.ordinal());
+            case "RESERVED": requests = this.bookingRequestRepository.findByStatusLandlord(BookingRequestStatus.RESERVED.ordinal(),
+                    landlord.getId());
                 break;
-            case "PAID": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.PAID.ordinal());
+            case "PAID": requests = this.bookingRequestRepository.findByStatusLandlord(BookingRequestStatus.PAID.ordinal(),
+                    landlord.getId());
                 break;
-            case "FINISHED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.FINISHED.ordinal());
+            case "FINISHED": requests = this.bookingRequestRepository.findByStatusLandlord(BookingRequestStatus.FINISHED.ordinal(),
+                    landlord.getId());
                 break;
-            case "CANCELED": requests = this.bookingRequestRepository.findByStatus(BookingRequestStatus.CANCELED.ordinal());
+            case "CANCELED": requests = this.bookingRequestRepository.findByStatusLandlord(BookingRequestStatus.CANCELED.ordinal(),
+                    landlord.getId());
+                break;
+        }
+
+        requests.forEach(bookingRequest -> {
+            BookingRequestMessage message = this.bookingRequestMapper.toBookingRequestMessage(bookingRequest);
+            responseObserver.onNext(message);
+        });
+
+        responseObserver.onCompleted();
+    }
+
+    public void getRequestsByStatusTenant(BookingRequestStatusMessage request, StreamObserver<BookingRequestMessage> responseObserver) {
+        BookingClient tenant = (BookingClient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<BookingRequest> requests = new ArrayList<>();
+        switch (request.getStatus()) {
+            case "PENDING": requests = this.bookingRequestRepository.findByStatusTenant(BookingRequestStatus.PENDING.ordinal(),
+                    tenant.getId());
+                break;
+            case "RESERVED": requests = this.bookingRequestRepository.findByStatusTenant(BookingRequestStatus.RESERVED.ordinal(),
+                    tenant.getId());
+                break;
+            case "PAID": requests = this.bookingRequestRepository.findByStatusTenant(BookingRequestStatus.PAID.ordinal(),
+                    tenant.getId());
+                break;
+            case "FINISHED": requests = this.bookingRequestRepository.findByStatusTenant(BookingRequestStatus.FINISHED.ordinal(),
+                    tenant.getId());
+                break;
+            case "CANCELED": requests = this.bookingRequestRepository.findByStatusTenant(BookingRequestStatus.CANCELED.ordinal(),
+                    tenant.getId());
                 break;
         }
 

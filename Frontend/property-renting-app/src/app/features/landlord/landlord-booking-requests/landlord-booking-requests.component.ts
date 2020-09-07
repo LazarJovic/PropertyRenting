@@ -52,31 +52,31 @@ export class LandlordBookingRequestsComponent implements OnInit {
   }
 
   getAllPending() {
-    this.bookingRequestService.getRequestsByStatus('PENDING').then(value => {
+    this.bookingRequestService.getRequestsByStatusLandlord('PENDING').then(value => {
       this.dataSourcePending = value;
     });
   }
 
   getAllReserved() {
-    this.bookingRequestService.getRequestsByStatus('RESERVED').then(value => {
+    this.bookingRequestService.getRequestsByStatusLandlord('RESERVED').then(value => {
       this.dataSourceReserved = value;
     });
   }
 
   getAllPaid() {
-    this.bookingRequestService.getRequestsByStatus('PAID').then(value => {
+    this.bookingRequestService.getRequestsByStatusLandlord('PAID').then(value => {
       this.dataSourcePaid = value;
     });
   }
 
   getAllFinished() {
-    this.bookingRequestService.getRequestsByStatus('FINISHED').then(value => {
+    this.bookingRequestService.getRequestsByStatusLandlord('FINISHED').then(value => {
       this.dataSourceFinished = value;
     });
   }
 
   getAllCanceled() {
-    this.bookingRequestService.getRequestsByStatus('CANCELED').then(value => {
+    this.bookingRequestService.getRequestsByStatusLandlord('CANCELED').then(value => {
       this.dataSourceCanceled = value;
     });
   }

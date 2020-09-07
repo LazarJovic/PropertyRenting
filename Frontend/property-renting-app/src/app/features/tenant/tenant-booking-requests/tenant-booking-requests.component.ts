@@ -44,31 +44,31 @@ export class TenantBookingRequestsComponent implements OnInit {
   }
 
   getAllPending() {
-    this.bookingRequestService.getRequestsByStatus('PENDING').then(value => {
+    this.bookingRequestService.getRequestsByStatusTenant('PENDING').then(value => {
       this.dataSourcePending = value;
     });
   }
 
   getAllReserved() {
-    this.bookingRequestService.getRequestsByStatus('RESERVED').then(value => {
+    this.bookingRequestService.getRequestsByStatusTenant('RESERVED').then(value => {
       this.dataSourceReserved = value;
     });
   }
 
   getAllPaid() {
-    this.bookingRequestService.getRequestsByStatus('PAID').then(value => {
+    this.bookingRequestService.getRequestsByStatusTenant('PAID').then(value => {
       this.dataSourcePaid = value;
     });
   }
 
   getAllFinished() {
-    this.bookingRequestService.getRequestsByStatus('FINISHED').then(value => {
+    this.bookingRequestService.getRequestsByStatusTenant('FINISHED').then(value => {
       this.dataSourceFinished = value;
     });
   }
 
   getAllCanceled() {
-    this.bookingRequestService.getRequestsByStatus('CANCELED').then(value => {
+    this.bookingRequestService.getRequestsByStatusTenant('CANCELED').then(value => {
       this.dataSourceCanceled = value;
     });
   }

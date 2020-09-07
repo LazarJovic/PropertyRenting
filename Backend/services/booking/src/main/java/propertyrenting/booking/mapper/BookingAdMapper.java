@@ -11,6 +11,6 @@ public class BookingAdMapper {
         return new BookingAd(bookingAdData.getId(), bookingAdData.getCountry(), bookingAdData.getCity(),
                 bookingAdData.getAddress(), bookingAdData.getPricePerNight(), bookingAdData.getSecurityDeposit(),
                 LocalDate.parse(bookingAdData.getStartDate()), LocalDate.parse(bookingAdData.getEndDate()),
-                bookingAdData.getPropertyId(), bookingAdData.getLandlord());
+                bookingAdData.getPropertyId(), bookingAdData.getClient());
     }
 }

@@ -3,7 +3,9 @@ syntax = "proto3";
 service BookingRequestService {
     rpc CheckAvailability (CheckAvailabilityMessage) returns (CheckAvailabilityResponse) {}
 
-    rpc GetRequestsByStatus (BookingRequestStatusMessage) returns (stream BookingRequestMessage) {}
+    rpc GetRequestsByStatusTenant (BookingRequestStatusMessage) returns (stream BookingRequestMessage) {}
+
+    rpc GetRequestsByStatusLandlord (BookingRequestStatusMessage) returns (stream BookingRequestMessage) {}
 
     rpc AcceptBookingRequest (BookingRequestIdMessage) returns (ChangeRequestStatusResponse) {}
 

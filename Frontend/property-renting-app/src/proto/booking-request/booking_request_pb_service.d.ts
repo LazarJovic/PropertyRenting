@@ -13,7 +13,16 @@ type BookingRequestServiceCheckAvailability = {
   readonly responseType: typeof booking_request_pb.CheckAvailabilityResponse;
 };
 
-type BookingRequestServiceGetRequestsByStatus = {
+type BookingRequestServiceGetRequestsByStatusTenant = {
+  readonly methodName: string;
+  readonly service: typeof BookingRequestService;
+  readonly requestStream: false;
+  readonly responseStream: true;
+  readonly requestType: typeof booking_request_pb.BookingRequestStatusMessage;
+  readonly responseType: typeof booking_request_pb.BookingRequestMessage;
+};
+
+type BookingRequestServiceGetRequestsByStatusLandlord = {
   readonly methodName: string;
   readonly service: typeof BookingRequestService;
   readonly requestStream: false;
@@ -79,7 +88,8 @@ type BookingRequestServiceCreateBookingRequest = {
 export class BookingRequestService {
   static readonly serviceName: string;
   static readonly CheckAvailability: BookingRequestServiceCheckAvailability;
-  static readonly GetRequestsByStatus: BookingRequestServiceGetRequestsByStatus;
+  static readonly GetRequestsByStatusTenant: BookingRequestServiceGetRequestsByStatusTenant;
+  static readonly GetRequestsByStatusLandlord: BookingRequestServiceGetRequestsByStatusLandlord;
   static readonly AcceptBookingRequest: BookingRequestServiceAcceptBookingRequest;
   static readonly DenyBookingRequest: BookingRequestServiceDenyBookingRequest;
   static readonly PayBookingRequest: BookingRequestServicePayBookingRequest;
@@ -129,7 +139,8 @@ export class BookingRequestServiceClient {
     requestMessage: booking_request_pb.CheckAvailabilityMessage,
     callback: (error: ServiceError|null, responseMessage: booking_request_pb.CheckAvailabilityResponse|null) => void
   ): UnaryResponse;
-  getRequestsByStatus(requestMessage: booking_request_pb.BookingRequestStatusMessage, metadata?: grpc.Metadata): ResponseStream<booking_request_pb.BookingRequestMessage>;
+  getRequestsByStatusTenant(requestMessage: booking_request_pb.BookingRequestStatusMessage, metadata?: grpc.Metadata): ResponseStream<booking_request_pb.BookingRequestMessage>;
+  getRequestsByStatusLandlord(requestMessage: booking_request_pb.BookingRequestStatusMessage, metadata?: grpc.Metadata): ResponseStream<booking_request_pb.BookingRequestMessage>;
   acceptBookingRequest(
     requestMessage: booking_request_pb.BookingRequestIdMessage,
     metadata: grpc.Metadata,

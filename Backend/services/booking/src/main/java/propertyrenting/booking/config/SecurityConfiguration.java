@@ -79,7 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 new SimpleGrantedAuthority("BOOKING_REQUEST_PAY")));
         source.set(BookingRequestServiceGrpc.METHOD_CHECK_DELETE_AD, AccessPredicate.permitAll());
         source.set(BookingRequestServiceGrpc.METHOD_GET_MOST_RENTED_PROPERTIES, AccessPredicate.permitAll());
-        source.set(BookingRequestServiceGrpc.METHOD_GET_REQUESTS_BY_STATUS, AccessPredicate.hasAuthority(
+        source.set(BookingRequestServiceGrpc.METHOD_GET_REQUESTS_BY_STATUS_LANDLORD, AccessPredicate.hasAuthority(
+                new SimpleGrantedAuthority("BOOKING_REQUEST_GET_BY_STATUS")));
+        source.set(BookingRequestServiceGrpc.METHOD_GET_REQUESTS_BY_STATUS_TENANT, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("BOOKING_REQUEST_GET_BY_STATUS")));
 
         source.setDefault(AccessPredicate.denyAll());
