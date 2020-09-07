@@ -43,4 +43,9 @@ public class Booking {
     @JoinColumn(name = "landlord", referencedColumnName = "id")
     private Client landlord;
 
+    public Booking(Long id, Long adId, Long propertyId) {
+        this.id = id;
+        this.adId = adId;
+        this.propertyId = propertyId;
+    }
 }

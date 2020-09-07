@@ -18,6 +18,8 @@ import propertyrenting.booking.repository.BookingAdRepository;
 import propertyrenting.booking.repository.BookingClientRepository;
 import propertyrenting.booking.repository.BookingRequestRepository;
 import proto.ad.AdIdMessage;
+import proto.booking.BookingDataMessage;
+import proto.booking.BookingServiceGrpc;
 import proto.bookingRequest.*;
 import proto.propertyType.EmptyMessage;
 
@@ -42,6 +44,9 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
     private BookingAdMapper bookingAdMapper;
 
     private EmailService emailService;
+
+    @GrpcClient("communication-server")
+    private BookingServiceGrpc.BookingServiceBlockingStub bookingServiceBlockingStub;
 
     @Autowired
     public BookingRequestServiceImpl(BookingRequestRepository bookingRequestRepository, ValidationService validationService,
@@ -191,8 +196,17 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
         else {
             bookingRequest.setBookingRequestStatus(BookingRequestStatus.RESERVED);
             bookingRequest.setAcceptanceTime(LocalDateTime.now());
-            this.bookingRequestRepository.save(bookingRequest);
-            //TODO: Create Booking object in CommunicationService (asynchronous)
+            BookingRequest savedRequest = this.bookingRequestRepository.save(bookingRequest);
+
+            BookingDataMessage bookingDataMessage = BookingDataMessage.newBuilder()
+                    .setId(savedRequest.getId())
+                    .setAdId(savedRequest.getBookingAd().getId())
+                    .setPropertyId(savedRequest.getBookingAd().getPropertyId())
+                    .setTenant(savedRequest.getBookingClient().getId())
+                    .setLandlord(savedRequest.getBookingAd().getLandlordId())
+                    .build();
+            this.bookingServiceBlockingStub.createBooking(bookingDataMessage);
+
             emailService.sendSimpleMessage(
                     bookingRequest.getBookingClient().getEmail(),
                     "Booking request accepted",

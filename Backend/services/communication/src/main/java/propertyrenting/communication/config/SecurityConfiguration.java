@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import propertyrenting.communication.service.CustomUserDetailsService;
 import proto.adRating.AdRatingServiceGrpc;
+import proto.booking.BookingServiceGrpc;
 import proto.comment.CommentServiceGrpc;
 import proto.message.MessageServiceGrpc;
 import proto.property.PropertyServiceGrpc;
@@ -66,6 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         source.set(AdRatingServiceGrpc.METHOD_RATE_AD, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("AD_RATE")));
+
+        source.set(BookingServiceGrpc.METHOD_CREATE_BOOKING, AccessPredicate.permitAll());
 
         source.set(CommentServiceGrpc.METHOD_CREATE_COMMENT, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("COMMENT_CREATE")));
