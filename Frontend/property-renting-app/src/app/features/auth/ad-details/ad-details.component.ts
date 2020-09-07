@@ -27,9 +27,9 @@ export interface RateDialogData {
   averageRating: number;
 }
 
-const iconRetinaUrl = 'leaflet/marker-icon-2x.png';
-const iconUrl = 'leaflet/marker-icon.png';
-const shadowUrl = 'leaflet/marker-shadow.png';
+const iconRetinaUrl = 'assets/marker-icon-2x.png';
+const iconUrl = 'assets/marker-icon.png';
+const shadowUrl = 'assets/marker-shadow.png';
 const iconDefault = icon({
   iconRetinaUrl,
   iconUrl,
