@@ -35,7 +35,11 @@ export class AdsService {
       imageMessage.setName(image.name);
       imageMessage.setType(image.type);
       imageMessage.setPicByte(image.image);
+      console.log('Pre + \n');
+      console.log(imageMessage.getPicByte().toString());
       imageMessage.setPicByte(imageMessage.getPicByte().toString().substring(23));
+      console.log('Posle + \n');
+      console.log(imageMessage.getPicByte().toString());
       adImages.push(imageMessage);
     });
     const adMessage: AdMessage = new AdMessage();

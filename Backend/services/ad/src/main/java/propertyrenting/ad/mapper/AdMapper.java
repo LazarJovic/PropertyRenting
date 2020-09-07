@@ -103,7 +103,6 @@ public class AdMapper {
                 .setPropertyId(ad.getPropertyInfo().getId())
                 .build();
 
-        System.out.println(reposnse.getPropertyId());
         return reposnse;
     }
 
@@ -133,7 +132,7 @@ public class AdMapper {
                 .setStartDate(ad.getStartDate().toString())
                 .setEndDate(ad.getEndDate().toString())
                 .setPropertyId(ad.getPropertyInfo().getId())
-                .setLandlord(ad.getPropertyInfo().getLandlord().getId())
+                .setClient(ad.getPropertyInfo().getLandlord().getId())
                 .build();
     }
 }

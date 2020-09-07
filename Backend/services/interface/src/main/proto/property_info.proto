@@ -25,6 +25,7 @@ message PropertyInfoMessage {
     bool internet_included = 10;
     bool air_condition_included = 11;
     double average_rating = 12;
+    int64 landlord = 13;
 }
 
 message UpdateRatingRequestMessage {

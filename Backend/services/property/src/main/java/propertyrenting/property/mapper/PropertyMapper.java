@@ -53,6 +53,7 @@ public class PropertyMapper {
                 .setInternetIncluded(property.isInternetIncluded())
                 .setAirConditionIncluded(property.isAirConditionIncluded())
                 .setAverageRating(property.getAverageRating())
+                .setLandlord(property.getLandlord().getId())
                 .build();
     }
 

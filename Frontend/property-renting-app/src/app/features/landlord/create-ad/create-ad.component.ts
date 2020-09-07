@@ -91,7 +91,6 @@ export class CreateAdComponent implements OnInit {
     }
     for (const file of event.target.files) {
       this.adImageFiles.push(file);
-      console.log(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {

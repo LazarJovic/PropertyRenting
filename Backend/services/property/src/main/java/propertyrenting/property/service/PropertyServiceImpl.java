@@ -40,7 +40,7 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
     private PropertyImageMapper propertyImageMapper;
 
     @GrpcClient("ad-server")
-    private PropertyInfoServiceGrpc.PropertyInfoServiceStub propertyInfoServiceStub;
+    private PropertyInfoServiceGrpc.PropertyInfoServiceBlockingStub propertyInfoServiceBlockingStub;
 
     @GrpcClient("ad-server")
     private AdServiceGrpc.AdServiceBlockingStub adServiceBlockingStub;
@@ -83,17 +83,7 @@ public class PropertyServiceImpl extends PropertyServiceGrpc.PropertyServiceImpl
 
             PropertyImageMessage imageMessage = this.propertyImageService.createPropertyImage(request.getImage(), savedProperty.getId());
 
-            this.propertyInfoServiceStub.createPropertyInfo(propertyMapper.toPropertyInfoMessage(savedProperty),
-                    new StreamObserver<EmptyMessage>() {
-                        @Override
-                        public void onNext(EmptyMessage emptyMessage) {}
-
-                        @Override
-                        public void onError(Throwable throwable) {}
-
-                        @Override
-                        public void onCompleted() {}
-                    });
+            this.propertyInfoServiceBlockingStub.createPropertyInfo(propertyMapper.toPropertyInfoMessage(savedProperty));
 
             response = RegisterPropertyResponse.newBuilder()
                     .setProperty(this.propertyMapper.toPropertyMessage(savedProperty, imageMessage))

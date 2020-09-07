@@ -26,11 +26,8 @@ public class PropertyImageService {
 
     PropertyImageMessage createPropertyImage(PropertyImageMessage propertyImageMessage, long propertyId) {
         PropertyImage propertyImage = this.propertyImageMapper.toPropertyImage(propertyImageMessage);
-
         propertyImage.setProperty(this.propertyRepository.getOne(propertyId));
-
         return this.propertyImageMapper.toPropertyImageMessage(this.propertyImageRepository.save(propertyImage));
-
     }
 
 

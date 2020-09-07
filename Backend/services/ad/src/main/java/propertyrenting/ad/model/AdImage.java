@@ -25,7 +25,7 @@ public class AdImage {
     private String type;
 
     @Setter
-    @Column
+    @Column(length = 3000)
     private byte[] picByte;
 
     @Setter

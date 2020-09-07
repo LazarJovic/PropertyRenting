@@ -29,7 +29,11 @@ export class PropertiesService {
     propertyImageMessage.setPicByte(imageObject);
     propertyImageMessage.setName(propertyImage.name);
     propertyImageMessage.setType(propertyImage.type);
+    console.log('Pre + \n');
+    console.log(propertyImageMessage.getPicByte().toString());
     propertyImageMessage.setPicByte(propertyImageMessage.getPicByte().toString().substring(23));
+    console.log('Posle + \n');
+    console.log(propertyImageMessage.getPicByte().toString());
 
     const propertyMessage: PropertyMessage = new PropertyMessage();
     propertyMessage.setId(property.id);
