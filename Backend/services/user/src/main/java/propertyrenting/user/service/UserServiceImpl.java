@@ -33,16 +33,16 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     private UserMapper userMapper;
 
     @GrpcClient("property-server")
-    private UserServiceGrpc.UserServiceStub userServiceStubProperty;
+    private UserServiceGrpc.UserServiceBlockingStub userServiceStubProperty;
 
-//    @GrpcClient("ad-server")
-//    private UserServiceGrpc.UserServiceStub userServiceStubAd;
-//
-//    @GrpcClient("booking-server")
-//    private UserServiceGrpc.UserServiceStub userServiceStubBooking;
-//
-//    @GrpcClient("communication-server")
-//    private UserServiceGrpc.UserServiceStub userServiceStubCommunication;
+    @GrpcClient("ad-server")
+    private UserServiceGrpc.UserServiceBlockingStub userServiceStubAd;
+
+    @GrpcClient("booking-server")
+    private UserServiceGrpc.UserServiceBlockingStub userServiceStubBooking;
+
+    @GrpcClient("communication-server")
+    private UserServiceGrpc.UserServiceBlockingStub userServiceStubCommunication;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleService roleService, CustomUserDetailsService userDetailsService) {
@@ -53,13 +53,11 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase {
     }
 
     public void createUser(CreateClientMessage createClientMessage) {
-        if(createClientMessage.getIsLandlord()) {
-            this.userServiceStubProperty.createClient(createClientMessage, this.getStreamObserver());
-        }
 
-        //this.userServiceStubAd.createClient(createClientMessage, this.getStreamObserver());
-        //this.userServiceStubBooking.createClient(createClientMessage, this.getStreamObserver());
-        //this.userServiceStubCommunication.createClient(createClientMessage, this.getStreamObserver());
+        this.userServiceStubProperty.createClient(createClientMessage);
+        this.userServiceStubAd.createClient(createClientMessage);
+        this.userServiceStubBooking.createClient(createClientMessage);
+        this.userServiceStubCommunication.createClient(createClientMessage);
 
     }
 

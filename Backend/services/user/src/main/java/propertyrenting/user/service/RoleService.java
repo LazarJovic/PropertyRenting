@@ -61,25 +61,31 @@ public class RoleService {
                     p.getPermissionType().equals(PermissionType.PROPERTY_DELETE_CHECK) ||
                     p.getPermissionType().equals(PermissionType.AD_GET_ACTIVE) ||
                     p.getPermissionType().equals(PermissionType.AD_GET_INACTIVE) ||
-                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_CREATE)) {
+                    p.getPermissionType().equals(PermissionType.PROPERTY_INFO_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_ACCEPT) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_DENY) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_FINISH) ||
+                    p.getPermissionType().equals(PermissionType.AD_DELETE_CHECK) ||
+                    p.getPermissionType().equals(PermissionType.PROPERTY_GET_MOST_RENTED)) {
                 landlordPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_RATING_UPDATE) ||
                     p.getPermissionType().equals(PermissionType.PROPERTY_INFO_UPDATE_RATING) ||
-                    p.getPermissionType().equals(PermissionType.AD_RATE)) {
+                    p.getPermissionType().equals(PermissionType.AD_RATE) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_PAY) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_CANCEL)) {
+                tenantPermissions.add(p);
+            }
+            else if(p.getPermissionType().equals(PermissionType.COMMENT_CREATE) ||
+                     p.getPermissionType().equals(PermissionType.COMMENT_GET_ACCEPTED) ||
+                    p.getPermissionType().equals(PermissionType.MESSAGE_CREATE) ||
+                    p.getPermissionType().equals(PermissionType.MESSAGE_GET_BY_REQUEST) ||
+                    p.getPermissionType().equals(PermissionType.BOOKING_REQUEST_GET_BY_STATUS)) {
+                landlordPermissions.add(p);
                 tenantPermissions.add(p);
             }
             else if(p.getPermissionType().equals(PermissionType.PROPERTY_TYPE_OVERVIEW)) {
-                adminPermissions.add(p);
-                landlordPermissions.add(p);
-            }else if(p.getPermissionType().equals(PermissionType.COMMENT_CREATE) ||
-                     p.getPermissionType().equals(PermissionType.COMMENT_GET_ACCEPTED) ||
-                    p.getPermissionType().equals(PermissionType.MESSAGE_CREATE) ||
-                    p.getPermissionType().equals(PermissionType.MESSAGE_GET_BY_REQUEST)) {
-                landlordPermissions.add(p);
-                tenantPermissions.add(p);
-            }
-            else {
                 adminPermissions.add(p);
                 landlordPermissions.add(p);
                 tenantPermissions.add(p);

@@ -62,8 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         source.set(UserServiceGrpc.METHOD_CREATE_CLIENT, AccessPredicate.permitAll());
 
-        source.set(BookingAdServiceGrpc.METHOD_CREATE_BOOKING_AD, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("BOOKING_AD_CREATE")));
+        source.set(BookingAdServiceGrpc.METHOD_CREATE_BOOKING_AD, AccessPredicate.permitAll());
 
         source.set(BookingRequestServiceGrpc.METHOD_CHECK_AVAILABILITY, AccessPredicate.permitAll());
         source.set(BookingRequestServiceGrpc.METHOD_CREATE_BOOKING_REQUEST, AccessPredicate.hasAuthority(
@@ -78,10 +77,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 new SimpleGrantedAuthority("BOOKING_REQUEST_FINISH")));
         source.set(BookingRequestServiceGrpc.METHOD_PAY_BOOKING_REQUEST, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("BOOKING_REQUEST_PAY")));
-        source.set(BookingRequestServiceGrpc.METHOD_CHECK_DELETE_AD, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("AD_DELETE_CHECK")));
-        source.set(BookingRequestServiceGrpc.METHOD_GET_MOST_RENTED_PROPERTIES, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_GET_MOST_RENTED")));
+        source.set(BookingRequestServiceGrpc.METHOD_CHECK_DELETE_AD, AccessPredicate.permitAll());
+        source.set(BookingRequestServiceGrpc.METHOD_GET_MOST_RENTED_PROPERTIES, AccessPredicate.permitAll());
         source.set(BookingRequestServiceGrpc.METHOD_GET_REQUESTS_BY_STATUS, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("BOOKING_REQUEST_GET_BY_STATUS")));
 

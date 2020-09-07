@@ -6,6 +6,7 @@ import { PropertyType } from '@core/model/property-type';
 import { SearchAdResult } from '@core/model/search-ad-result';
 import { AdsService } from '@core/service/ad-service/ads.service';
 import { Router } from '@angular/router';
+import { AuthTokenService } from '@core/service/auth-token-service/auth-token.service';
 
 @Component({
   selector: 'app-search-ads',
@@ -21,6 +22,7 @@ export class SearchAdsComponent implements OnInit {
   constructor(
     private propertyTypeService: PropertyTypesService,
     private adService: AdsService,
+    private authTokenService: AuthTokenService,
     private router: Router
   ) { }
 
@@ -67,7 +69,10 @@ export class SearchAdsComponent implements OnInit {
   }
 
   onDetailsClicked(item: SearchAdResult) {
-    this.router.navigate([`/ad/${item.id}`]);
+    this.authTokenService.getLoggedUser === undefined ? this.router.navigate([`/ad/${item.id}`])
+    :
+    this.router.navigate([`tenant/ad/${item.id}`]);
+
   }
 
 }

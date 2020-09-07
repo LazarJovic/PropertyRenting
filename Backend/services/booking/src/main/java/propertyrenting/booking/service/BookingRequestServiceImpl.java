@@ -7,6 +7,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.booking.enumeration.BookingRequestStatus;
 import propertyrenting.booking.mapper.BookingAdMapper;
 import propertyrenting.booking.mapper.BookingRequestMapper;
@@ -57,8 +58,7 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
 
     public void createBookingRequest(CreateBookingRequestMessage request,
                                      StreamObserver<CreateBookingRequestResponse> responseObserver) {
-        //TODO: Get logged-in booking client and set it in booking request
-        BookingClient tenant = this.bookingClientRepository.getOne((long)1);
+        BookingClient tenant = (BookingClient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CreateBookingRequestResponse response;
         String validationMessage = this.validationService.validateCreateBookingRequestMessage(request);
         if(!validationMessage.equals("OK")) {
@@ -310,15 +310,50 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
             rentedPropertyMessages.add(rentedPropertyMessage);
         }
 
-        MostRentedPropertiesMessage response = MostRentedPropertiesMessage.newBuilder()
-                .addIds(rentedPropertyMessages.get(4))
-                .addIds(rentedPropertyMessages.get(3))
-                .addIds(rentedPropertyMessages.get(2))
-                .addIds(rentedPropertyMessages.get(1))
-                .addIds(rentedPropertyMessages.get(0))
-                .build();
+        MostRentedPropertiesMessage response = this.getMostRentedProperties(rentedPropertyMessages);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+    }
+
+    private MostRentedPropertiesMessage getMostRentedProperties(List<RentedPropertyMessage> rentedPropertyMessages) {
+        MostRentedPropertiesMessage response;
+        switch (rentedPropertyMessages.size()) {
+            case 5: response = MostRentedPropertiesMessage.newBuilder()
+                    .addIds(rentedPropertyMessages.get(4))
+                    .addIds(rentedPropertyMessages.get(3))
+                    .addIds(rentedPropertyMessages.get(2))
+                    .addIds(rentedPropertyMessages.get(1))
+                    .addIds(rentedPropertyMessages.get(0))
+                    .build();
+                    break;
+            case 4: response = MostRentedPropertiesMessage.newBuilder()
+                    .addIds(rentedPropertyMessages.get(3))
+                    .addIds(rentedPropertyMessages.get(2))
+                    .addIds(rentedPropertyMessages.get(1))
+                    .addIds(rentedPropertyMessages.get(0))
+                    .build();
+                    break;
+            case 3: response = MostRentedPropertiesMessage.newBuilder()
+                    .addIds(rentedPropertyMessages.get(2))
+                    .addIds(rentedPropertyMessages.get(1))
+                    .addIds(rentedPropertyMessages.get(0))
+                    .build();
+                    break;
+            case 2:response = MostRentedPropertiesMessage.newBuilder()
+                    .addIds(rentedPropertyMessages.get(1))
+                    .addIds(rentedPropertyMessages.get(0))
+                    .build();
+                    break;
+            case 1: response = MostRentedPropertiesMessage.newBuilder()
+                    .addIds(rentedPropertyMessages.get(0))
+                    .build();
+                    break;
+            default: response = MostRentedPropertiesMessage.newBuilder()
+                    .build();
+                    break;
+        }
+
+        return response;
     }
 
     private boolean checkForAvailabilityConflicts(List<BookingRequest> requests, LocalDate requestStart, LocalDate requestEnd) {

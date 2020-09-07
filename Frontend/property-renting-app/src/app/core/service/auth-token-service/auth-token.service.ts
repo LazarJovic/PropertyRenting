@@ -31,12 +31,25 @@ export class AuthTokenService {
       accessToken: string;
       expiresIn: number;
       userId: number;
-      userType: string;
+      role: string;
       passwordChanged: boolean;
       numLogin: number;
     } = JSON.parse(localStorage.getItem('loggedUser'));
 
     return user.accessToken;
+  }
+
+  getLoggedUser(): UserWithToken {
+      const user: {
+        accessToken: string;
+        expiresIn: number;
+        userId: number;
+        role: string;
+        passwordChanged: boolean;
+        numLogin: number;
+      } = JSON.parse(localStorage.getItem('loggedUser'));
+
+      return new UserWithToken(user.accessToken, user.expiresIn, user.userId, user.role);
   }
 
   logout() {

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TenantDashboardComponent } from './tenant-dashboard/tenant-dashboard.component';
 import { TenantBookingRequestsComponent } from './tenant-booking-requests/tenant-booking-requests.component';
 import { AdDetailsComponent } from '@features/auth/ad-details/ad-details.component';
+import { SearchAdsComponent } from '@shared/search-ads/search-ads.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,11 @@ const routes: Routes = [
       {
         path: 'ad/:id',
         component: AdDetailsComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'search',
+        component: SearchAdsComponent,
         pathMatch: 'full'
       }
     ]

@@ -67,8 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 new SimpleGrantedAuthority("AD_CREATE")));
         source.set(AdServiceGrpc.METHOD_DELETE_AD, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("AD_DELETE")));
-        source.set(AdServiceGrpc.METHOD_CHECK_DELETE_PROPERTY, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_DELETE_CHECK")));
+        source.set(AdServiceGrpc.METHOD_CHECK_DELETE_PROPERTY, AccessPredicate.permitAll());
         source.set(AdServiceGrpc.METHOD_SEARCH_ADS, AccessPredicate.permitAll());
         source.set(AdServiceGrpc.METHOD_GET_AD_DETAILS, AccessPredicate.permitAll());
         source.set(AdServiceGrpc.METHOD_GET_AD_IMAGES, AccessPredicate.permitAll());
@@ -77,10 +76,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         source.set(AdServiceGrpc.METHOD_GET_MY_INACTIVE_ADS, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("AD_GET_INACTIVE")));
 
-        source.set(PropertyInfoServiceGrpc.METHOD_CREATE_PROPERTY_INFO, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_INFO_CREATE")));
-        source.set(PropertyInfoServiceGrpc.METHOD_UPDATE_RATING_PROPERTY_INFO, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_INFO_UPDATE_RATING")));
+        source.set(PropertyInfoServiceGrpc.METHOD_CREATE_PROPERTY_INFO, AccessPredicate.permitAll());
+        source.set(PropertyInfoServiceGrpc.METHOD_UPDATE_RATING_PROPERTY_INFO, AccessPredicate.permitAll());
 
 
         source.setDefault(AccessPredicate.denyAll());

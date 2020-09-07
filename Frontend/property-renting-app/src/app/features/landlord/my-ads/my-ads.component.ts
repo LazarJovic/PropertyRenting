@@ -49,7 +49,7 @@ export class MyAdsComponent implements OnInit {
     setTimeout(() => {
       this.getActiveAds();
       this.getInactiveAds();
-    }, 300);
+    }, 400);
   }
 
 }

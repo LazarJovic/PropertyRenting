@@ -4,10 +4,12 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.ad.mapper.AdImageMapper;
 import propertyrenting.ad.mapper.AdMapper;
 import propertyrenting.ad.model.Ad;
 import propertyrenting.ad.model.AdImage;
+import propertyrenting.ad.model.Client;
 import propertyrenting.ad.model.PropertyInfo;
 import propertyrenting.ad.repository.AdRepository;
 import propertyrenting.ad.repository.PropertyInfoRepository;
@@ -200,8 +202,8 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
     }
 
     public void getMyActiveAds(EmptyMessage request, StreamObserver<MyAdMessage> responseObserver) {
-        //TODO: Get active ads of logged-in user
-        List<Ad> activeAds = this.adRepository.findAllNonDeleted();
+        Client landlord = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Ad> activeAds = this.adRepository.findAllNonDeletedByLandlord(landlord.getId());
         activeAds.forEach(ad -> {
             if(!ad.isDurationLimited() || ad.getEndDate().isAfter(LocalDate.now())) {
                 responseObserver.onNext(this.adMapper.toMyAdMessage(ad));
@@ -211,8 +213,8 @@ public class AdServiceImpl extends AdServiceGrpc.AdServiceImplBase {
     }
 
     public void getMyInactiveAds(EmptyMessage request, StreamObserver<MyAdMessage> responseObserver) {
-        //TODO: Get inactive ads of logged-in user
-        List<Ad> inactiveAds = this.adRepository.findAll();
+        Client landlord = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Ad> inactiveAds = this.adRepository.findByLandlord(landlord.getId());
         inactiveAds.forEach(ad -> {
             if(ad.isDurationLimited() && ad.getEndDate().isBefore(LocalDate.now()) || ad.isDeleted()) {
                 responseObserver.onNext(this.adMapper.toMyAdMessage(ad));

@@ -19,10 +19,12 @@
 
 h3 {
     color: white;
+    margin-bottom: 2vh;
 }
 
 mat-form-field {
     width: 400px;
+    color: white;
 }
 
 .submit-button {

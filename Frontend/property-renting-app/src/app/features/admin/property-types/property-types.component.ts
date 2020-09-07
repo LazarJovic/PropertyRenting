@@ -42,9 +42,11 @@ export class PropertyTypesComponent implements OnInit {
       .subscribe(response => {
         if (response) {
           this.propertyTypeService.createPropertyType(response.name, response.description);
-          this.propertyTypeService.getPropertyTypes().then(value => {
-            this.dataSource = value;
-          });
+          setTimeout(() => {
+            this.propertyTypeService.getPropertyTypes().then(value => {
+              this.dataSource = value;
+            });
+          }, 400);
         }
       });
   }
