@@ -36,7 +36,12 @@ export class AuthTokenService {
       numLogin: number;
     } = JSON.parse(localStorage.getItem('loggedUser'));
 
-    return user.accessToken;
+    if (user !== null && user !== undefined) {
+      return user.accessToken;
+    } else {
+      return null;
+    }
+
   }
 
   getLoggedUser(): UserWithToken {

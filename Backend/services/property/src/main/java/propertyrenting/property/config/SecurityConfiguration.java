@@ -63,8 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         source.set(UserServiceGrpc.METHOD_CREATE_CLIENT, AccessPredicate.permitAll());
 
-        source.set(PropertyTypeServiceGrpc.METHOD_GET_ALL_PROPERTY_TYPES, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_TYPE_OVERVIEW")));
+        source.set(PropertyTypeServiceGrpc.METHOD_GET_ALL_PROPERTY_TYPES, AccessPredicate.permitAll());
         source.set(PropertyTypeServiceGrpc.METHOD_CREATE_PROPERTY_TYPE, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("PROPERTY_TYPE_CREATE")));
 
@@ -74,8 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 new SimpleGrantedAuthority("PROPERTY_DELETE")));
         source.set(PropertyServiceGrpc.METHOD_GET_MY_PROPERTIES, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("MY_PROPERTY_OVERVIEW")));
-        source.set(PropertyServiceGrpc.METHOD_UPDATE_RATING_PROPERTY, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("PROPERTY_RATING_UPDATE")));
+        source.set(PropertyServiceGrpc.METHOD_UPDATE_RATING_PROPERTY, AccessPredicate.permitAll());
         source.set(PropertyServiceGrpc.METHOD_GET_BY_AVERAGE_RATING, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("PROPERTY_GET_BY_RATING")));
         source.set(PropertyServiceGrpc.METHOD_GET_BY_NUMBER_OF_BOOKINGS, AccessPredicate.hasAuthority(

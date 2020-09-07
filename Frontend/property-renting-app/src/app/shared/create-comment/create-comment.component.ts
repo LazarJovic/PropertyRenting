@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommentsListDialogComponent } from '@shared/comments-list-dialog/comments-list-dialog.component';
 import { AdDetails } from '@core/model/ad-details';
 import { CommentsService } from '@core/service/comment-service/comments.service';
+import { BookingRequest } from '@core/model/booking-request';
 
 export interface DialogData {
   propertyId: number;
@@ -19,6 +20,7 @@ export class CreateCommentComponent implements OnInit {
   commentForm: FormGroup;
 
   @Input() ad: AdDetails;
+  @Input() request: BookingRequest;
 
   constructor(
     private commentsDialog: MatDialog,
@@ -42,7 +44,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   leaveComment() {
-    this.commentService.createComment(this.ad.id, this.ad.propertyId, 3, this.commentForm.value.content);
+    this.commentService.createComment(this.ad.id, this.ad.propertyId, this.request.id, this.commentForm.value.content);
   }
 
 }

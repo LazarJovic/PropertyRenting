@@ -52,8 +52,12 @@ export class PropertyTypesService {
     const array: MatTableDataSource<PropertyType> = new MatTableDataSource();
 
     const promise = new Promise<MatTableDataSource<PropertyType>>((resolve, reject) => {
+      let accessToken = '';
+      if (this.authTokenService.getAccessToken() !== null) {
+        accessToken = this.authTokenService.getAccessToken();
+      }
       grpc.invoke(PropertyTypeService.GetAllPropertyTypes, {
-              metadata: {Authorization: 'Bearer ' + this.authTokenService.getAccessToken()},
+              metadata: {Authorization: 'Bearer ' + accessToken},
               request: new EmptyMessage(),
               host: environment.property,
               onMessage: (message: PropertyTypeMessage) => {

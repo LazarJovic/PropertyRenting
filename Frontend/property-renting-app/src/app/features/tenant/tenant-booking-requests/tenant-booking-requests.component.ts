@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BookingRequest } from '@core/model/booking-request';
 import { Router } from '@angular/router';
 import { BookingRequestsService } from '@core/service/booking-request-service/booking-requests.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MessagesDialogComponent } from '@shared/messages-dialog/messages-dialog.component';
 
 @Component({
   selector: 'app-tenant-booking-requests',
@@ -27,6 +29,7 @@ export class TenantBookingRequestsComponent implements OnInit {
   dataSourceCanceled: MatTableDataSource<BookingRequest> = new MatTableDataSource<BookingRequest>();
 
   constructor(
+    private messagesDialog: MatDialog,
     private router: Router,
     private bookingRequestService: BookingRequestsService
   ) { }
@@ -74,7 +77,7 @@ export class TenantBookingRequestsComponent implements OnInit {
   }
 
   requestDetails(request) {
-    this.router.navigate([`tenant/ad/${request.adId}`]);
+    this.router.navigate([`tenant/ad/${request.adId}`], {state: {data: request}});
   }
 
   pay(request) {
@@ -83,6 +86,16 @@ export class TenantBookingRequestsComponent implements OnInit {
       this.getAllReserved();
       this.getAllPaid();
     }, 500);
+  }
+
+  messages(request) {
+    const dialogRef = this.messagesDialog.open(MessagesDialogComponent, {
+      width: '80vw',
+      height: '90vh',
+      data: {
+        bookingId: request.id
+      }
+    });
   }
 
   cancel(request) {

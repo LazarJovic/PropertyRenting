@@ -3,8 +3,10 @@ package propertyrenting.communication.service;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.communication.mapper.MessageMapper;
 import propertyrenting.communication.model.Booking;
+import propertyrenting.communication.model.Client;
 import propertyrenting.communication.model.Message;
 import propertyrenting.communication.repository.BookingRepository;
 import propertyrenting.communication.repository.MessageRepository;
@@ -53,8 +55,12 @@ public class MessageServiceImpl extends MessageServiceGrpc.MessageServiceImplBas
             responseObserver.onCompleted();
         }
         else {
-            //TODO: Check role of logged-in user and send it to mapper as isTenantSender
-            Message message = this.messageMapper.toMessage(request, true);
+            Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            boolean isTenantSender = false;
+            if (client.getId() == booking.getTenant().getId()) {
+                isTenantSender = true;
+            }
+            Message message = this.messageMapper.toMessage(request, isTenantSender);
             message.setBooking(booking);
             response = CreateMessageResponse.newBuilder()
                     .setMessage(this.messageMapper.toMessageMessage(this.messageRepository.save(message)))

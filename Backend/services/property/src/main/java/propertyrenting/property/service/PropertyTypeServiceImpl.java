@@ -55,7 +55,6 @@ public class PropertyTypeServiceImpl extends PropertyTypeServiceGrpc.PropertyTyp
     }
 
     public void getAllPropertyTypes(EmptyMessage request, StreamObserver<PropertyTypeMessage> responseObserver) {
-        Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<PropertyType> propertyTypes = this.propertyTypeRepository.findAll();
         propertyTypes.forEach(type -> {
             responseObserver.onNext(this.propertyTypeMapper.toPropertyTypeMessage(type));

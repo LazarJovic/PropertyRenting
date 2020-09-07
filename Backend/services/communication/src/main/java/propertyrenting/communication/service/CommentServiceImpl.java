@@ -3,8 +3,10 @@ package propertyrenting.communication.service;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.communication.enumeration.CommentStatus;
 import propertyrenting.communication.mapper.CommentMapper;
+import propertyrenting.communication.model.Booking;
 import propertyrenting.communication.model.Client;
 import propertyrenting.communication.model.Comment;
 import propertyrenting.communication.repository.BookingRepository;
@@ -72,12 +74,12 @@ public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBas
                               StreamObserver<CreateCommentMessageResponse> responseObserver) {
 
         CreateCommentMessageResponse response;
+        Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String validationMessage = "OK";
         if (request.getContent() == null || request.getContent().equals("")) {
             validationMessage = "Comment cannot be empty";
         }
-        //TODO: Get by logged-in
-        else if(this.commentRepository.findUsersCommentsForAd((long)1, request.getAdId()).size() != 0) {
+        else if(this.commentRepository.findUsersCommentsForAd(client.getId(), request.getAdId()).size() != 0) {
             validationMessage = "You have already left comment for this ad";
         }
 
@@ -88,10 +90,13 @@ public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBas
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
-        //TODO: See if tenant or landlord is logged-in for isTenantSender field
-        //TODO: Set Booking on newComment
-        Comment newComment = this.commentMapper.toComment(request, true);
-        newComment.setBooking(this.bookingRepository.getOne(request.getRequestId()));
+        Booking booking = this.bookingRepository.findById(request.getRequestId()).orElseGet(null);
+        boolean isTenant = false;
+        if (client.getId() == booking.getTenant().getId()) {
+            isTenant = true;
+        }
+        Comment newComment = this.commentMapper.toComment(request, isTenant);
+        newComment.setBooking(booking);
         response = CreateCommentMessageResponse.newBuilder()
                 .setComment(this.commentMapper.toCommentMessage(this.commentRepository.save(newComment)))
                 .setReturnMessage(validationMessage)

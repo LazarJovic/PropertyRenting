@@ -4,9 +4,11 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import propertyrenting.communication.mapper.AdRatingMapper;
 import propertyrenting.communication.model.AdRating;
 import propertyrenting.communication.model.Booking;
+import propertyrenting.communication.model.Client;
 import propertyrenting.communication.repository.AdRatingRepository;
 import propertyrenting.communication.repository.BookingRepository;
 import proto.adRating.AdRatingMessage;
@@ -42,8 +44,8 @@ public class AdRatingServiceImpl extends AdRatingServiceGrpc.AdRatingServiceImpl
 
     public void rateAd(AdRatingMessage request, StreamObserver<RateAdResponseMessage> responseObserver) {
         RateAdResponseMessage response;
-        //TODO: Get logged-in user
-        if(this.alreadyRated((long) 2, request.getAdId())) {
+        Client client = (Client) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(this.alreadyRated(client.getId(), request.getAdId())) {
             response = RateAdResponseMessage.newBuilder()
                     .setReturnMessage("Ad can be rated only once. You have already rated this ad")
                     .build();
