@@ -2,7 +2,7 @@
   <div id="comments-div" class="col-sm-12">
     <div id="leave-comment-div" class="row">
       <div class="col-12">
-        <div class="row">
+        <div class="row" *ngIf="this.request?.status === 'FINISHED' || isLandlord">
           <form [formGroup]="commentForm" class="col-11">
             <mat-form-field id="comment-field">
               <textarea

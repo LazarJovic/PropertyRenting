@@ -39,11 +39,6 @@ public class Client implements UserDetails {
     @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PropertyInfo> ownedPropertySet;
 
-    @ManyToMany
-    @JoinTable(name = "tenant_favourites", joinColumns = @JoinColumn(name = "tenant_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "id"))
-    private Set<Ad> favouriteAdSet;
-
     public Client(Long id, String firstName, String surname, String email, boolean isTenant) {
         this.id = id;
         this.firstName = firstName;
@@ -51,7 +46,6 @@ public class Client implements UserDetails {
         this.email = email;
         this.isTenant = isTenant;
         this.ownedPropertySet = new HashSet<>();
-        this.favouriteAdSet = new HashSet<>();
     }
 
     @Override

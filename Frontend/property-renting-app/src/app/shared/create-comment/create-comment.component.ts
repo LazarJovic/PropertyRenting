@@ -18,6 +18,8 @@ export interface DialogData {
 export class CreateCommentComponent implements OnInit {
 
   commentForm: FormGroup;
+  isLandlord: boolean;
+  isTenant: boolean;
 
   @Input() ad: AdDetails;
   @Input() request: BookingRequest;
@@ -31,6 +33,20 @@ export class CreateCommentComponent implements OnInit {
     this.commentForm = new FormGroup({
       content: new FormControl(null)
     });
+
+    const user: {
+      accessToken: string;
+      expiresIn: number;
+      userId: number;
+      role: string;
+    } = JSON.parse(localStorage.getItem('loggedUser'));
+    if (user && user.role === 'ROLE_LANDLORD') {
+      this.isLandlord = true;
+      this.isTenant = false;
+    } else if (user && user.role === 'ROLE_TENANT') {
+      this.isLandlord = false;
+      this.isTenant = true;
+    }
   }
 
   showComments() {

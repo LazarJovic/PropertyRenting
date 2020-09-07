@@ -78,8 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 new SimpleGrantedAuthority("COMMENT_DENY")));
         source.set(CommentServiceGrpc.METHOD_GET_ALL_PENDING_COMMENTS, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("COMMENT_GET_PENDING")));
-        source.set(CommentServiceGrpc.METHOD_GET_ALL_PROPERTY_COMMENTS, AccessPredicate.hasAuthority(
-                new SimpleGrantedAuthority("COMMENT_GET_ACCEPTED")));
+        source.set(CommentServiceGrpc.METHOD_GET_ALL_PROPERTY_COMMENTS, AccessPredicate.permitAll());
 
         source.set(MessageServiceGrpc.METHOD_CREATE_MESSAGE, AccessPredicate.hasAuthority(
                 new SimpleGrantedAuthority("MESSAGE_CREATE")));

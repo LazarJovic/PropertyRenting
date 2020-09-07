@@ -63,9 +63,6 @@ public class Ad {
     @JoinColumn(name = "property_info", referencedColumnName = "id")
     private PropertyInfo propertyInfo;
 
-    @ManyToMany(mappedBy = "favouriteAdSet")
-    private Set<Client> tenantSet;
-
     @OneToMany(mappedBy = "ad", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<AdImage> adImageSet;
 
@@ -78,7 +75,6 @@ public class Ad {
         this.startDate = startDate;
         this.endDate = endDate;
         this.additionalInfo = additionalInfo;
-        this.tenantSet = new HashSet<>();
         this.adImageSet = new HashSet<>();
     }
 }

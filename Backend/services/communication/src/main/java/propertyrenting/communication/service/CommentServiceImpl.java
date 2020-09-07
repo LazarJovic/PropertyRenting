@@ -90,20 +90,21 @@ public class CommentServiceImpl extends CommentServiceGrpc.CommentServiceImplBas
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
-        Booking booking = this.bookingRepository.findById(request.getRequestId()).orElseGet(null);
-        boolean isTenant = false;
-        if (client.getId() == booking.getTenant().getId()) {
-            isTenant = true;
+        else {
+            Booking booking = this.bookingRepository.findById(request.getRequestId()).orElseGet(null);
+            boolean isTenant = false;
+            if (client.getId() == booking.getTenant().getId()) {
+                isTenant = true;
+            }
+            Comment newComment = this.commentMapper.toComment(request, isTenant);
+            newComment.setBooking(booking);
+            response = CreateCommentMessageResponse.newBuilder()
+                    .setComment(this.commentMapper.toCommentMessage(this.commentRepository.save(newComment)))
+                    .setReturnMessage(validationMessage)
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
         }
-        Comment newComment = this.commentMapper.toComment(request, isTenant);
-        newComment.setBooking(booking);
-        response = CreateCommentMessageResponse.newBuilder()
-                .setComment(this.commentMapper.toCommentMessage(this.commentRepository.save(newComment)))
-                .setReturnMessage(validationMessage)
-                .build();
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-
     }
 
 }

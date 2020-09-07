@@ -60,7 +60,8 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
   isAvailable: boolean;
   checkedAvailability: boolean;
   minDate: string;
-  isFinished: boolean;
+  isLandlord: boolean;
+  isTenant: boolean;
 
   fromRequestList: boolean;
   request: BookingRequest;
@@ -93,6 +94,20 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
       this.loadImages();
     });
 
+    const user: {
+      accessToken: string;
+      expiresIn: number;
+      userId: number;
+      role: string;
+    } = JSON.parse(localStorage.getItem('loggedUser'));
+    if (user && user.role === 'ROLE_LANDLORD') {
+      this.isLandlord = true;
+      this.isTenant = false;
+    } else if (user && user.role === 'ROLE_TENANT') {
+      this.isLandlord = false;
+      this.isTenant = true;
+    }
+
     this.minDate = new Date(Date.now()).toISOString().split('T')[0];
     window.dispatchEvent(new Event('resize'));
 
@@ -102,8 +117,6 @@ export class AdDetailsComponent implements OnInit, AfterViewInit, AfterViewCheck
     if (this.request !== undefined) {
       this.fromRequestList = true;
     }
-
-    this.request.status === 'FINISHED' ? this.isFinished = true : this.isFinished = false;
   }
 
   ngAfterViewInit(): void {

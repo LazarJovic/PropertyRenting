@@ -4,6 +4,9 @@ import { AppComponent } from './root/app.component';
 import { LoginComponent } from '../features/auth/login/login.component';
 import { RegisterComponent } from '../features/auth/register/register.component';
 import { LandingPageComponent } from '@features/auth/landing-page/landing-page.component';
+import { AdminGuard } from '@shared/guard/admin.guard';
+import { TenantGuard } from '@shared/guard/tenant.guard';
+import { LandlordGuard } from '@shared/guard/landlord.guard';
 
 
 const routes: Routes = [
@@ -13,15 +16,24 @@ const routes: Routes = [
   },
   {
     path: 'landlord',
-    loadChildren: () => import('@features/landlord/landlord.module').then(m => m.LandlordModule)
+    loadChildren: () => import('@features/landlord/landlord.module').then(m => m.LandlordModule),
+    canActivate: [
+      LandlordGuard
+    ],
   },
   {
     path: 'admin',
-    loadChildren: () => import('@features/admin/admin.module').then(m => m.AdminModule)
+    loadChildren: () => import('@features/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [
+      AdminGuard
+    ],
   },
   {
     path: 'tenant',
-    loadChildren: () => import('@features/tenant/tenant.module').then(m => m.TenantModule)
+    loadChildren: () => import('@features/tenant/tenant.module').then(m => m.TenantModule),
+    canActivate: [
+      TenantGuard
+    ],
   }
 ];
 
