@@ -217,7 +217,7 @@ export class AdsService {
                 if (code === grpc.Code.OK) {
                   resolve(array);
                 } else {
-                  this.toastr.error('An error occurred while getting active ads');
+                  // this.toastr.error('An error occurred while getting active ads');
                 }
               }
             });

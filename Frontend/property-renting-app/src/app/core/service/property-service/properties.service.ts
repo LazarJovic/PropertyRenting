@@ -220,7 +220,7 @@ export class PropertiesService {
                 if (code === grpc.Code.OK) {
                   resolve(array);
                 } else {
-                  this.toastr.error('An error occurred while getting properties by number of bookings');
+                  // this.toastr.error('An error occurred while getting properties by number of bookings');
                 }
               }
             });

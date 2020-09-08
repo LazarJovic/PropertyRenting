@@ -59,7 +59,7 @@ export class MessagesDialogComponent implements OnInit, OnDestroy {
     this.messageForm.reset();
     setTimeout(() => {
       this.getMessages();
-    }, 200);
+    }, 300);
   }
 
 }

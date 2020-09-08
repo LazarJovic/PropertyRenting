@@ -338,29 +338,37 @@ public class BookingRequestServiceImpl extends BookingRequestServiceGrpc.Booking
     public void getMostRentedProperties(EmptyMessage request,
                                         StreamObserver<MostRentedPropertiesMessage> responseObserver) {
         BookingClient landlord = (BookingClient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Long> propertyIds = this.bookingRequestRepository.findAllRentedProperties(landlord.getId());
-        HashMap<Long, Integer> mostRented = new HashMap<>();
-        for (Long propertyId: propertyIds) {
-            List<BookingRequest> propertyRentals = this.bookingRequestRepository.findPropertyPaidAndFinished(propertyId);
-            mostRented.put(propertyId, propertyRentals.size());
+        if (landlord == null) {
+            MostRentedPropertiesMessage response = MostRentedPropertiesMessage.newBuilder().build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+        else {
+            List<Long> propertyIds = this.bookingRequestRepository.findAllRentedProperties(landlord.getId());
+            HashMap<Long, Integer> mostRented = new HashMap<>();
+            for (Long propertyId: propertyIds) {
+                List<BookingRequest> propertyRentals = this.bookingRequestRepository.findPropertyPaidAndFinished(propertyId);
+                mostRented.put(propertyId, propertyRentals.size());
+            }
+
+            HashMap<Long, Integer> sortedMap =
+                    mostRented.entrySet().stream()
+                            .sorted(Map.Entry.comparingByValue())
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                    (e1, e2) -> e1, LinkedHashMap::new));
+
+            List<RentedPropertyMessage> rentedPropertyMessages = new ArrayList<>();
+            for (Map.Entry<Long, Integer> entry : sortedMap.entrySet()) {
+                RentedPropertyMessage rentedPropertyMessage = RentedPropertyMessage.newBuilder()
+                        .setId(entry.getKey()).setRents(entry.getValue()).build();
+                rentedPropertyMessages.add(rentedPropertyMessage);
+            }
+
+            MostRentedPropertiesMessage response = this.getMostRentedProperties(rentedPropertyMessages);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
         }
 
-        HashMap<Long, Integer> sortedMap =
-                mostRented.entrySet().stream()
-                        .sorted(Map.Entry.comparingByValue())
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                                (e1, e2) -> e1, LinkedHashMap::new));
-
-        List<RentedPropertyMessage> rentedPropertyMessages = new ArrayList<>();
-        for (Map.Entry<Long, Integer> entry : sortedMap.entrySet()) {
-            RentedPropertyMessage rentedPropertyMessage = RentedPropertyMessage.newBuilder()
-                    .setId(entry.getKey()).setRents(entry.getValue()).build();
-            rentedPropertyMessages.add(rentedPropertyMessage);
-        }
-
-        MostRentedPropertiesMessage response = this.getMostRentedProperties(rentedPropertyMessages);
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
     }
 
     private MostRentedPropertiesMessage getMostRentedProperties(List<RentedPropertyMessage> rentedPropertyMessages) {

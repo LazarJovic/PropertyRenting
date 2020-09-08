@@ -161,7 +161,7 @@ export class BookingRequestsService {
                 if (code === grpc.Code.OK) {
                   resolve(array);
                 } else {
-                  this.toastr.error('An error occurred while getting booking reqests');
+                  // this.toastr.error('An error occurred while getting booking reqests' + status);
                 }
               }
             });
